@@ -1,5 +1,7 @@
 import { AppError } from "../../errors/appError.js";
-import { HTTP_STATUS, users } from "../../utils/constants.js";
+import { HTTP_STATUS } from "../../utils/constants.js";
+import { users } from "./users.data.js";
+import { CreateUserDto } from "./users.schema.js";
 import { GetAllUsersOptions, PaginatedUsers, User } from "./users.types.js";
 
 /* 
@@ -14,7 +16,11 @@ export const getAllUsers = ({
   search,
 }: GetAllUsersOptions): PaginatedUsers => {
   const filtered = search
-    ? users.filter((u) => u.name.toLowerCase().includes(search.toLowerCase()))
+    ? users.filter(
+        (u) =>
+          u.name.toLowerCase().includes(search.toLowerCase()) ||
+          u.email.toLowerCase().includes(search.toLowerCase()),
+      )
     : users;
 
   const total = filtered.length;
@@ -54,9 +60,8 @@ export const getUserById = (id: number): User | undefined => {
 
 let nextId = users.length + 1;
 
-export const createUser = (name: string, email: string): User => {
+export const createUser = ({ name, email }: CreateUserDto): User => {
   const exists = users.some((u) => u.email === email);
-
   if (exists) throw new AppError(HTTP_STATUS.CONFLICT, "Email already in use");
 
   const newUser = {
@@ -64,8 +69,6 @@ export const createUser = (name: string, email: string): User => {
     name,
     email,
   };
-
   users.push(newUser);
-
   return newUser;
 };

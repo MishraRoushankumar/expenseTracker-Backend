@@ -4,6 +4,13 @@ import { createUser, getAllUsers, getUserById } from "./users.service.js";
 import { sendResponse } from "../../utils/apiResponse.js";
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../utils/constants.js";
+import { CreateUserDto } from "./users.schema.js";
+
+/*
+==========================================
+GET USERS CONTROLLER
+==========================================
+*/
 
 export const getUsersController = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -24,6 +31,12 @@ export const getUsersController = asyncHandler(
     });
   },
 );
+
+/*
+==========================================
+GET USER BY ID CONTROLLER
+==========================================
+*/
 
 export const getUserByIdController = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -47,15 +60,17 @@ export const getUserByIdController = asyncHandler(
   },
 );
 
+/*
+==========================================
+CREATE USERS CONTROLLER
+==========================================
+*/
+
 export const createUserController = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    const { name, email } = req.body;
+    const { name, email } = req.body as CreateUserDto;
 
-    if (!name || !email) {
-      throw new AppError(HTTP_STATUS.BAD_REQUEST, "Name and email required");
-    }
-
-    const user = createUser(name, email);
+    const user = createUser({ name, email });
 
     sendResponse(res, {
       success: true,
