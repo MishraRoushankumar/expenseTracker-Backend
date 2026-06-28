@@ -7,10 +7,20 @@ const isProd = process.env.NODE_ENV === "production";
 
 export const errorMiddleware = (
   err: Error,
-  req: Request,
+  _req: Request,
   res: Response,
   _next: NextFunction,
 ): void => {
+  if (err instanceof SyntaxError && "body" in err) {
+    sendResponse(res, {
+      success: false,
+      message: "Invalid JSON format",
+      statusCode: HTTP_STATUS.BAD_REQUEST,
+    });
+
+    return;
+  }
+
   if (err instanceof AppError) {
     sendResponse(res, {
       success: false,
@@ -20,6 +30,8 @@ export const errorMiddleware = (
 
     return;
   }
+
+  console.error("Unhandled Error:", err);
 
   sendResponse(res, {
     success: false,

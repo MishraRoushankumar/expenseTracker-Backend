@@ -1,8 +1,6 @@
 import { Router } from "express";
-import { sendResponse } from "../utils/apiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { AppError } from "../errors/appError.js";
 import healthRoutes from "../modules/health/health.routes.js";
+import userRoutes from "../modules/users/users.routes.js";
 
 const router = Router();
 
@@ -11,33 +9,14 @@ const router = Router();
 HEALTH CHECK ROUTES
 =======================================
 */
+
 router.use("/health", healthRoutes);
 
-/*  
+/*
 =======================================
-TEST ROUTES
+USER ROUTES
 =======================================
 */
-router.get("/error", (req, res) => {
-  throw new Error("Manual error test");
-});
-
-router.get("/user", (req, res) => {
-  sendResponse(res, {
-    success: true,
-    message: "User fetched successfuly",
-    data: {
-      name: "Roushan",
-      role: "Backed Developer",
-    },
-  });
-});
-
-router.get(
-  "/async-test",
-  asyncHandler(async (req, res) => {
-    throw new AppError(500, "Async route failed");
-  }),
-);
+router.use("/users", userRoutes);
 
 export default router;
