@@ -1,32 +1,56 @@
 import { AppError } from "../../errors/appError.js";
-import { HTTP_STATUS } from "../../utils/constants.js";
+import { HTTP_STATUS, users } from "../../utils/constants.js";
+import { GetAllUsersOptions, PaginatedUsers, User } from "./users.types.js";
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+/* 
+  =================================
+  GET ALL USERS
+  =================================
+*/
 
-const users: User[] = [
-  {
-    id: 1,
-    name: "Alex",
-    email: "alex@test.com",
-  },
-  {
-    id: 2,
-    name: "John",
-    email: "john@test.com",
-  },
-];
+export const getAllUsers = ({
+  page,
+  limit,
+  search,
+}: GetAllUsersOptions): PaginatedUsers => {
+  const filtered = search
+    ? users.filter((u) => u.name.toLowerCase().includes(search.toLowerCase()))
+    : users;
 
-export const getAllUsers = (): User[] => {
-  return users;
+  const total = filtered.length;
+
+  const totalPages = Math.ceil(total / limit);
+
+  const start = (page - 1) * limit;
+
+  const paginatedUsers = filtered.slice(start, start + limit);
+
+  return {
+    users: paginatedUsers,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages,
+    },
+  };
 };
+
+/* 
+  =================================
+  GET USER BY ID
+  =================================
+*/
 
 export const getUserById = (id: number): User | undefined => {
   return users.find((user) => user.id === id);
 };
+
+/* 
+  =================================
+  CREATE NEW USERS
+  =================================
+*/
 
 let nextId = users.length + 1;
 
