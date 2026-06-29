@@ -26,10 +26,13 @@ LOGIN CONTROLLER
 */
 
 export const loginController = asyncHandler(async (req, res: Response) => {
-  await loginUser(req.body as LoginDto);
+  const token = await loginUser(req.body as LoginDto);
 
   sendResponse(res, {
     success: true,
     message: "Login successfully",
+    data: {
+      token,
+    },
   });
 });
