@@ -1,21 +1,14 @@
 export interface User {
   id: number;
-  name: string;
   email: string;
+  firstName: string;
+  lastName: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface PaginatedUsers {
-  users: User[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-}
+export interface UpdateProfileInput {
+  firstName?: string;
 
-export interface GetAllUsersOptions {
-  page: number;
-  limit: number;
-  search?: string;
+  lastName?: string;
 }

@@ -1,8 +1,15 @@
 import { z } from "zod";
 
-export const createUserSchema = z.object({
-  name: z.string().min(2, "Name too short").max(50, "Name too long"),
-  email: z.string().check(z.email("Invalid email address")),
+export const updateProfileSchema = z.object({
+  firstName: z
+    .string()
+    .min(2, "First name must be atleast 2 characters")
+    .optional(),
+
+  lastName: z
+    .string()
+    .min(2, "Last name must be atleast 2 characters")
+    .optional(),
 });
 
-export type CreateUserDto = z.infer<typeof createUserSchema>;
+export type UpdateProfileDto = z.infer<typeof updateProfileSchema>;
