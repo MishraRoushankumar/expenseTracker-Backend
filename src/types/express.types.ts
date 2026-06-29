@@ -1,5 +1,9 @@
-import { Request } from "express";
+import { JwtPayload } from "../utils/jwt.js";
 
-export type TypeRequestBody<T> = Request<{}, {}, T>;
-export type TypeRequestQuery<T> = Request<{}, {}, {}, T>;
-export type TypeRequestParams<T> = Request<T>;
+declare global {
+  namespace Express {
+    interface Request {
+      user?: JwtPayload;
+    }
+  }
+}
