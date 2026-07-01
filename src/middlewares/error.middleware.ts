@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors/appError.js";
 import { sendResponse } from "../utils/apiResponse.js";
 import { HTTP_STATUS } from "../utils/constants.js";
+import { env } from "../config/env.js";
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = env.NODE_ENV === "production";
 
 export const errorMiddleware = (
   err: Error,

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { env } from "../config/env.js";
 
 export interface JwtPayload {
   userId: number;
@@ -12,7 +13,7 @@ GENERATE TOKEN
 */
 
 export const generateToken = (payload: JwtPayload): string => {
-  const secret = process.env.JWT_SECRET;
+  const secret = env.JWT_SECRET;
 
   if (!secret) {
     throw new Error("JWT_SECRET is missing");
@@ -30,7 +31,7 @@ VERIFY TOKEN
 */
 
 export const verifyToken = (token: string): JwtPayload => {
-  const secret = process.env.JWT_SECRET;
+  const secret = env.JWT_SECRET;
 
   if (!secret) {
     throw new Error("JWT_SECRET is missing");

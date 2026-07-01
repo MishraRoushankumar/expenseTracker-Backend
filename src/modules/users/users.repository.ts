@@ -91,7 +91,7 @@ DELETE USER
 =========================================
 */
 
-export const deleteUser = (id: number): boolean => {
+export const deleteUser = (_id: number): boolean => {
   //will be updated later
   return true;
 };

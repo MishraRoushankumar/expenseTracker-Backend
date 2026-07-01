@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 export const loggerMiddleware = (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction,
 ): void => {
   console.log("==============");

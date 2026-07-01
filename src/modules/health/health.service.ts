@@ -1,3 +1,5 @@
+import { env } from "../../config/env.js";
+
 export interface HealthStatus {
   status: "ok" | "degraded" | "down";
   environment: string;
@@ -14,7 +16,7 @@ export const getHealthStatus = (): HealthStatus => {
 
   return {
     status: "ok",
-    environment: process.env.NODE_ENV ?? "development",
+    environment: env.NODE_ENV ?? "development",
     uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
     memory: {
