@@ -15,7 +15,8 @@ export const registerController = asyncHandler(async (req, res: Response) => {
 
   sendResponse(res, {
     success: true,
-    message: "User Registered successfully",
+
+    message: "User registered successfully",
   });
 });
 
@@ -26,13 +27,13 @@ LOGIN CONTROLLER
 */
 
 export const loginController = asyncHandler(async (req, res: Response) => {
-  const token = await loginUser(req.body as LoginDto);
+  const accessToken = await loginUser(req.body as LoginDto);
 
   sendResponse(res, {
     success: true,
     message: "Login successfully",
     data: {
-      token,
+      accessToken,
     },
   });
 });
