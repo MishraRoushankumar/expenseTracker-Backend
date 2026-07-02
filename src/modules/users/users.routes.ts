@@ -3,7 +3,7 @@ import {
   getProfileController,
   updateProfileController,
 } from "./users.controller.js";
-import { validate } from "../../middlewares/validate.middleware.js";
+import { validateRequest } from "../../middlewares/validate.middleware.js";
 import { updateProfileSchema } from "./users.schema.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
 
@@ -18,7 +18,7 @@ router.get("/profile", authMiddleware, getProfileController);
 router.patch(
   "/profile",
   authMiddleware,
-  validate(updateProfileSchema),
+  validateRequest(updateProfileSchema),
   updateProfileController,
 );
 

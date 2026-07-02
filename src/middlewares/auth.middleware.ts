@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors/appError.js";
-import { HTTP_STATUS } from "../utils/constants.js";
+import { HTTP_STATUS } from "../constants/http.constants.js";
 import { verifyToken } from "../utils/jwt.js";
+import { AUTH_MESSAGES } from "../constants/auth.constants.js";
 
 export const authMiddleware = (
   req: Request,
@@ -11,7 +12,7 @@ export const authMiddleware = (
   const authHeader = req.headers.authorization;
 
   if (!authHeader?.startsWith("Bearer ")) {
-    next(new AppError(HTTP_STATUS.UNAUTHORIZED, "No token provided"));
+    next(new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.TOKEN_MISSING));
     return;
   }
 
@@ -22,6 +23,6 @@ export const authMiddleware = (
     req.user = decoded;
     next();
   } catch {
-    next(new AppError(HTTP_STATUS.UNAUTHORIZED, "Invalid or expired token"));
+    next(new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.INVALID_TOKEN));
   }
 };

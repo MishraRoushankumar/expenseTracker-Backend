@@ -7,6 +7,12 @@ export interface ApiResponseOptions<T = unknown> {
   statusCode?: number;
 }
 
+export interface ApiResponse<T = unknown> {
+  success: boolean;
+  message: string;
+  data?: T;
+}
+
 export type RequestWithBody<T> = Request<{}, {}, T>;
 
 export type RequestWithQuery<T> = Request<{}, {}, {}, T>;

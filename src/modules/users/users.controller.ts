@@ -3,7 +3,7 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 import { sendResponse } from "../../utils/apiResponse.js";
 import { getProfileService, updateProfileService } from "./users.service.js";
 import { AppError } from "../../errors/appError.js";
-import { HTTP_STATUS } from "../../utils/constants.js";
+import { HTTP_STATUS } from "../../constants/http.constants.js";
 
 /*
 ==========================================

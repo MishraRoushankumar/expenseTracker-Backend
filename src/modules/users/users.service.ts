@@ -1,5 +1,5 @@
 import { AppError } from "../../errors/appError.js";
-import { HTTP_STATUS } from "../../utils/constants.js";
+import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { findUserById, updateUser } from "./users.repository.js";
 import { UpdateProfileDto } from "./users.schema.js";
 
