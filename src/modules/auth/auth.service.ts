@@ -15,8 +15,8 @@ REGISTER USER
 =====================================
 */
 
-export const registerUser = async (data: RegisterDto): Promise<void> => {
-  const existingUser = findUserByEmail(data.email);
+export const registerUser = async (data: RegisterDto): Promise<string> => {
+  const existingUser = await findUserByEmail(data.email);
 
   if (existingUser) {
     throw new AppError(HTTP_STATUS.CONFLICT, AUTH_MESSAGES.EMAIL_IN_USE);
@@ -24,11 +24,17 @@ export const registerUser = async (data: RegisterDto): Promise<void> => {
 
   const hashedPassword = await bcrypt.hash(data.password, BCRYPT_SALT_ROUND);
 
-  createUser({
+  const user = await createUser({
     email: data.email,
     passwordHash: hashedPassword,
     firstName: data.firstName,
     lastName: data.lastName,
+  });
+
+  return generateToken({
+    userId: user.id,
+    email: user.email,
+    role: user.role,
   });
 };
 
@@ -39,7 +45,7 @@ LOGIN USER
 */
 
 export const loginUser = async (data: LoginDto): Promise<string> => {
-  const user = findUserByEmail(data.email);
+  const user = await findUserByEmail(data.email);
 
   if (!user) {
     throw new AppError(
@@ -60,5 +66,5 @@ export const loginUser = async (data: LoginDto): Promise<string> => {
     );
   }
 
-  return generateToken({ userId: user.id, email: user.email });
+  return generateToken({ userId: user.id, email: user.email, role: user.role });
 };

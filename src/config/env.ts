@@ -8,6 +8,16 @@ const envSchema = z.object({
     .default("development"),
 
   JWT_SECRET: z.string().min(10, "JWT_SECRET is too short"),
+
+  DB_HOST: z.string(),
+
+  DB_PORT: z.coerce.number(),
+
+  DB_NAME: z.string(),
+
+  DB_USER: z.string(),
+
+  DB_PASSWORD: z.string(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

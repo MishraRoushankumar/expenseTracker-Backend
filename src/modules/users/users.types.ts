@@ -1,12 +1,27 @@
+export type UserRole = "admin" | "maintainer" | "user";
+
+/*
+=========================================
+USER ENTITY
+=========================================
+*/
+
 export interface User {
   id: number;
   email: string;
   passwordHash: string;
   firstName: string;
   lastName: string;
+  role: UserRole;
   createdAt: Date;
   updatedAt: Date;
 }
+
+/*
+=========================================
+CREATE USER INPUT
+=========================================
+*/
 
 export interface CreateUserInput {
   email: string;
@@ -14,6 +29,12 @@ export interface CreateUserInput {
   firstName: string;
   lastName: string;
 }
+
+/*
+=========================================
+UPDATE PROFILE INPUT
+=========================================
+*/
 
 export interface UpdateProfileInput {
   firstName?: string;

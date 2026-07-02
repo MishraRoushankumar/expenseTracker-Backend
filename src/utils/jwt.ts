@@ -1,9 +1,11 @@
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
+import { UserRole } from "../modules/users/users.types.js";
 
 export interface JwtPayload {
   userId: number;
   email: string;
+  role: UserRole;
 }
 
 /*
