@@ -1,74 +1,66 @@
 import { AppError } from "../../errors/appError.js";
-import { HTTP_STATUS } from "../../utils/constants.js";
-import { users } from "./users.data.js";
-import { CreateUserDto } from "./users.schema.js";
-import { GetAllUsersOptions, PaginatedUsers, User } from "./users.types.js";
+import { HTTP_STATUS } from "../../constants/http.constants.js";
+import {
+  findUserById,
+  updateUser,
+  updateUserRole,
+} from "./users.repository.js";
+import { UpdateProfileDto } from "./users.schema.js";
+import { UserRole } from "./users.types.js";
 
-/* 
-  =================================
-  GET ALL USERS
-  =================================
+/*
+========================================
+GET PROFILE SERVICE
+========================================
 */
 
-export const getAllUsers = ({
-  page,
-  limit,
-  search,
-}: GetAllUsersOptions): PaginatedUsers => {
-  const filtered = search
-    ? users.filter(
-        (u) =>
-          u.name.toLowerCase().includes(search.toLowerCase()) ||
-          u.email.toLowerCase().includes(search.toLowerCase()),
-      )
-    : users;
+export const getProfileService = async (userId: number) => {
+  const user = await findUserById(userId);
 
-  const total = filtered.length;
+  if (!user) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, "User not found");
+  }
 
-  const totalPages = Math.ceil(total / limit);
-
-  const start = (page - 1) * limit;
-
-  const paginatedUsers = filtered.slice(start, start + limit);
-
-  return {
-    users: paginatedUsers,
-    pagination: {
-      page,
-      limit,
-      total,
-      totalPages,
-    },
-  };
+  return user;
 };
 
-/* 
-  =================================
-  GET USER BY ID
-  =================================
+/*
+========================================
+UPDATE PROFILE SERVICE
+========================================
 */
 
-export const getUserById = (id: number): User | undefined => {
-  return users.find((user) => user.id === id);
+export const updateProfileService = async (
+  userId: number,
+  data: UpdateProfileDto,
+) => {
+  const existingUser = await findUserById(userId);
+
+  if (!existingUser) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, "User not found");
+  }
+
+  const updatedUser = await updateUser(userId, data);
+
+  if (!updatedUser) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, "User not found");
+  }
+
+  return updatedUser;
 };
 
-/* 
-  =================================
-  CREATE NEW USERS
-  =================================
+/*
+========================================
+UPDATE USER ROLE SERVICE
+========================================
 */
 
-let nextId = users.length + 1;
+export const updateUserRoleService = async (id: number, role: UserRole) => {
+  const user = await updateUserRole(id, role);
 
-export const createUser = ({ name, email }: CreateUserDto): User => {
-  const exists = users.some((u) => u.email === email);
-  if (exists) throw new AppError(HTTP_STATUS.CONFLICT, "Email already in use");
+  if (!user) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, "User not found");
+  }
 
-  const newUser = {
-    id: nextId++,
-    name,
-    email,
-  };
-  users.push(newUser);
-  return newUser;
+  return user;
 };

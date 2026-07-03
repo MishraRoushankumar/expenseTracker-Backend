@@ -1,21 +1,58 @@
+export type UserRole = "admin" | "maintainer" | "user";
+
+/*
+=========================================
+USER ENTITY
+=========================================
+*/
+
 export interface User {
   id: number;
-  name: string;
   email: string;
+  passwordHash: string;
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface PaginatedUsers {
-  users: User[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
+/*
+=========================================
+CREATE USER INPUT
+=========================================
+*/
+
+export interface CreateUserInput {
+  email: string;
+  passwordHash: string;
+  firstName: string;
+  lastName: string;
 }
 
-export interface GetAllUsersOptions {
-  page: number;
-  limit: number;
-  search?: string;
+/*
+=========================================
+UPDATE PROFILE INPUT
+=========================================
+*/
+
+export interface UpdateProfileInput {
+  firstName?: string;
+  lastName?: string;
+}
+
+/*
+=========================================
+SAFE USER ENTITY
+=========================================
+*/
+
+export interface SafeUser {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  createdAt: Date;
+  updatedAt: Date;
 }

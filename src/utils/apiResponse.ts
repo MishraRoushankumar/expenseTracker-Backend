@@ -1,16 +1,37 @@
 import { Response } from "express";
-import { HTTP_STATUS } from "./constants.js";
-import { ApiResponseOptions } from "../types/common.types.js";
+import { HTTP_STATUS } from "../constants/http.constants.js";
+import { ApiResponse, ApiResponseOptions } from "../types/api.types.js";
 
-export const sendResponse = <T>(
+export const sendResponse = (
   res: Response,
-  options: ApiResponseOptions<T>,
+  options: ApiResponseOptions,
 ): void => {
   const { success, message, data, statusCode = HTTP_STATUS.OK } = options;
 
-  res.status(statusCode).json({
+  const response: ApiResponse = {
     success,
     message,
     ...(data !== undefined && { data }),
+  };
+
+  res.status(statusCode).json({
+    response,
+  });
+};
+
+export const sendSuccess = (res: Response, message: string, data?: unknown) => {
+  sendResponse(res, {
+    success: true,
+    message,
+    data,
+  });
+};
+
+export const sendCreated = (res: Response, message: string, data?: unknown) => {
+  sendResponse(res, {
+    success: true,
+    message,
+    data,
+    statusCode: HTTP_STATUS.CREATED,
   });
 };

@@ -1,21 +1,18 @@
 import { Router } from "express";
-import { validate } from "../../middlewares/validate.middleware.js";
+import { validateRequest } from "../../middlewares/validate.middleware.js";
 import { loginSchema, registerSchema } from "./auth.schema.js";
 import { loginController, registerController } from "./auth.controller.js";
-import { authMiddleware } from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/register", validate(registerSchema), registerController);
+// REGISTER ROUTE
+router.post("/register", validateRequest(registerSchema), registerController);
 
-router.post("/login", validate(loginSchema), loginController);
+// LOGIN ROUTE
+router.post("/login", validateRequest(loginSchema), loginController);
 
-router.get("/profile", authMiddleware, (req, res) => {
-  res.json({
-    success: true,
-    message: "Protected route accessed",
-    data: req.user,
-  });
-});
+// LOGOUT ROUTE
+
+// router.post("/logout", logOutController);
 
 export default router;
