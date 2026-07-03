@@ -1,12 +1,15 @@
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import {
+  deleteUser,
   findUserById,
   updateUser,
   updateUserRole,
 } from "./users.repository.js";
 import { UpdateProfileDto } from "./users.schema.js";
 import { UserRole } from "./users.types.js";
+import { JwtPayload } from "../../utils/jwt.js";
+import { ROLE_PRIORITY } from "../../constants/rolePriority.constants.js";
 
 /*
 ========================================
@@ -63,4 +66,39 @@ export const updateUserRoleService = async (id: number, role: UserRole) => {
   }
 
   return user;
+};
+
+/*
+========================================
+DELETE USER SERVICE
+========================================
+*/
+
+export const deleteUserService = async (
+  requester: JwtPayload,
+  targetUserId: number,
+): Promise<void> => {
+  if (requester.userId === targetUserId) {
+    throw new AppError(HTTP_STATUS.BAD_REQUEST, "You cannot delete yourself");
+  }
+
+  const targetUser = await findUserById(targetUserId);
+
+  if (!targetUser) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, "User not found");
+  }
+
+  const requesterPriority = ROLE_PRIORITY[requester.role];
+
+  const targetUserPriority = ROLE_PRIORITY[targetUser.role];
+
+  if (requesterPriority <= targetUserPriority) {
+    throw new AppError(HTTP_STATUS.FORBIDDEN, "You cannot delete this user");
+  }
+
+  const deleted = await deleteUser(targetUserId);
+
+  if (!deleted) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, "User not found");
+  }
 };
