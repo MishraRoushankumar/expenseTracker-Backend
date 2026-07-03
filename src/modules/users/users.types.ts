@@ -40,3 +40,19 @@ export interface UpdateProfileInput {
   firstName?: string;
   lastName?: string;
 }
+
+/*
+=========================================
+SAFE USER ENTITY
+=========================================
+*/
+
+export interface SafeUser {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  createdAt: Date;
+  updatedAt: Date;
+}

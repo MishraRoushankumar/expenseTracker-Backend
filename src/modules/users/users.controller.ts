@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { sendResponse } from "../../utils/apiResponse.js";
-import { getProfileService, updateProfileService } from "./users.service.js";
+import {
+  getProfileService,
+  updateProfileService,
+  updateUserRoleService,
+} from "./users.service.js";
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
+import { sanitizeUser } from "./users.sanitizer.js";
 
 /*
 ==========================================
@@ -21,7 +26,7 @@ export const getProfileController = asyncHandler(
     sendResponse(res, {
       success: true,
       message: "Profile fetched successfully",
-      data: user,
+      data: sanitizeUser(user),
     });
   },
 );
@@ -43,7 +48,27 @@ export const updateProfileController = asyncHandler(
     sendResponse(res, {
       success: true,
       message: "Profile updated successfully",
-      data: updatedUser,
+      data: sanitizeUser(updatedUser),
     });
   },
 );
+
+/*
+==========================================
+UPDATE USER ROLE CONTROLLER
+==========================================
+*/
+
+export const updateUserRoleController = asyncHandler(async (req, res) => {
+  const userId = Number(req.params.id);
+
+  const { role } = req.body;
+
+  const updatedUser = await updateUserRoleService(userId, role);
+
+  sendResponse(res, {
+    success: true,
+    message: "User role updated successfully",
+    data: sanitizeUser(updatedUser),
+  });
+});

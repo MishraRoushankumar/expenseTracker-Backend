@@ -1,6 +1,11 @@
 import { db } from "../../config/database.js";
 import { mapUserRow } from "./users.mapper.js";
-import { CreateUserInput, UpdateProfileInput, User } from "./users.types.js";
+import {
+  CreateUserInput,
+  UpdateProfileInput,
+  User,
+  UserRole,
+} from "./users.types.js";
 
 /*
 =========================================
@@ -115,4 +120,33 @@ DELETE USER
 export const deleteUser = (_id: number): boolean => {
   //will be updated later
   return true;
+};
+
+/*
+=========================================
+UPDATE USER ROLES
+=========================================
+*/
+
+export const updateUserRole = async (
+  id: number,
+  role: UserRole,
+): Promise<User | undefined> => {
+  const result = await db.query(
+    `
+      UPDATE users
+      SET
+        role = $1,
+        updated_at = NOW()
+      WHERE id = $2
+      RETURNING *
+    `,
+    [role, id],
+  );
+
+  if (result.rows.length === 0) {
+    return undefined;
+  }
+
+  return mapUserRow(result.rows[0]);
 };

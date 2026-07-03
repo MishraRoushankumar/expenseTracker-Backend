@@ -2,10 +2,13 @@ import { Router } from "express";
 import {
   getProfileController,
   updateProfileController,
+  updateUserRoleController,
 } from "./users.controller.js";
 import { validateRequest } from "../../middlewares/validate.middleware.js";
 import { updateProfileSchema } from "./users.schema.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
+import { authorize } from "../../middlewares/authorize.middleware.js";
+import { USER_ROLES } from "../../constants/role.constants.js";
 
 const router = Router();
 
@@ -20,6 +23,15 @@ router.patch(
   authMiddleware,
   validateRequest(updateProfileSchema),
   updateProfileController,
+);
+
+// UPDATE USER ROLE
+
+router.patch(
+  "/:id/role",
+  authMiddleware,
+  authorize([USER_ROLES.ADMIN]),
+  updateUserRoleController,
 );
 
 export default router;
