@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  deleteUserController,
   getProfileController,
   updateProfileController,
   updateUserRoleController,
@@ -32,6 +33,15 @@ router.patch(
   authMiddleware,
   authorize([USER_ROLES.ADMIN]),
   updateUserRoleController,
+);
+
+// DELETE USER
+
+router.delete(
+  "/:id",
+  authMiddleware,
+  authorize([USER_ROLES.ADMIN, USER_ROLES.MAINTAINER]),
+  deleteUserController,
 );
 
 export default router;
