@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { sendResponse } from "../../utils/apiResponse.js";
 import {
+  deleteUserService,
   getProfileService,
   updateProfileService,
   updateUserRoleService,
@@ -70,5 +71,30 @@ export const updateUserRoleController = asyncHandler(async (req, res) => {
     success: true,
     message: "User role updated successfully",
     data: sanitizeUser(updatedUser),
+  });
+});
+
+/*
+==========================================
+DELETE USER CONTROLLER
+==========================================
+*/
+
+export const deleteUserController = asyncHandler(async (req, res) => {
+  if (!req.user) {
+    throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+  }
+
+  const targetUserId = Number(req.params.id);
+
+  if (isNaN(targetUserId)) {
+    throw new AppError(HTTP_STATUS.BAD_REQUEST, "Invalid user ID");
+  }
+
+  await deleteUserService(req.user, targetUserId);
+
+  sendResponse(res, {
+    success: true,
+    message: "User deleted successfully",
   });
 });

@@ -117,9 +117,17 @@ DELETE USER
 =========================================
 */
 
-export const deleteUser = (_id: number): boolean => {
-  //will be updated later
-  return true;
+export const deleteUser = async (id: number): Promise<boolean> => {
+  const result = await db.query(
+    `
+    DELETE FROM users
+    WHERE id = $1
+    RETURNING *
+    `,
+    [id],
+  );
+
+  return result.rows.length > 0;
 };
 
 /*
