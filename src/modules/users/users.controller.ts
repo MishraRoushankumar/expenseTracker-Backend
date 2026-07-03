@@ -87,6 +87,10 @@ export const deleteUserController = asyncHandler(async (req, res) => {
 
   const targetUserId = Number(req.params.id);
 
+  if (isNaN(targetUserId)) {
+    throw new AppError(HTTP_STATUS.BAD_REQUEST, "Invalid user ID");
+  }
+
   await deleteUserService(req.user, targetUserId);
 
   sendResponse(res, {
