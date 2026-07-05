@@ -26,7 +26,7 @@ export const createCategoryService = async (
   const existingCategory = await findCategoryByName(normalizedName, userId);
 
   if (existingCategory) {
-    throw new AppError(HTTP_STATUS.CONFLICT, "Category already exists");
+    throw new AppError(HTTP_STATUS.CONFLICT, CATEGORY_MESSAGES.ALREADY_EXISTS);
   }
 
   return createCategory({
