@@ -91,3 +91,9 @@ ON transactions(category_id);
 
 CREATE INDEX idx_transactions_date
 ON transactions(transaction_date);
+
+CREATE INDEX idx_transactions_type
+ON transactions(type);
+
+CREATE INDEX idx_transactions_user_date
+ON transactions(user_id, transaction_date);
