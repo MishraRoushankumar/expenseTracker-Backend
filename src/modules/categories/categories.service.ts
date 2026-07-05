@@ -3,6 +3,7 @@ import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { AppError } from "../../errors/appError.js";
 import {
   createCategory,
+  deleteCategory,
   findCategoryByIdAndUserId,
   findCategoryByName,
   findCategoryByUserId,
@@ -81,4 +82,27 @@ export const updateCategoryService = async (
   }
 
   return updatedCategory;
+};
+
+/*
+=========================================
+DELETE CATEGORY
+=========================================
+*/
+
+export const deleteCategoryService = async (
+  categoryId: number,
+  userId: number,
+) => {
+  const category = await findCategoryByIdAndUserId(categoryId, userId);
+
+  if (!category) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, CATEGORY_MESSAGES.NOT_FOUND);
+  }
+
+  const deletd = await deleteCategory(categoryId);
+
+  if (!deletd) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, CATEGORY_MESSAGES.NOT_FOUND);
+  }
 };

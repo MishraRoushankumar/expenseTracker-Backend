@@ -4,6 +4,7 @@ import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import {
   createCategoryService,
+  deleteCategoryService,
   getCategoriesService,
   updateCategoryService,
 } from "./categories.service.js";
@@ -79,6 +80,29 @@ export const updateCategoryController = asyncHandler(
       success: true,
       message: CATEGORY_MESSAGES.UPDATED,
       data: updatedCategory,
+    });
+  },
+);
+
+/*
+=========================================
+DELETE CATEGORY CONTROLLER
+=========================================
+*/
+
+export const deleteCategoryController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+    }
+
+    const categoryId = Number(req.params.id);
+
+    await deleteCategoryService(categoryId, req.user.userId);
+
+    sendResponse(res, {
+      success: true,
+      message: CATEGORY_MESSAGES.DELETED,
     });
   },
 );

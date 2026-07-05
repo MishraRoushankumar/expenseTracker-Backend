@@ -7,6 +7,7 @@ import {
 } from "./categories.schema.js";
 import {
   createCategoryController,
+  deleteCategoryController,
   getCategoriesController,
   updateCategoryController,
 } from "./categories.controller.js";
@@ -34,5 +35,9 @@ router.patch(
   validateRequest(updateCategorySchema),
   updateCategoryController,
 );
+
+// DELETE CATEGORY
+
+router.delete("/:id", authMiddleware, deleteCategoryController);
 
 export default router;

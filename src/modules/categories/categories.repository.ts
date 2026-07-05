@@ -1,3 +1,4 @@
+import { number } from "zod";
 import { db } from "../../config/database.js";
 import { mapCategoryRow } from "./categories.mapper.js";
 import { Category, CreateCategoryInput } from "./categories.types.js";
@@ -131,4 +132,22 @@ export const updateCategory = async (
   }
 
   return mapCategoryRow(result.rows[0]);
+};
+
+/*
+=========================================
+DELETE CATEGORY
+=========================================
+*/
+
+export const deleteCategory = async (id: number): Promise<boolean> => {
+  const result = await db.query(
+    `
+    DELETE FROM categories
+    WHERE id = $1
+    RETURNING *
+    `,
+    [id],
+  );
+  return result.rows.length > 0;
 };
