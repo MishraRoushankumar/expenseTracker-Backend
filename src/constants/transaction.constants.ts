@@ -8,9 +8,16 @@ export type TransactionType =
 
 export const TRANSACTION_MESSAGES = {
   CREATED: "Transaction created successfully",
+
+  FETCHED: "Transactions fetched successfully",
+
   UPDATED: "Transaction updated successfully",
+
   DELETED: "Transaction deleted successfully",
+
   NOT_FOUND: "Transaction not found",
-  INVALID_AMOUNT: "Amount must be greater than zero",
+
   CATEGORY_NOT_FOUND: "Category not found",
+
+  INVALID_AMOUNT: "Amount must be greater than zero",
 } as const;
