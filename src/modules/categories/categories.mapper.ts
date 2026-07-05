@@ -5,6 +5,7 @@ interface CategoryRow {
   name: string;
   user_id: number;
   created_at: Date;
+  updated_at: Date;
 }
 
 export const mapCategoryRow = (row: CategoryRow): Category => {
@@ -13,5 +14,6 @@ export const mapCategoryRow = (row: CategoryRow): Category => {
     name: row.name,
     userId: row.user_id,
     createdAt: row.created_at,
+    updatedAt: row.updated_at,
   };
 };

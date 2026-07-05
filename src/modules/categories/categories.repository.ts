@@ -78,3 +78,25 @@ export const findCategoryById = async (
 
   return mapCategoryRow(result.rows[0]);
 };
+
+/*
+=========================================
+FIND CATEGORY BY USER ID
+=========================================
+*/
+
+export const findCategoryByUserId = async (
+  userId: number,
+): Promise<Category[]> => {
+  const result = await db.query(
+    `
+      SELECT *
+      FROM categories
+      WHERE user_id = $1
+      ORDER BY name ASC
+    `,
+    [userId],
+  );
+
+  return result.rows.map(mapCategoryRow);
+};

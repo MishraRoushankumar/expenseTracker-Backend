@@ -3,6 +3,7 @@ export interface Category {
   name: string;
   userId: number;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface CreateCategoryInput {
