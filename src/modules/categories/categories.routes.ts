@@ -1,10 +1,14 @@
 import { Router } from "express";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
 import { validateRequest } from "../../middlewares/validate.middleware.js";
-import { createCategorySchema } from "./categories.schema.js";
+import {
+  createCategorySchema,
+  updateCategorySchema,
+} from "./categories.schema.js";
 import {
   createCategoryController,
   getCategoriesController,
+  updateCategoryController,
 } from "./categories.controller.js";
 
 const router = Router();
@@ -21,5 +25,14 @@ router.post(
 // GET CATEGORIES
 
 router.get("/", authMiddleware, getCategoriesController);
+
+// UPDATE CATEGORY
+
+router.patch(
+  "/:id",
+  authMiddleware,
+  validateRequest(updateCategorySchema),
+  updateCategoryController,
+);
 
 export default router;

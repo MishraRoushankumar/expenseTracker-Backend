@@ -5,6 +5,7 @@ import { HTTP_STATUS } from "../../constants/http.constants.js";
 import {
   createCategoryService,
   getCategoriesService,
+  updateCategoryService,
 } from "./categories.service.js";
 import { sendResponse } from "../../utils/apiResponse.js";
 import { CATEGORY_MESSAGES } from "../../constants/category.constants.js";
@@ -50,6 +51,34 @@ export const getCategoriesController = asyncHandler(
       success: true,
       message: "Categories fetched successfully",
       data: categories,
+    });
+  },
+);
+
+/*
+=========================================
+UPDATE CATEGORY CONTROLLER
+=========================================
+*/
+
+export const updateCategoryController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+    }
+
+    const categoryId = Number(req.params.id);
+
+    const updatedCategory = updateCategoryService(
+      categoryId,
+      req.user.userId,
+      req.body,
+    );
+
+    sendResponse(res, {
+      success: true,
+      message: CATEGORY_MESSAGES.UPDATED,
+      data: updatedCategory,
     });
   },
 );
