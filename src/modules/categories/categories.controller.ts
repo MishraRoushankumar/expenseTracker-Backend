@@ -10,6 +10,7 @@ import {
 } from "./categories.service.js";
 import { sendResponse } from "../../utils/apiResponse.js";
 import { CATEGORY_MESSAGES } from "../../constants/category.constants.js";
+import { AUTH_MESSAGES } from "../../constants/auth.constants.js";
 
 /*
 =========================================
@@ -20,7 +21,7 @@ CREATE CATEGORY CONTROLLER
 export const createCategoryController = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
     const category = await createCategoryService(req.user.userId, req.body);
@@ -43,14 +44,14 @@ GET CATEGORY CONTROLLER
 export const getCategoriesController = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
     const categories = await getCategoriesService(req.user.userId);
 
     sendResponse(res, {
       success: true,
-      message: "Categories fetched successfully",
+      message: CATEGORY_MESSAGES.FETCHED,
       data: categories,
     });
   },
@@ -65,7 +66,7 @@ UPDATE CATEGORY CONTROLLER
 export const updateCategoryController = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
     const categoryId = Number(req.params.id);
@@ -93,7 +94,7 @@ DELETE CATEGORY CONTROLLER
 export const deleteCategoryController = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
     const categoryId = Number(req.params.id);

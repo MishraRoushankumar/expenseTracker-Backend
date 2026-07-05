@@ -10,6 +10,8 @@ import {
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { sanitizeUser } from "./users.sanitizer.js";
+import { AUTH_MESSAGES } from "../../constants/auth.constants.js";
+import { USER_MESSAGES } from "../../constants/users.constants.js";
 
 /*
 ==========================================
@@ -20,13 +22,13 @@ GET PROFILE CONTROLLER
 export const getProfileController = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
     const user = await getProfileService(req.user.userId);
     sendResponse(res, {
       success: true,
-      message: "Profile fetched successfully",
+      message: USER_MESSAGES.PROFILE_FETCHED,
       data: sanitizeUser(user),
     });
   },
@@ -41,14 +43,14 @@ UPDATE PROFILE CONTROLLER
 export const updateProfileController = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
     const updatedUser = await updateProfileService(req.user.userId, req.body);
 
     sendResponse(res, {
       success: true,
-      message: "Profile updated successfully",
+      message: USER_MESSAGES.PROFILE_UPDATED,
       data: sanitizeUser(updatedUser),
     });
   },
@@ -69,7 +71,7 @@ export const updateUserRoleController = asyncHandler(async (req, res) => {
 
   sendResponse(res, {
     success: true,
-    message: "User role updated successfully",
+    message: USER_MESSAGES.ROLE_UPDATED,
     data: sanitizeUser(updatedUser),
   });
 });
@@ -82,19 +84,19 @@ DELETE USER CONTROLLER
 
 export const deleteUserController = asyncHandler(async (req, res) => {
   if (!req.user) {
-    throw new AppError(HTTP_STATUS.UNAUTHORIZED, "User not authenticated");
+    throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
   }
 
   const targetUserId = Number(req.params.id);
 
   if (isNaN(targetUserId)) {
-    throw new AppError(HTTP_STATUS.BAD_REQUEST, "Invalid user ID");
+    throw new AppError(HTTP_STATUS.BAD_REQUEST, AUTH_MESSAGES.INVALID_USER_ID);
   }
 
   await deleteUserService(req.user, targetUserId);
 
   sendResponse(res, {
     success: true,
-    message: "User deleted successfully",
+    message: USER_MESSAGES.USER_DELETED,
   });
 });
