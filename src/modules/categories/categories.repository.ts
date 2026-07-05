@@ -60,16 +60,19 @@ FIND CATEGORY BY ID
 =========================================
 */
 
-export const findCategoryById = async (
+export const findCategoryByIdAndUserId = async (
   id: number,
+  userId: number,
 ): Promise<Category | undefined> => {
   const result = await db.query(
     `
       SELECT *
       FROM categories
-      WHERE id = $1
+      WHERE 
+        id = $1
+        AND user_id = $2
     `,
-    [id],
+    [id, userId],
   );
 
   if (result.rows.length === 0) {
@@ -99,4 +102,33 @@ export const findCategoryByUserId = async (
   );
 
   return result.rows.map(mapCategoryRow);
+};
+
+/*
+=========================================
+UPDATE CATEGORY
+=========================================
+*/
+
+export const updateCategory = async (
+  id: number,
+  name: string,
+): Promise<Category | undefined> => {
+  const result = await db.query(
+    `
+    UPDATE categories
+    SET 
+      name = $1,
+      updated_at = NOW()
+    WHERE id = $2
+    RETURNING *  
+    `,
+    [name, id],
+  );
+
+  if (result.rows.length === 0) {
+    return undefined;
+  }
+
+  return mapCategoryRow(result.rows[0]);
 };
