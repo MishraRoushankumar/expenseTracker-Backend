@@ -4,6 +4,18 @@ All notable changes to this project will be documented here.
 
 ---
 
+## v1.1.0
+
+### Added
+
+- Complete Categories CRUD
+- Category ownership validation
+- Duplicate category prevention
+- Category name normalization
+- Category update timestamps
+
+---
+
 ## v1.0.0
 
 ### Added
@@ -21,7 +33,6 @@ All notable changes to this project will be documented here.
 
 ## Upcoming
 
-- Categories CRUD
 - Transactions
 - Dashboard
 - Budget Module

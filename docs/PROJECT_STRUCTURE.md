@@ -15,6 +15,14 @@ middlewares/
 
 modules/
 
+├── auth/
+
+├── categories/
+
+├── health/
+
+├── users/
+
 types/
 
 utils/

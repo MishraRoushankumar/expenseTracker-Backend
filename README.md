@@ -53,13 +53,19 @@ Implemented hierarchical authorization:
 ### Implemented
 
 - Create Category
+- Get Categories
+- Update Category
+- Delete Category
 
-Business rules:
+Business Rules
 
 - Categories belong to individual users.
 - Duplicate category names are prevented per user.
 - Category names are normalized before storing.
-- Authentication required.
+- Users can access only their own categories.
+- Category ownership is verified before updates and deletion.
+- Deleting a category preserves transactions (`category_id` becomes `NULL`).
+- Authentication required for all endpoints.
 
 ---
 
@@ -93,8 +99,9 @@ src/
 │
 ├── modules/
 │   ├── auth/
-│   ├── users/
-│   └── categories/
+│   ├── categories/
+    ├── healh/
+│   └── users/
 │
 ├── types/
 │
@@ -216,10 +223,10 @@ module/
 - API Response Utility
 - Request Validation
 - Secure Environment Configuration
+- Categories CRUD
 
 ### In Progress
 
-- Categories CRUD
 - Transactions Module
 - Analytics
 - Dashboard APIs
@@ -232,7 +239,7 @@ module/
 | -------------- | ---------- |
 | Authentication | ✅         |
 | Users          | ✅         |
-| Categories     | 🚧         |
+| Categories     | ✅         |
 | Transactions   | 🚧         |
 | Analytics      | 📋 Planned |
 | Dashboard      | 📋 Planned |

@@ -25,6 +25,13 @@ created_at
 updated_at
 ```
 
+### Constraints
+
+- `UNIQUE(name, user_id)`
+- One category belongs to one user.
+- Category names are unique per user.
+- Deleting a category sets `transaction.category_id` to `NULL`.
+
 ---
 
 ## Transactions

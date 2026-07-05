@@ -48,16 +48,41 @@ Hierarchical authorization enforced.
 
 ### POST /categories
 
-Creates a category.
+Creates a new category for the authenticated user.
 
 Authentication required.
 
 ---
 
-Future
+### GET /categories
 
-GET /categories
+Returns all categories belonging to the authenticated user.
 
-PATCH /categories/:id
+Authentication required.
 
-DELETE /categories/:id
+---
+
+### PATCH /categories/:id
+
+Updates a category owned by the authenticated user.
+
+Business rules:
+
+- Category must exist.
+- Category must belong to the authenticated user.
+- Duplicate names are not allowed.
+
+Authentication required.
+
+---
+
+### DELETE /categories/:id
+
+Deletes a category owned by the authenticated user.
+
+Business rules:
+
+- Category must belong to the authenticated user.
+- Transactions remain preserved (`category_id` becomes `NULL`).
+
+Authentication required.

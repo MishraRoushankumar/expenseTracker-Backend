@@ -14,13 +14,15 @@
 
 - Categories CRUD
 
-🚧 In Progress
+✅ Complete
 
 ---
 
 ## Phase 3
 
 - Transactions CRUD
+
+🚧 In Progress
 
 ---
 
