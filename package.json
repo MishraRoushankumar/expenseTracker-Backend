@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Production grade expense tracker backend",
   "main": "dist/server.js",
   "type": "module",
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
-  "author": "",
+  "author": "Roushankumar Mishra",
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
