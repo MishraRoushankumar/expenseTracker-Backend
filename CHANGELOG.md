@@ -4,6 +4,16 @@ All notable changes to this project will be documented here.
 
 ---
 
+## v1.2.0
+
+### Changed
+
+- Organized application constants by domain.
+- Standardized response messages across modules.
+- Removed hardcoded strings from services and controllers.
+
+---
+
 ## v1.1.0
 
 ### Added
