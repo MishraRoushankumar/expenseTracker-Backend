@@ -6,8 +6,35 @@ import {
   createTransaction,
   findTransactionByIdAndUserId,
   findTransactionsByUserId,
+  updateTransaction,
 } from "./transactions.repository.js";
-import { CreateTransactionDto } from "./transactions.schema.js";
+import {
+  CreateTransactionDto,
+  UpdateTransactionDto,
+} from "./transactions.schema.js";
+import { Transaction, UpdateTransactionInput } from "./transactions.types.js";
+
+/*
+=========================================
+PRIVATE HELPERS
+=========================================
+*/
+
+const mergeTransactionUpdate = (
+  existing: Transaction,
+  updates: UpdateTransactionDto,
+): UpdateTransactionInput => ({
+  categoryId: updates.categoryId ?? existing.categoryId,
+  type: updates.type ?? existing.type,
+  amount: updates.amount ?? existing.amount,
+  description:
+    updates.description !== undefined
+      ? updates.description?.trim() || null
+      : existing.description,
+  transactionDate: updates.transactionDate
+    ? new Date(updates.transactionDate)
+    : existing.transactionDate,
+});
 
 /*
 =========================================
@@ -87,4 +114,74 @@ export const getTransactionByIdService = async (
   }
 
   return transaction;
+};
+
+/*
+=========================================
+UPDATE TRANSACTION SERVICE
+=========================================
+*/
+
+export const updateTransactionService = async (
+  transactionId: number,
+  userId: number,
+  data: UpdateTransactionDto,
+): Promise<Transaction> => {
+  /*
+  --------------------------------------
+  VERIFY OWNERSHIP
+  --------------------------------------
+  */
+
+  const existingTransaction = await findTransactionByIdAndUserId(
+    transactionId,
+    userId,
+  );
+
+  if (!existingTransaction) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, TRANSACTION_MESSAGES.NOT_FOUND);
+  }
+
+  /*
+  --------------------------------------
+  VERIFY CATEGORY OWNERSHIP
+  --------------------------------------
+  */
+
+  if (
+    data.categoryId !== undefined &&
+    data.categoryId !== existingTransaction.categoryId &&
+    data.categoryId !== null
+  ) {
+    const category = await findCategoryByIdAndUserId(data.categoryId, userId);
+
+    if (!category) {
+      throw new AppError(
+        HTTP_STATUS.NOT_FOUND,
+        TRANSACTION_MESSAGES.CATEGORY_NOT_FOUND,
+      );
+    }
+  }
+
+  /*
+  --------------------------------------
+  MERGE UPDATES
+  --------------------------------------
+  */
+
+  const merged = mergeTransactionUpdate(existingTransaction, data);
+
+  /*
+  --------------------------------------
+  UPDATE
+  --------------------------------------
+  */
+
+  const updated = await updateTransaction(transactionId, merged);
+
+  if (!updated) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, TRANSACTION_MESSAGES.NOT_FOUND);
+  }
+
+  return updated;
 };
