@@ -156,3 +156,36 @@ Returns a single transaction owned by the authenticated user.
 #### Success Response
 
 **200 OK**
+
+---
+
+### PATCH /transactions/:id
+
+Updates an existing transaction.
+
+**Authentication required.**
+
+#### Request Body
+
+All fields are optional.
+
+```json
+{
+  "amount": 500,
+  "description": "Lunch",
+  "categoryId": 2,
+  "type": "expense",
+  "transactionDate": "2026-07-10"
+}
+```
+
+#### Business Rules
+
+- Transaction must belong to the authenticated user.
+- If `categoryId` is provided, it must belong to the authenticated user.
+- `categoryId: null` removes the category association.
+- Only supplied fields are updated.
+
+#### Success Response
+
+**200 OK**
