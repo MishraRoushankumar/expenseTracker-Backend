@@ -7,6 +7,7 @@ import {
 } from "./transactions.schema.js";
 import {
   createTransactionController,
+  deleteTransactionController,
   getTransactionByIdController,
   getTransactionsController,
   updateTransactionController,
@@ -42,6 +43,15 @@ router.patch(
     body: updateTransactionSchema,
   }),
   updateTransactionController,
+);
+
+// DELETE TRANSACTION
+
+router.delete(
+  "/:id",
+  authMiddleware,
+  validate({ params: idParamsSchema }),
+  deleteTransactionController,
 );
 
 export default router;

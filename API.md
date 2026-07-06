@@ -189,3 +189,27 @@ All fields are optional.
 #### Success Response
 
 **200 OK**
+
+---
+
+### DELETE /transactions/:id
+
+Deletes a transaction owned by the authenticated user.
+
+**Authentication required.**
+
+#### Business Rules
+
+- Transaction must exist.
+- Transaction must belong to the authenticated user.
+
+#### Success Response
+
+**200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Transaction deleted successfully"
+}
+```
