@@ -8,16 +8,22 @@ All notable changes to this project will be documented here.
 
 ### Added
 
+- Create Transaction endpoints
 - Transaction retrieval endpoints
 - Transaction ownership validation
-- Create Transaction endpoints
-- Create Transaction sevices
+- Transaction update endpoint with partial update support.
+- Transaction deletion endpoint.
+- Completed Transaction CRUD operations.
 
 ### Changed
 
 - Organized application constants by domain.
 - Standardized response messages across modules.
 - Removed hardcoded strings from services and controllers.
+- Enhanced request validation middleware to support body, route parameter, and query validation.
+- Improved project folder structure and naming consistency.
+- Standardized module and constant naming conventions.
+- Reorganized shared validation schemas.
 
 ---
 

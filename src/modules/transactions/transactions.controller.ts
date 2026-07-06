@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
-import { asyncHandler } from "../../utils/asyncHandler.js";
+import { asyncHandler } from "../../utils/http/asyncHandler.js";
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { AUTH_MESSAGES } from "../../constants/auth.constants.js";
 import {
   createTransactionService,
+  deleteTransactionService,
   getTransactionByIdService,
   getTransactionsService,
-} from "./transaction.service.js";
-import { sendResponse } from "../../utils/apiResponse.js";
+  updateTransactionService,
+} from "./transactions.service.js";
+import { sendResponse } from "../../utils/http/apiResponse.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
 
 /*
@@ -83,6 +85,59 @@ export const getTransactionByIdController = asyncHandler(
       statusCode: HTTP_STATUS.OK,
       message: TRANSACTION_MESSAGES.FETCHED,
       data: transaction,
+    });
+  },
+);
+
+/*
+==============================================
+UPDATE TRANSACTION CONTROLLER
+==============================================
+*/
+
+export const updateTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
+    }
+
+    const transactionId = Number(req.params.id);
+
+    const updatedTransaction = await updateTransactionService(
+      transactionId,
+      req.user.userId,
+      req.body,
+    );
+
+    sendResponse(res, {
+      success: true,
+      message: TRANSACTION_MESSAGES.UPDATED,
+      statusCode: HTTP_STATUS.OK,
+      data: updatedTransaction,
+    });
+  },
+);
+
+/*
+==============================================
+DELETE TRANSACTION CONTROLLER
+==============================================
+*/
+
+export const deleteTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
+    }
+
+    const transactionId = Number(req.params.id);
+
+    await deleteTransactionService(transactionId, req.user.userId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: HTTP_STATUS.OK,
+      message: TRANSACTION_MESSAGES.DELETED,
     });
   },
 );

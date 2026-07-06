@@ -1,6 +1,10 @@
 import { db } from "../../config/database.js";
-import { mapTransactionRow } from "./transaction.mapper.js";
-import { CreateTransactionInput, Transaction } from "./transactions.types.js";
+import { mapTransactionRow } from "./transactions.mapper.js";
+import {
+  CreateTransactionInput,
+  Transaction,
+  UpdateTransactionInput,
+} from "./transactions.types.js";
 
 /*
 =========================================
@@ -120,4 +124,71 @@ export const findTransactionsByUserId = async (
   );
 
   return result.rows.map(mapTransactionRow);
+};
+
+/*
+=========================================
+UPDATE TRANSACTION
+=========================================
+*/
+
+export const updateTransaction = async (
+  id: number,
+  data: UpdateTransactionInput,
+): Promise<Transaction | undefined> => {
+  const result = await db.query(
+    `
+      UPDATE transactions
+      SET
+        category_id = $1,
+        type = $2,
+        amount = $3,
+        description = $4,
+        transaction_date = $5,
+        updated_at = NOW()
+      WHERE id = $6
+      RETURNING
+        id,
+        user_id,
+        category_id,
+        type,
+        amount,
+        description,
+        transaction_date,
+        created_at,
+        updated_at
+    `,
+    [
+      data.categoryId,
+      data.type,
+      data.amount,
+      data.description,
+      data.transactionDate,
+      id,
+    ],
+  );
+
+  if (result.rows.length === 0) {
+    return undefined;
+  }
+
+  return mapTransactionRow(result.rows[0]);
+};
+
+/*
+=========================================
+DELETE TRANSACTION
+=========================================
+*/
+
+export const deleteTransaction = async (id: number): Promise<boolean> => {
+  const result = await db.query(
+    `
+    DELETE FROM transactions
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  return result.rowCount === 1;
 };

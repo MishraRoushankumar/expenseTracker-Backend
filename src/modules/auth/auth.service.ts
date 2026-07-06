@@ -1,6 +1,6 @@
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
-import { generateToken } from "../../utils/jwt.js";
+import { generateToken } from "../../utils/auth/jwt.js";
 import {
   AUTH_MESSAGES,
   BCRYPT_SALT_ROUND,

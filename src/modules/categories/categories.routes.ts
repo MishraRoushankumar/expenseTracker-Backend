@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
-import { validateRequest } from "../../middlewares/validate.middleware.js";
+import { validate } from "../../middlewares/validate.middleware.js";
 import {
   createCategorySchema,
   updateCategorySchema,
@@ -19,7 +19,7 @@ const router = Router();
 router.post(
   "/",
   authMiddleware,
-  validateRequest(createCategorySchema),
+  validate({ body: createCategorySchema }),
   createCategoryController,
 );
 
@@ -32,7 +32,7 @@ router.get("/", authMiddleware, getCategoriesController);
 router.patch(
   "/:id",
   authMiddleware,
-  validateRequest(updateCategorySchema),
+  validate({ body: updateCategorySchema }),
   updateCategoryController,
 );
 

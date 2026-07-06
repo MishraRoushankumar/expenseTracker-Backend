@@ -3,7 +3,7 @@ import healthRoutes from "../modules/health/health.routes.js";
 import userRoutes from "../modules/users/users.routes.js";
 import authRoutes from "../modules/auth/auth.routes.js";
 import categoryRoutes from "../modules/categories/categories.routes.js";
-import transactionRoutes from "../modules/transaction/transaction.routes.js";
+import transactionRoutes from "../modules/transactions/transactions.routes.js";
 
 const router = Router();
 

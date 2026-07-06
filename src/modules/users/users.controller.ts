@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { asyncHandler } from "../../utils/asyncHandler.js";
-import { sendResponse } from "../../utils/apiResponse.js";
+import { asyncHandler } from "../../utils/http/asyncHandler.js";
+import { sendResponse } from "../../utils/http/apiResponse.js";
 import {
   deleteUserService,
   getProfileService,
@@ -11,7 +11,7 @@ import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { sanitizeUser } from "./users.sanitizer.js";
 import { AUTH_MESSAGES } from "../../constants/auth.constants.js";
-import { USER_MESSAGES } from "../../constants/users.constants.js";
+import { USER_MESSAGES } from "../../constants/user.constants.js";
 
 /*
 ==========================================

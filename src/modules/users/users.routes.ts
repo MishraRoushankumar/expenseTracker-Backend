@@ -5,7 +5,7 @@ import {
   updateProfileController,
   updateUserRoleController,
 } from "./users.controller.js";
-import { validateRequest } from "../../middlewares/validate.middleware.js";
+import { validate } from "../../middlewares/validate.middleware.js";
 import { updateProfileSchema, updateRoleSchema } from "./users.schema.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
 import { authorize } from "../../middlewares/authorize.middleware.js";
@@ -22,7 +22,7 @@ router.get("/profile", authMiddleware, getProfileController);
 router.patch(
   "/profile",
   authMiddleware,
-  validateRequest(updateProfileSchema),
+  validate({ body: updateProfileSchema }),
   updateProfileController,
 );
 
@@ -32,7 +32,7 @@ router.patch(
   "/:id/role",
   authMiddleware,
   authorize([USER_ROLES.ADMIN]),
-  validateRequest(updateRoleSchema),
+  validate({ body: updateRoleSchema }),
   updateUserRoleController,
 );
 
