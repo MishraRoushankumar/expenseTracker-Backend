@@ -71,7 +71,7 @@ export const updateCategoryController = asyncHandler(
 
     const categoryId = Number(req.params.id);
 
-    const updatedCategory = updateCategoryService(
+    const updatedCategory = await updateCategoryService(
       categoryId,
       req.user.userId,
       req.body,
