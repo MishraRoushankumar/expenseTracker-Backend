@@ -13,7 +13,7 @@ export const createCategory = async (
 ): Promise<Category> => {
   const result = await db.query(
     `
-    INSER INTO categories (
+    INSERT INTO categories (
     name,
     user_id
     )

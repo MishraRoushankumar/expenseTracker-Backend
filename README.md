@@ -6,45 +6,40 @@ The project follows a layered architecture (Controller → Service → Repositor
 
 ---
 
-## ✨ Features
+## Features
 
 ### Authentication
 
-- User Registration
-- User Login
 - JWT Authentication
-- Password Hashing using bcrypt
-- Protected Routes
+- RBAC
+- User Management
 
-### User Management
+### Categories
 
-- Get User Profile
-- Update User Profile
-- Update User Role (Admin Only)
-- Secure User Response (Sensitive fields hidden)
+- Full CRUD
 
-### Role-Based Access Control (RBAC)
+### Transactions
 
-Three user roles:
+- Full CRUD
 
-- **Admin**
-- **Maintainer**
-- **User**
+### Validation
 
-Permission hierarchy:
+- Zod
 
-| Role       | Permissions          |
-| ---------- | -------------------- |
-| Admin      | Full access          |
-| Maintainer | Manage normal users  |
-| User       | Access own resources |
+### Database
 
-Implemented hierarchical authorization:
+- PostgreSQL
 
-- Admin can manage everyone.
-- Maintainer can manage only normal users.
-- Users cannot manage other users.
-- Self-deletion is prevented.
+### API
+
+- RESTful
+
+### Documentation
+
+- API
+- Architecture
+- Database
+- Roadmap
 
 ---
 

@@ -51,7 +51,7 @@ export const getTransactionsController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const transactions = getTransactionsService(req.user.userId);
+    const transactions = await getTransactionsService(req.user.userId);
 
     sendResponse(res, {
       success: true,
