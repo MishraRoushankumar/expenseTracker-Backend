@@ -101,11 +101,20 @@ export const findTransactionsByUserId = async (
 ): Promise<Transaction[]> => {
   const result = await db.query(
     `
-    SELECT * 
+    SELECT
+        id,
+        user_id,
+        category_id,
+        type,
+        amount,
+        description,
+        transaction_date,
+        created_at,
+        updated_at
     FROM transactions
     WHERE user_id = $1
     ORDER BY transaction_date DESC,
-             created_at DESC
+             created_at DESC;
     `,
     [userId],
   );

@@ -1,4 +1,3 @@
-import { number } from "zod";
 import { db } from "../../config/database.js";
 import { mapCategoryRow } from "./categories.mapper.js";
 import { Category, CreateCategoryInput } from "./categories.types.js";
