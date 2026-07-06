@@ -4,6 +4,7 @@ import { AppError } from "../../errors/appError.js";
 import { findCategoryByIdAndUserId } from "../categories/categories.repository.js";
 import {
   createTransaction,
+  deleteTransaction,
   findTransactionByIdAndUserId,
   findTransactionsByUserId,
   updateTransaction,
@@ -184,4 +185,45 @@ export const updateTransactionService = async (
   }
 
   return updated;
+};
+
+/*
+=========================================
+DELETE TRANSACTION SERVICE
+=========================================
+*/
+
+export const deleteTransactionService = async (
+  transactionId: number,
+  userId: number,
+): Promise<void> => {
+  /*
+  --------------------------------------
+  VERIFY OWNERSHIP
+  --------------------------------------
+  */
+
+  const existingTransaction = await findTransactionByIdAndUserId(
+    transactionId,
+    userId,
+  );
+
+  if (!existingTransaction) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, TRANSACTION_MESSAGES.NOT_FOUND);
+  }
+
+  /*
+  -----------------------------------------
+  Delete Transaction
+  -----------------------------------------
+  */
+
+  const deleted = await deleteTransaction(transactionId);
+
+  if (!deleted) {
+    throw new AppError(
+      HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      TRANSACTION_MESSAGES.DELETE_FAILED,
+    );
+  }
 };

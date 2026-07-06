@@ -174,3 +174,21 @@ export const updateTransaction = async (
 
   return mapTransactionRow(result.rows[0]);
 };
+
+/*
+=========================================
+DELETE TRANSACTION
+=========================================
+*/
+
+export const deleteTransaction = async (id: number): Promise<boolean> => {
+  const result = await db.query(
+    `
+    DELETE FROM transactions
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  return result.rowCount === 1;
+};

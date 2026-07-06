@@ -12,6 +12,8 @@ All notable changes to this project will be documented here.
 - Transaction retrieval endpoints
 - Transaction ownership validation
 - Transaction update endpoint with partial update support.
+- Transaction deletion endpoint.
+- Completed Transaction CRUD operations.
 
 ### Changed
 
