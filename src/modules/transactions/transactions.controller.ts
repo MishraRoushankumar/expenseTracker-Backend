@@ -7,6 +7,7 @@ import {
   createTransactionService,
   getTransactionByIdService,
   getTransactionsService,
+  updateTransactionService,
 } from "./transactions.service.js";
 import { sendResponse } from "../../utils/http/apiResponse.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
@@ -83,6 +84,35 @@ export const getTransactionByIdController = asyncHandler(
       statusCode: HTTP_STATUS.OK,
       message: TRANSACTION_MESSAGES.FETCHED,
       data: transaction,
+    });
+  },
+);
+
+/*
+==============================================
+UPDATE TRANSACTION CONTROLLER
+==============================================
+*/
+
+export const updateTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
+    }
+
+    const transactionId = Number(req.params.id);
+
+    const updatedTransaction = await updateTransactionService(
+      transactionId,
+      req.user.userId,
+      req.body,
+    );
+
+    sendResponse(res, {
+      success: true,
+      message: TRANSACTION_MESSAGES.UPDATED,
+      statusCode: HTTP_STATUS.OK,
+      data: updatedTransaction,
     });
   },
 );

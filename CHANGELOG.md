@@ -8,10 +8,10 @@ All notable changes to this project will be documented here.
 
 ### Added
 
+- Create Transaction endpoints
 - Transaction retrieval endpoints
 - Transaction ownership validation
-- Create Transaction endpoints
-- Create Transaction sevices
+- Transaction update endpoint with partial update support.
 
 ### Changed
 
