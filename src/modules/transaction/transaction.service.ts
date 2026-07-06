@@ -2,12 +2,16 @@ import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
 import { AppError } from "../../errors/appError.js";
 import { findCategoryByIdAndUserId } from "../categories/categories.repository.js";
-import { createTransaction } from "./transaction.repository.js";
+import {
+  createTransaction,
+  findTransactionByIdAndUserId,
+  findTransactionsByUserId,
+} from "./transaction.repository.js";
 import { CreateTransactionDto } from "./transaction.schema.js";
 
 /*
 =========================================
-CREATE TRANSACTION
+CREATE TRANSACTION SERVICE
 =========================================
 */
 
@@ -54,4 +58,33 @@ export const createTransactionService = async (
     description: description,
     transactionDate: new Date(data.transactionDate),
   });
+};
+
+/*
+=========================================
+GET TRANSACTIONS SERVICE
+=========================================
+*/
+
+export const getTransactionsService = async (userId: number) => {
+  return findTransactionsByUserId(userId);
+};
+
+/*
+=========================================
+GET TRANSACTION BY ID SERVICE
+=========================================
+*/
+
+export const getTransactionByIdService = async (
+  transactionId: number,
+  userId: number,
+) => {
+  const transaction = await findTransactionByIdAndUserId(transactionId, userId);
+
+  if (!transaction) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, TRANSACTION_MESSAGES.NOT_FOUND);
+  }
+
+  return transaction;
 };
