@@ -6,6 +6,13 @@ All notable changes to this project will be documented here.
 
 ## v1.2.0
 
+### Added
+
+- Transaction retrieval endpoints
+- Transaction ownership validation
+- Create Transaction endpoints
+- Create Transaction sevices
+
 ### Changed
 
 - Organized application constants by domain.

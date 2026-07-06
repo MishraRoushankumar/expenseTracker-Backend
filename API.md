@@ -86,3 +86,73 @@ Business rules:
 - Transactions remain preserved (`category_id` becomes `NULL`).
 
 Authentication required.
+
+---
+
+## Transactions
+
+### POST /transactions
+
+Creates a new transaction for the authenticated user.
+
+**Authentication required.**
+
+#### Request Body
+
+```json
+{
+  "type": "expense",
+  "amount": 450,
+  "categoryId": 1,
+  "description": "Pizza",
+  "transactionDate": "2026-07-05"
+}
+```
+
+#### Business Rules
+
+- User must be authenticated.
+- `amount` must be greater than zero.
+- `type` must be either `income` or `expense`.
+- `transactionDate` must be a valid ISO date (`YYYY-MM-DD`).
+- If `categoryId` is provided, it must belong to the authenticated user.
+- Description is optional.
+- `categoryId` is optional.
+
+#### Success Response
+
+**201 Created**
+
+---
+
+### GET /transactions
+
+Returns all transactions belonging to the authenticated user.
+
+**Authentication required.**
+
+#### Sorting
+
+- Transaction Date (Descending)
+- Created At (Descending)
+
+#### Success Response
+
+**200 OK**
+
+---
+
+### GET /transactions/:id
+
+Returns a single transaction owned by the authenticated user.
+
+**Authentication required.**
+
+#### Business Rules
+
+- Transaction must exist.
+- Transaction must belong to the authenticated user.
+
+#### Success Response
+
+**200 OK**
