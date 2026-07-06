@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors/appError.js";
-import { sendResponse } from "../utils/apiResponse.js";
+import { sendResponse } from "../utils/http/apiResponse.js";
 import { HTTP_STATUS } from "../constants/http.constants.js";
 import { env } from "../config/env.js";
 

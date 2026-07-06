@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors/appError.js";
 import { HTTP_STATUS } from "../constants/http.constants.js";
-import { verifyToken } from "../utils/jwt.js";
+import { verifyToken } from "../utils/auth/jwt.js";
 import { AUTH_MESSAGES } from "../constants/auth.constants.js";
 
 // export const authMiddleware = (

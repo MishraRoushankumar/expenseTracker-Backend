@@ -1,5 +1,5 @@
 import { db } from "../../config/database.js";
-import { mapTransactionRow } from "./transaction.mapper.js";
+import { mapTransactionRow } from "./transactions.mapper.js";
 import { CreateTransactionInput, Transaction } from "./transactions.types.js";
 
 /*

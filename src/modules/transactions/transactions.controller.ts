@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { asyncHandler } from "../../utils/asyncHandler.js";
+import { asyncHandler } from "../../utils/http/asyncHandler.js";
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { AUTH_MESSAGES } from "../../constants/auth.constants.js";
@@ -7,8 +7,8 @@ import {
   createTransactionService,
   getTransactionByIdService,
   getTransactionsService,
-} from "./transaction.service.js";
-import { sendResponse } from "../../utils/apiResponse.js";
+} from "./transactions.service.js";
+import { sendResponse } from "../../utils/http/apiResponse.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
 
 /*

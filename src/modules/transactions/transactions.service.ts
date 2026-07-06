@@ -6,8 +6,8 @@ import {
   createTransaction,
   findTransactionByIdAndUserId,
   findTransactionsByUserId,
-} from "./transaction.repository.js";
-import { CreateTransactionDto } from "./transaction.schema.js";
+} from "./transactions.repository.js";
+import { CreateTransactionDto } from "./transactions.schema.js";
 
 /*
 =========================================
