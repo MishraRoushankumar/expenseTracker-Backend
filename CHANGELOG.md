@@ -18,6 +18,10 @@ All notable changes to this project will be documented here.
 - Organized application constants by domain.
 - Standardized response messages across modules.
 - Removed hardcoded strings from services and controllers.
+- Enhanced request validation middleware to support body, route parameter, and query validation.
+- Improved project folder structure and naming consistency.
+- Standardized module and constant naming conventions.
+- Reorganized shared validation schemas.
 
 ---
 
