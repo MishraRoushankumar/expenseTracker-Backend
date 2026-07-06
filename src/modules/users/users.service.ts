@@ -8,9 +8,9 @@ import {
 } from "./users.repository.js";
 import { UpdateProfileDto } from "./users.schema.js";
 import { UserRole } from "./users.types.js";
-import { JwtPayload } from "../../utils/jwt.js";
-import { ROLE_PRIORITY } from "../../constants/rolePriority.constants.js";
-import { USER_MESSAGES } from "../../constants/users.constants.js";
+import { JwtPayload } from "../../utils/auth/jwt.js";
+import { ROLE_PRIORITY } from "../../constants/role.constants.js";
+import { USER_MESSAGES } from "../../constants/user.constants.js";
 
 /*
 ========================================

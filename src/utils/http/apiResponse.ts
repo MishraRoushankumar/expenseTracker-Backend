@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { HTTP_STATUS } from "../constants/http.constants.js";
-import { ApiResponse, ApiResponseOptions } from "../types/api.types.js";
+import { HTTP_STATUS } from "../../constants/http.constants.js";
+import { ApiResponse, ApiResponseOptions } from "../../types/api.types.js";
 
 export const sendResponse = (
   res: Response,

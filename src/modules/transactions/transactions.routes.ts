@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { validateRequest } from "../../middlewares/validate.middleware.js";
+import { validate } from "../../middlewares/validate.middleware.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
-import { createTransactionSchema } from "./transaction.schema.js";
+import { createTransactionSchema } from "./transactions.schema.js";
 import {
   createTransactionController,
   getTransactionByIdController,
   getTransactionsController,
-} from "./transaction.controller.js";
+} from "./transactions.controller.js";
 
 const router = Router();
 
@@ -15,7 +15,7 @@ const router = Router();
 router.post(
   "/",
   authMiddleware,
-  validateRequest(createTransactionSchema),
+  validate({ body: createTransactionSchema }),
   createTransactionController,
 );
 

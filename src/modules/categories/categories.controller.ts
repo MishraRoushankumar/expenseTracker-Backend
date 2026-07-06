@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { asyncHandler } from "../../utils/asyncHandler.js";
+import { asyncHandler } from "../../utils/http/asyncHandler.js";
 import { AppError } from "../../errors/appError.js";
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import {
@@ -8,7 +8,7 @@ import {
   getCategoriesService,
   updateCategoryService,
 } from "./categories.service.js";
-import { sendResponse } from "../../utils/apiResponse.js";
+import { sendResponse } from "../../utils/http/apiResponse.js";
 import { CATEGORY_MESSAGES } from "../../constants/category.constants.js";
 import { AUTH_MESSAGES } from "../../constants/auth.constants.js";
 
