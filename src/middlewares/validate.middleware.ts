@@ -1,22 +1,35 @@
 import { NextFunction, Request, Response } from "express";
-import { ZodObject } from "zod";
-import { AppError } from "../errors/appError.js";
-import { HTTP_STATUS } from "../constants/http.constants.js";
+import { ZodError, ZodObject } from "zod";
 
-export const validateRequest =
-  (schema: ZodObject, target: "body" | "query" | "params" = "body") =>
+type ValidationSchemas = {
+  body?: ZodObject;
+  params?: ZodObject;
+  query?: ZodObject;
+};
+
+export const validate =
+  (schemas: ValidationSchemas) =>
   (req: Request, _res: Response, next: NextFunction): void => {
-    const result = schema.safeParse(req[target]);
+    try {
+      if (schemas.body) {
+        req.body = schemas.body.parse(req.body);
+      }
 
-    if (!result.success) {
-      const message = result.error.issues
-        .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
-        .join(", ");
+      if (schemas.params) {
+        schemas.params.parse(req.params);
+      }
 
-      next(new AppError(HTTP_STATUS.BAD_REQUEST, message));
-      return;
+      if (schemas.query) {
+        schemas.query.parse(req.query);
+      }
+
+      next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        next(error);
+        return;
+      }
+
+      next(error);
     }
-
-    (req as any)[target] = result.data;
-    next();
   };
