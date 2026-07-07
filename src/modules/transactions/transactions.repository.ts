@@ -1,5 +1,10 @@
 import { db } from "../../config/database.js";
-import { calculateOffset, QueryOptions } from "../../shared/query/index.js";
+import {
+  calculateOffset,
+  QueryOptions,
+  TransactionFilters,
+} from "../../shared/query/index.js";
+import { buildTransactionFilters } from "./transaction-query.builder.js";
 import { mapTransactionRow } from "./transactions.mapper.js";
 import {
   CreateTransactionInput,
@@ -110,9 +115,14 @@ export const findTransactionsByUserId = async (
     options.pagination.limit,
   );
 
+  const { whereClause, values } = buildTransactionFilters(
+    userId,
+    options.filters,
+  );
+
   const result = await db.query(
     `
-    SELECT
+      SELECT
         id,
         user_id,
         category_id,
@@ -122,14 +132,15 @@ export const findTransactionsByUserId = async (
         transaction_date,
         created_at,
         updated_at
-    FROM transactions
-    WHERE user_id = $1
-    ORDER BY transaction_date DESC,
-             created_at DESC;
-    LIMIT $2
-    OFFSET $3;         
+      FROM transactions
+      ${whereClause}
+      ORDER BY
+        transaction_date DESC,
+        created_at DESC
+      LIMIT $${values.length + 1}
+      OFFSET $${values.length + 2}
     `,
-    [userId, options.pagination.limit, offset],
+    [...values, options.pagination.limit, offset],
   );
 
   return result.rows.map(mapTransactionRow);
@@ -208,14 +219,19 @@ COUNT TRANSACTIONS BY USER ID
 =========================================
 */
 
-export const countTransactionsByUserId = async (userId: number) => {
+export const countTransactionsByUserId = async (
+  userId: number,
+  filters?: TransactionFilters,
+): Promise<number> => {
+  const { whereClause, values } = buildTransactionFilters(userId, filters);
+
   const result = await db.query(
     `
-    SELECT COUNT(*)::int AS total
-    FROM transactions
-    WHERE user_id = $1;
+      SELECT COUNT(*)::int AS total
+      FROM transactions
+      ${whereClause}
     `,
-    [userId],
+    values,
   );
 
   return result.rows[0].total;
