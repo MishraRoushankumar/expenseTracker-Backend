@@ -4,6 +4,14 @@ All notable changes to this project will be documented here.
 
 ---
 
+## v1.3.0
+
+### Added
+
+- Pagination support for transaction listing.
+
+---
+
 ## v1.2.0
 
 ### Added

@@ -1,4 +1,5 @@
 import { db } from "../../config/database.js";
+import { calculateOffset, QueryOptions } from "../../shared/query/index.js";
 import { mapTransactionRow } from "./transactions.mapper.js";
 import {
   CreateTransactionInput,
@@ -102,7 +103,13 @@ FIND TRANSACTIONS BY USER ID
 
 export const findTransactionsByUserId = async (
   userId: number,
+  options: QueryOptions,
 ): Promise<Transaction[]> => {
+  const offset = calculateOffset(
+    options.pagination.page,
+    options.pagination.limit,
+  );
+
   const result = await db.query(
     `
     SELECT
@@ -119,8 +126,10 @@ export const findTransactionsByUserId = async (
     WHERE user_id = $1
     ORDER BY transaction_date DESC,
              created_at DESC;
+    LIMIT $2
+    OFFSET $3;         
     `,
-    [userId],
+    [userId, options.pagination.limit, offset],
   );
 
   return result.rows.map(mapTransactionRow);
@@ -191,4 +200,23 @@ export const deleteTransaction = async (id: number): Promise<boolean> => {
   );
 
   return result.rowCount === 1;
+};
+
+/*
+=========================================
+COUNT TRANSACTIONS BY USER ID
+=========================================
+*/
+
+export const countTransactionsByUserId = async (userId: number) => {
+  const result = await db.query(
+    `
+    SELECT COUNT(*)::int AS total
+    FROM transactions
+    WHERE user_id = $1;
+    `,
+    [userId],
+  );
+
+  return result.rows[0].total;
 };

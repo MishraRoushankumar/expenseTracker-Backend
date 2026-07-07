@@ -1,16 +1,19 @@
 import { Request } from "express";
+import { PaginationMeta } from "../shared/query/index.js";
 
 export interface ApiResponseOptions<T = unknown> {
   success: boolean;
   message: string;
   data?: T;
   statusCode?: number;
+  pagination?: PaginationMeta;
 }
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
   message: string;
   data?: T;
+  pagination?: PaginationMeta;
 }
 
 export type RequestWithBody<T> = Request<{}, {}, T>;

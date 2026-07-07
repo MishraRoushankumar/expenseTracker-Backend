@@ -29,17 +29,26 @@ METADATA
 ===================================
 */
 
-export const buildPaginationMeta = (
-  page: number,
-  limit: number,
-  totalItems: number,
-): PaginationMeta => {
+interface BuildPaginationMetaOptions {
+  page: number;
+  limit: number;
+  totalItems: number;
+  currentItemCount: number;
+}
+
+export const buildPaginationMeta = ({
+  page,
+  limit,
+  totalItems,
+  currentItemCount,
+}: BuildPaginationMetaOptions): PaginationMeta => {
   const totalPages = calulateTotalPages(totalItems, limit);
 
   return {
     page,
     limit,
     totalItems,
+    currentItemCount,
     totalPages,
     hasNextPage: page < totalPages,
     hasPreviousPage: page > 1,
