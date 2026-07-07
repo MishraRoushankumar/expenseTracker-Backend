@@ -1,8 +1,13 @@
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
 import { AppError } from "../../errors/appError.js";
+import {
+  buildPaginationMeta,
+  PaginationQueryDto,
+} from "../../shared/query/index.js";
 import { findCategoryByIdAndUserId } from "../categories/categories.repository.js";
 import {
+  countTransactionsByUserId,
   createTransaction,
   deleteTransaction,
   findTransactionByIdAndUserId,
@@ -94,8 +99,54 @@ GET TRANSACTIONS SERVICE
 =========================================
 */
 
-export const getTransactionsService = async (userId: number) => {
-  return findTransactionsByUserId(userId);
+export const getTransactionsService = async (
+  userId: number,
+  query: PaginationQueryDto,
+) => {
+  /*
+  --------------------------------------
+  COUNT TRANSACTIONS
+  --------------------------------------
+  */
+
+  const totalItems = await countTransactionsByUserId(userId);
+
+  /*
+  --------------------------------------
+  FETCH TRANSACTIONS
+  --------------------------------------
+  */
+
+  const transactions = await findTransactionsByUserId(userId, {
+    pagination: {
+      page: query.page,
+      limit: query.limit,
+    },
+  });
+
+  /*
+  --------------------------------------
+  PAGINATION METADATA
+  --------------------------------------
+  */
+
+  const pagination = buildPaginationMeta({
+    page: query.page,
+    limit: query.limit,
+    totalItems,
+    currentItemCount: transactions.length,
+  });
+
+  /*
+  --------------------------------------
+  RESPONSE
+  --------------------------------------
+  */
+
+  return {
+    data: transactions,
+    pagination,
+  };
 };
 
 /*

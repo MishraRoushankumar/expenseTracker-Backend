@@ -13,6 +13,7 @@ import {
   updateTransactionController,
 } from "./transactions.controller.js";
 import { idParamsSchema } from "../../shared/schemas/id.schema.js";
+import { paginationSchema } from "../../shared/query/index.js";
 
 const router = Router();
 
@@ -27,7 +28,12 @@ router.post(
 
 // GET TRANSACTIONS
 
-router.get("/", authMiddleware, getTransactionsController);
+router.get(
+  "/",
+  authMiddleware,
+  validate({ query: paginationSchema }),
+  getTransactionsController,
+);
 
 // GET TRANSACTION BY ID
 
