@@ -3,6 +3,7 @@ import { validate } from "../../middlewares/validate.middleware.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
 import {
   createTransactionSchema,
+  TransactionQuerySchema,
   updateTransactionSchema,
 } from "./transactions.schema.js";
 import {
@@ -13,7 +14,6 @@ import {
   updateTransactionController,
 } from "./transactions.controller.js";
 import { idParamsSchema } from "../../shared/schemas/id.schema.js";
-import { paginationSchema } from "../../shared/query/index.js";
 
 const router = Router();
 
@@ -31,7 +31,7 @@ router.post(
 router.get(
   "/",
   authMiddleware,
-  validate({ query: paginationSchema }),
+  validate({ query: TransactionQuerySchema }),
   getTransactionsController,
 );
 

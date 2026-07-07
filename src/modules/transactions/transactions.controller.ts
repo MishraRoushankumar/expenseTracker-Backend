@@ -12,7 +12,7 @@ import {
 } from "./transactions.service.js";
 import { sendResponse } from "../../utils/http/apiResponse.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
-import { paginationSchema } from "../../shared/query/index.js";
+import { TransactionQuerySchema } from "./transactions.schema.js";
 
 /*
 ==============================================
@@ -52,7 +52,7 @@ export const getTransactionsController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const query = paginationSchema.parse(req.query);
+    const query = TransactionQuerySchema.parse(req.query);
 
     const result = await getTransactionsService(req.user.userId, query);
 

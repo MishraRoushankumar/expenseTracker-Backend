@@ -1,10 +1,7 @@
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
 import { AppError } from "../../errors/appError.js";
-import {
-  buildPaginationMeta,
-  PaginationQueryDto,
-} from "../../shared/query/index.js";
+import { buildPaginationMeta } from "../../shared/query/index.js";
 import { findCategoryByIdAndUserId } from "../categories/categories.repository.js";
 import {
   countTransactionsByUserId,
@@ -16,6 +13,7 @@ import {
 } from "./transactions.repository.js";
 import {
   CreateTransactionDto,
+  TransactionQueryDto,
   UpdateTransactionDto,
 } from "./transactions.schema.js";
 import { Transaction, UpdateTransactionInput } from "./transactions.types.js";
@@ -101,15 +99,21 @@ GET TRANSACTIONS SERVICE
 
 export const getTransactionsService = async (
   userId: number,
-  query: PaginationQueryDto,
+  query: TransactionQueryDto,
 ) => {
+  const filters = {
+    type: query.type,
+    categoryId: query.categoryId,
+    startDate: query.startDate,
+    endDate: query.endDate,
+  };
   /*
   --------------------------------------
   COUNT TRANSACTIONS
   --------------------------------------
   */
 
-  const totalItems = await countTransactionsByUserId(userId);
+  const totalItems = await countTransactionsByUserId(userId, filters);
 
   /*
   --------------------------------------
@@ -122,6 +126,7 @@ export const getTransactionsService = async (
       page: query.page,
       limit: query.limit,
     },
+    filters,
   });
 
   /*
