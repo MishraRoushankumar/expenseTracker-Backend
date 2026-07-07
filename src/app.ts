@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { httpLogger } from "./logger/httpLogger.js";
+import { httpLogger } from "./logger/index.js";
 import routes from "./routes/index.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 
