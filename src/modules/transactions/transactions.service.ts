@@ -3,6 +3,7 @@ import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
 import { AppError } from "../../errors/appError.js";
 import { buildPaginationMeta } from "../../shared/query/index.js";
 import { findCategoryByIdAndUserId } from "../categories/categories.repository.js";
+import { buildTransactionQueryOptions } from "./transactions.query.js";
 import {
   countTransactionsByUserId,
   createTransaction,
@@ -101,19 +102,15 @@ export const getTransactionsService = async (
   userId: number,
   query: TransactionQueryDto,
 ) => {
-  const filters = {
-    type: query.type,
-    categoryId: query.categoryId,
-    startDate: query.startDate,
-    endDate: query.endDate,
-  };
+  const options = buildTransactionQueryOptions(query);
+
   /*
   --------------------------------------
   COUNT TRANSACTIONS
   --------------------------------------
   */
 
-  const totalItems = await countTransactionsByUserId(userId, filters);
+  const totalItems = await countTransactionsByUserId(userId, options.filters);
 
   /*
   --------------------------------------
@@ -121,23 +118,17 @@ export const getTransactionsService = async (
   --------------------------------------
   */
 
-  const transactions = await findTransactionsByUserId(userId, {
-    pagination: {
-      page: query.page,
-      limit: query.limit,
-    },
-    filters,
-  });
+  const transactions = await findTransactionsByUserId(userId, options);
 
   /*
   --------------------------------------
   PAGINATION METADATA
-  --------------------------------------
+  --------o.lim------------------------------
   */
 
   const pagination = buildPaginationMeta({
-    page: query.page,
-    limit: query.limit,
+    page: options.pagination.page,
+    limit: options.pagination.limit,
     totalItems,
     currentItemCount: transactions.length,
   });

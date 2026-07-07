@@ -1,10 +1,13 @@
 import { db } from "../../config/database.js";
 import {
   calculateOffset,
-  QueryOptions,
+  TransactionQueryOptions,
   TransactionFilters,
 } from "../../shared/query/index.js";
-import { buildTransactionFilters } from "./transaction-query.builder.js";
+import {
+  buildTransactionFilters,
+  buildTransactionSorting,
+} from "./transactions.query.js";
 import { mapTransactionRow } from "./transactions.mapper.js";
 import {
   CreateTransactionInput,
@@ -108,7 +111,7 @@ FIND TRANSACTIONS BY USER ID
 
 export const findTransactionsByUserId = async (
   userId: number,
-  options: QueryOptions,
+  options: TransactionQueryOptions,
 ): Promise<Transaction[]> => {
   const offset = calculateOffset(
     options.pagination.page,
@@ -119,6 +122,8 @@ export const findTransactionsByUserId = async (
     userId,
     options.filters,
   );
+
+  const orderBy = buildTransactionSorting(options.sorting);
 
   const result = await db.query(
     `
@@ -134,9 +139,7 @@ export const findTransactionsByUserId = async (
         updated_at
       FROM transactions
       ${whereClause}
-      ORDER BY
-        transaction_date DESC,
-        created_at DESC
+      ${orderBy}
       LIMIT $${values.length + 1}
       OFFSET $${values.length + 2}
     `,
