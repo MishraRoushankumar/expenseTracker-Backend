@@ -1,4 +1,13 @@
 import { db } from "../../config/database.js";
+import {
+  calculateOffset,
+  TransactionQueryOptions,
+  TransactionFilters,
+} from "../../shared/query/index.js";
+import {
+  buildTransactionFilters,
+  buildTransactionSorting,
+} from "./transactions.query.js";
 import { mapTransactionRow } from "./transactions.mapper.js";
 import {
   CreateTransactionInput,
@@ -102,10 +111,23 @@ FIND TRANSACTIONS BY USER ID
 
 export const findTransactionsByUserId = async (
   userId: number,
+  options: TransactionQueryOptions,
 ): Promise<Transaction[]> => {
+  const offset = calculateOffset(
+    options.pagination.page,
+    options.pagination.limit,
+  );
+
+  const { whereClause, values } = buildTransactionFilters(
+    userId,
+    options.filters,
+  );
+
+  const orderBy = buildTransactionSorting(options.sorting);
+
   const result = await db.query(
     `
-    SELECT
+      SELECT
         id,
         user_id,
         category_id,
@@ -115,12 +137,13 @@ export const findTransactionsByUserId = async (
         transaction_date,
         created_at,
         updated_at
-    FROM transactions
-    WHERE user_id = $1
-    ORDER BY transaction_date DESC,
-             created_at DESC;
+      FROM transactions
+      ${whereClause}
+      ${orderBy}
+      LIMIT $${values.length + 1}
+      OFFSET $${values.length + 2}
     `,
-    [userId],
+    [...values, options.pagination.limit, offset],
   );
 
   return result.rows.map(mapTransactionRow);
@@ -191,4 +214,28 @@ export const deleteTransaction = async (id: number): Promise<boolean> => {
   );
 
   return result.rowCount === 1;
+};
+
+/*
+=========================================
+COUNT TRANSACTIONS BY USER ID
+=========================================
+*/
+
+export const countTransactionsByUserId = async (
+  userId: number,
+  filters?: TransactionFilters,
+): Promise<number> => {
+  const { whereClause, values } = buildTransactionFilters(userId, filters);
+
+  const result = await db.query(
+    `
+      SELECT COUNT(*)::int AS total
+      FROM transactions
+      ${whereClause}
+    `,
+    values,
+  );
+
+  return result.rows[0].total;
 };

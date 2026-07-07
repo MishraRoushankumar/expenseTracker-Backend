@@ -4,6 +4,29 @@ All notable changes to this project will be documented here.
 
 ---
 
+## v1.3.0
+
+### Added
+
+#### Query Infrastructure
+
+- Shared query infrastructure.
+- Pagination support for transaction listing.
+- Transaction filtering support.
+- Transaction sorting support.
+- Reusable pagination metadata.
+
+### Changed
+
+- Enhanced transaction listing endpoint with pagination, filtering, and sorting.
+- Introduced reusable transaction query options.
+- Added transaction-specific query builder.
+- Improved repository query architecture for dynamic SQL generation.
+- Standardized pagination metadata across paginated endpoints.
+- Updated API documentation for transaction query parameters.
+
+---
+
 ## v1.2.0
 
 ### Added

@@ -12,6 +12,7 @@ import {
 } from "./transactions.service.js";
 import { sendResponse } from "../../utils/http/apiResponse.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
+import { TransactionQuerySchema } from "./transactions.schema.js";
 
 /*
 ==============================================
@@ -51,13 +52,16 @@ export const getTransactionsController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const transactions = getTransactionsService(req.user.userId);
+    const query = TransactionQuerySchema.parse(req.query);
+
+    const result = await getTransactionsService(req.user.userId, query);
 
     sendResponse(res, {
       success: true,
       statusCode: HTTP_STATUS.OK,
       message: TRANSACTION_MESSAGES.FETCHED,
-      data: transactions,
+      data: result.data,
+      pagination: result.pagination,
     });
   },
 );

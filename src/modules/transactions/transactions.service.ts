@@ -1,8 +1,11 @@
 import { HTTP_STATUS } from "../../constants/http.constants.js";
 import { TRANSACTION_MESSAGES } from "../../constants/transaction.constants.js";
 import { AppError } from "../../errors/appError.js";
+import { buildPaginationMeta } from "../../shared/query/index.js";
 import { findCategoryByIdAndUserId } from "../categories/categories.repository.js";
+import { buildTransactionQueryOptions } from "./transactions.query.js";
 import {
+  countTransactionsByUserId,
   createTransaction,
   deleteTransaction,
   findTransactionByIdAndUserId,
@@ -11,6 +14,7 @@ import {
 } from "./transactions.repository.js";
 import {
   CreateTransactionDto,
+  TransactionQueryDto,
   UpdateTransactionDto,
 } from "./transactions.schema.js";
 import { Transaction, UpdateTransactionInput } from "./transactions.types.js";
@@ -94,8 +98,51 @@ GET TRANSACTIONS SERVICE
 =========================================
 */
 
-export const getTransactionsService = async (userId: number) => {
-  return findTransactionsByUserId(userId);
+export const getTransactionsService = async (
+  userId: number,
+  query: TransactionQueryDto,
+) => {
+  const options = buildTransactionQueryOptions(query);
+
+  /*
+  --------------------------------------
+  COUNT TRANSACTIONS
+  --------------------------------------
+  */
+
+  const totalItems = await countTransactionsByUserId(userId, options.filters);
+
+  /*
+  --------------------------------------
+  FETCH TRANSACTIONS
+  --------------------------------------
+  */
+
+  const transactions = await findTransactionsByUserId(userId, options);
+
+  /*
+  --------------------------------------
+  PAGINATION METADATA
+  --------o.lim------------------------------
+  */
+
+  const pagination = buildPaginationMeta({
+    page: options.pagination.page,
+    limit: options.pagination.limit,
+    totalItems,
+    currentItemCount: transactions.length,
+  });
+
+  /*
+  --------------------------------------
+  RESPONSE
+  --------------------------------------
+  */
+
+  return {
+    data: transactions,
+    pagination,
+  };
 };
 
 /*

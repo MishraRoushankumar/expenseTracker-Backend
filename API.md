@@ -1,103 +1,229 @@
 # API Documentation
 
-## Authentication
+## Overview
 
-### POST /auth/register
+Base URL
 
-Register a new user.
+```
+http://localhost:5000/api/v1
+```
 
----
+Authentication
 
-### POST /auth/login
+All endpoints, unless otherwise specified, require a valid JWT Bearer Token.
 
-Authenticate user.
-
----
-
-## Users
-
-### GET /users/profile
-
-Returns current user's profile.
+```
+Authorization: Bearer <access_token>
+```
 
 ---
 
-### PATCH /users/profile
+# Authentication
 
-Updates current user's profile.
+## POST /auth/register
 
----
+Registers a new user.
 
-### PATCH /users/:id/role
+### Authentication
 
-Admin only.
+Not Required
 
-Updates user role.
+### Success Response
 
----
-
-### DELETE /users/:id
-
-Admin & Maintainer.
-
-Hierarchical authorization enforced.
+**201 Created**
 
 ---
 
-## Categories
+## POST /auth/login
 
-### POST /categories
+Authenticates a user and returns an access token.
 
-Creates a new category for the authenticated user.
+### Authentication
 
-Authentication required.
+Not Required
 
----
+### Success Response
 
-### GET /categories
-
-Returns all categories belonging to the authenticated user.
-
-Authentication required.
+**200 OK**
 
 ---
 
-### PATCH /categories/:id
+# Users
 
-Updates a category owned by the authenticated user.
+## GET /users/profile
 
-Business rules:
+Returns the authenticated user's profile.
+
+### Authentication
+
+Required
+
+### Success Response
+
+**200 OK**
+
+---
+
+## PATCH /users/profile
+
+Updates the authenticated user's profile.
+
+### Authentication
+
+Required
+
+### Business Rules
+
+- User must exist.
+- Email must remain unique.
+
+### Success Response
+
+**200 OK**
+
+---
+
+## PATCH /users/:id/role
+
+Updates another user's role.
+
+### Authentication
+
+Required
+
+### Authorization
+
+Admin Only
+
+### Business Rules
+
+- Target user must exist.
+- Users cannot promote beyond their own role.
+
+### Success Response
+
+**200 OK**
+
+---
+
+## DELETE /users/:id
+
+Deletes a user.
+
+### Authentication
+
+Required
+
+### Authorization
+
+Admin & Maintainer
+
+### Business Rules
+
+- Hierarchical RBAC enforced.
+- Users cannot delete higher privileged users.
+
+### Success Response
+
+**200 OK**
+
+---
+
+# Categories
+
+## POST /categories
+
+Creates a category.
+
+### Authentication
+
+Required
+
+### Request Body
+
+```json
+{
+  "name": "Food"
+}
+```
+
+### Business Rules
+
+- Name is required.
+- Duplicate category names are not allowed per user.
+
+### Success Response
+
+**201 Created**
+
+---
+
+## GET /categories
+
+Returns all categories owned by the authenticated user.
+
+### Authentication
+
+Required
+
+### Success Response
+
+**200 OK**
+
+---
+
+## PATCH /categories/:id
+
+Updates a category.
+
+### Authentication
+
+Required
+
+### Business Rules
 
 - Category must exist.
 - Category must belong to the authenticated user.
 - Duplicate names are not allowed.
 
-Authentication required.
+### Success Response
+
+**200 OK**
 
 ---
 
-### DELETE /categories/:id
+## DELETE /categories/:id
 
-Deletes a category owned by the authenticated user.
+Deletes a category.
 
-Business rules:
+### Authentication
 
+Required
+
+### Business Rules
+
+- Category must exist.
 - Category must belong to the authenticated user.
-- Transactions remain preserved (`category_id` becomes `NULL`).
+- Existing transactions are preserved.
+- `category_id` becomes `NULL`.
 
-Authentication required.
+### Success Response
+
+**200 OK**
 
 ---
 
-## Transactions
+# Transactions
 
-### POST /transactions
+## POST /transactions
 
-Creates a new transaction for the authenticated user.
+Creates a transaction.
 
-**Authentication required.**
+### Authentication
 
-#### Request Body
+Required
+
+### Request Body
 
 ```json
 {
@@ -109,63 +235,121 @@ Creates a new transaction for the authenticated user.
 }
 ```
 
-#### Business Rules
+### Business Rules
 
-- User must be authenticated.
-- `amount` must be greater than zero.
-- `type` must be either `income` or `expense`.
-- `transactionDate` must be a valid ISO date (`YYYY-MM-DD`).
-- If `categoryId` is provided, it must belong to the authenticated user.
+- Amount must be greater than zero.
+- Type must be `income` or `expense`.
+- Transaction date must be a valid ISO date.
+- Category must belong to the authenticated user.
 - Description is optional.
-- `categoryId` is optional.
+- Category is optional.
 
-#### Success Response
+### Success Response
 
 **201 Created**
 
 ---
 
-### GET /transactions
+## GET /transactions
 
-Returns all transactions belonging to the authenticated user.
+Returns paginated transactions belonging to the authenticated user.
 
-**Authentication required.**
+### Authentication
 
-#### Sorting
+Required
+
+### Query Parameters
+
+| Parameter  | Type                                   | Default         | Description                                |
+| ---------- | -------------------------------------- | --------------- | ------------------------------------------ |
+| page       | number                                 | 1               | Page number                                |
+| limit      | number                                 | 10              | Items per page                             |
+| type       | income \| expense                      | -               | Filter by transaction type                 |
+| categoryId | number                                 | -               | Filter by category                         |
+| startDate  | YYYY-MM-DD                             | -               | Filter transactions on or after this date  |
+| endDate    | YYYY-MM-DD                             | -               | Filter transactions on or before this date |
+| sortBy     | amount \| transactionDate \| createdAt | transactionDate | Field used for sorting                     |
+| sortOrder  | asc \| desc                            | desc            | Sort direction                             |
+
+### Example Request
+
+```http
+GET /transactions?page=2&limit=10&type=expense&categoryId=3&startDate=2026-07-01&endDate=2026-07-31&sortBy=amount&sortOrder=asc
+```
+
+### Default Sorting
 
 - Transaction Date (Descending)
 - Created At (Descending)
 
-#### Success Response
+### Success Response
 
 **200 OK**
 
+```json
+{
+  "success": true,
+  "message": "Transactions fetched successfully",
+  "data": [
+    {
+      "id": 14,
+      "type": "expense",
+      "amount": 450,
+      "categoryId": 3,
+      "description": "Pizza",
+      "transactionDate": "2026-07-10"
+    }
+  ],
+  "pagination": {
+    "page": 2,
+    "limit": 10,
+    "totalItems": 37,
+    "totalPages": 4,
+    "currentItemCount": 10,
+    "hasNextPage": true,
+    "hasPreviousPage": true
+  }
+}
+```
+
+### Business Rules
+
+- Users can only view their own transactions.
+- Pagination is applied after filtering.
+- Sorting is applied before pagination.
+- Multiple filters can be combined.
+- All query parameters are optional.
+
 ---
 
-### GET /transactions/:id
+## GET /transactions/:id
 
-Returns a single transaction owned by the authenticated user.
+Returns a single transaction.
 
-**Authentication required.**
+### Authentication
 
-#### Business Rules
+Required
+
+### Business Rules
 
 - Transaction must exist.
 - Transaction must belong to the authenticated user.
 
-#### Success Response
+### Success Response
 
 **200 OK**
 
 ---
 
-### PATCH /transactions/:id
+## PATCH /transactions/:id
 
-Updates an existing transaction.
+Partially updates a transaction.
 
-**Authentication required.**
+### Authentication
 
-#### Request Body
+Required
+
+### Request Body
 
 All fields are optional.
 
@@ -179,31 +363,33 @@ All fields are optional.
 }
 ```
 
-#### Business Rules
+### Business Rules
 
 - Transaction must belong to the authenticated user.
-- If `categoryId` is provided, it must belong to the authenticated user.
-- `categoryId: null` removes the category association.
+- Category must belong to the authenticated user.
+- `categoryId: null` removes the category.
 - Only supplied fields are updated.
 
-#### Success Response
+### Success Response
 
 **200 OK**
 
 ---
 
-### DELETE /transactions/:id
+## DELETE /transactions/:id
 
-Deletes a transaction owned by the authenticated user.
+Deletes a transaction.
 
-**Authentication required.**
+### Authentication
 
-#### Business Rules
+Required
+
+### Business Rules
 
 - Transaction must exist.
 - Transaction must belong to the authenticated user.
 
-#### Success Response
+### Success Response
 
 **200 OK**
 
@@ -211,5 +397,63 @@ Deletes a transaction owned by the authenticated user.
 {
   "success": true,
   "message": "Transaction deleted successfully"
+}
+```
+
+---
+
+# Common Response Format
+
+## Success
+
+```json
+{
+  "success": true,
+  "message": "Operation completed successfully",
+  "data": {}
+}
+```
+
+---
+
+## Validation Error
+
+```json
+{
+  "success": false,
+  "message": "Validation failed"
+}
+```
+
+---
+
+## Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Authentication required"
+}
+```
+
+---
+
+## Forbidden
+
+```json
+{
+  "success": false,
+  "message": "Forbidden"
+}
+```
+
+---
+
+## Not Found
+
+```json
+{
+  "success": false,
+  "message": "Resource not found"
 }
 ```

@@ -3,6 +3,7 @@ import { validate } from "../../middlewares/validate.middleware.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
 import {
   createTransactionSchema,
+  TransactionQuerySchema,
   updateTransactionSchema,
 } from "./transactions.schema.js";
 import {
@@ -27,7 +28,12 @@ router.post(
 
 // GET TRANSACTIONS
 
-router.get("/", authMiddleware, getTransactionsController);
+router.get(
+  "/",
+  authMiddleware,
+  validate({ query: TransactionQuerySchema }),
+  getTransactionsController,
+);
 
 // GET TRANSACTION BY ID
 
