@@ -5,4 +5,5 @@ export * from "./query.constants.js";
 export * from "./query.types.js";
 export * from "./filtering.schema.js";
 export * from "./filtering.types.js";
-export * from "./filtering.utils.js";
+export * from "./sorting.schema.js";
+export * from "./sorting.types.js";

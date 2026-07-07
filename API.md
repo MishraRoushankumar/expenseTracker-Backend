@@ -260,10 +260,22 @@ Required
 
 ### Query Parameters
 
-| Parameter | Type   | Default | Description    |
-| --------- | ------ | ------- | -------------- |
-| page      | number | 1       | Page number    |
-| limit     | number | 10      | Items per page |
+| Parameter  | Type                                   | Default         | Description                                |
+| ---------- | -------------------------------------- | --------------- | ------------------------------------------ |
+| page       | number                                 | 1               | Page number                                |
+| limit      | number                                 | 10              | Items per page                             |
+| type       | income \| expense                      | -               | Filter by transaction type                 |
+| categoryId | number                                 | -               | Filter by category                         |
+| startDate  | YYYY-MM-DD                             | -               | Filter transactions on or after this date  |
+| endDate    | YYYY-MM-DD                             | -               | Filter transactions on or before this date |
+| sortBy     | amount \| transactionDate \| createdAt | transactionDate | Field used for sorting                     |
+| sortOrder  | asc \| desc                            | desc            | Sort direction                             |
+
+### Example Request
+
+```http
+GET /transactions?page=2&limit=10&type=expense&categoryId=3&startDate=2026-07-01&endDate=2026-07-31&sortBy=amount&sortOrder=asc
+```
 
 ### Default Sorting
 
@@ -280,22 +292,33 @@ Required
   "message": "Transactions fetched successfully",
   "data": [
     {
-      "id": 1,
+      "id": 14,
       "type": "expense",
-      "amount": 450
+      "amount": 450,
+      "categoryId": 3,
+      "description": "Pizza",
+      "transactionDate": "2026-07-10"
     }
   ],
   "pagination": {
-    "page": 1,
+    "page": 2,
     "limit": 10,
     "totalItems": 37,
     "totalPages": 4,
     "currentItemCount": 10,
     "hasNextPage": true,
-    "hasPreviousPage": false
+    "hasPreviousPage": true
   }
 }
 ```
+
+### Business Rules
+
+- Users can only view their own transactions.
+- Pagination is applied after filtering.
+- Sorting is applied before pagination.
+- Multiple filters can be combined.
+- All query parameters are optional.
 
 ---
 
