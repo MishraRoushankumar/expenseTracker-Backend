@@ -1,5 +1,7 @@
 import { Pool } from "pg";
+
 import { env } from "./env.js";
+import { logger } from "../logger/index.js";
 
 export const db = new Pool({
   host: env.DB_HOST,
@@ -9,21 +11,25 @@ export const db = new Pool({
   password: env.DB_PASSWORD,
 });
 
-const isProd = env.NODE_ENV === "production";
-
 export const connectDB = async (): Promise<void> => {
   try {
-    await db.connect();
+    await db.query("SELECT 1");
 
-    if (!isProd) {
-      console.log("PostgreSQL connected successfully");
-    }
+    logger.info(
+      {
+        host: env.DB_HOST,
+        port: env.DB_PORT,
+        database: env.DB_NAME,
+      },
+      "Connected to PostgreSQL",
+    );
   } catch (error) {
-    if (!isProd) {
-      console.error("Database connection failed", error);
-    } else {
-      console.log("Something went wrong");
-    }
+    logger.fatal(
+      {
+        err: error,
+      },
+      "Failed to connect to PostgreSQL",
+    );
 
     process.exit(1);
   }
