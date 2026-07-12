@@ -1,4 +1,6 @@
 import { OpenAPIV3_1 } from "openapi-types";
+import { commonSchemas } from "./components/schemas/common.schema.js";
+import { commonResponses } from "./components/responses/common.responses.js";
 
 export const openApiDocument: OpenAPIV3_1.Document = {
   openapi: "3.1.0",
@@ -21,8 +23,12 @@ export const openApiDocument: OpenAPIV3_1.Document = {
   paths: {},
 
   components: {
-    schemas: {},
-    responses: {},
+    schemas: {
+      ...commonSchemas,
+    },
+    responses: {
+      ...commonResponses,
+    },
     securitySchemes: {},
   },
 };
