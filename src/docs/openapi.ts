@@ -1,18 +1,25 @@
-import { OpenAPIV3_1 } from "openapi-types";
-import { commonSchemas } from "./components/schemas/common.schema.js";
-import { commonResponses } from "./components/responses/common.responses.js";
-import { authSchemas } from "./components/schemas/auth.schema.js";
-import { authResponses } from "./components/responses/auth.responses.js";
 import { authPaths } from "./paths/auth.paths.js";
+import { userPaths } from "./paths/users.paths.js";
+import { categoryPaths } from "./paths/categories.paths.js";
+import { transactionPaths } from "./paths/transactions.paths.js";
+
+import { authSchemas } from "./components/schemas/auth.schema.js";
+import { userSchemas } from "./components/schemas/users.schema.js";
+import { categorySchemas } from "./components/schemas/categories.schema.js";
+import { transactionSchemas } from "./components/schemas/transactions.schema.js";
+import { commonSchemas } from "./components/schemas/common.schema.js";
+
+import { bearerSecurity } from "./components/security/bearer.security.js";
+
 import { tags } from "./tags.js";
 
-export const openApiDocument: OpenAPIV3_1.Document = {
+export const openApiDocument = {
   openapi: "3.1.0",
 
   info: {
     title: "Expense Tracker API",
+    description: "REST API for Expense Tracker Backend",
     version: "1.4.0",
-    description: "REST API for the Expense Tracker backend.",
   },
 
   servers: [
@@ -22,21 +29,26 @@ export const openApiDocument: OpenAPIV3_1.Document = {
     },
   ],
 
-  tags: [...tags],
+  tags,
+
+  paths: {
+    ...authPaths,
+    ...userPaths,
+    ...categoryPaths,
+    ...transactionPaths,
+  },
 
   components: {
     schemas: {
       ...commonSchemas,
       ...authSchemas,
+      ...userSchemas,
+      ...categorySchemas,
+      ...transactionSchemas,
     },
-    responses: {
-      ...commonResponses,
-      ...authResponses,
-    },
-    securitySchemes: {},
-  },
 
-  paths: {
-    ...authPaths,
+    security: {
+      ...bearerSecurity,
+    },
   },
 };

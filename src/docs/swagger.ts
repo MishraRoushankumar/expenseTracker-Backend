@@ -1,6 +1,5 @@
 import { Express } from "express";
 import swaggerUi from "swagger-ui-express";
-
 import { openApiDocument } from "./openapi.js";
 
 export const configureSwagger = (app: Express): void => {
@@ -9,6 +8,7 @@ export const configureSwagger = (app: Express): void => {
     swaggerUi.serve,
     swaggerUi.setup(openApiDocument, {
       explorer: true,
+      customSiteTitle: "Expense Tracker API Docs",
     }),
   );
 };
