@@ -1,6 +1,10 @@
 import { OpenAPIV3_1 } from "openapi-types";
 import { commonSchemas } from "./components/schemas/common.schema.js";
 import { commonResponses } from "./components/responses/common.responses.js";
+import { authSchemas } from "./components/schemas/auth.schema.js";
+import { authResponses } from "./components/responses/auth.responses.js";
+import { authPaths } from "./paths/auth.paths.js";
+import { tags } from "./tags.js";
 
 export const openApiDocument: OpenAPIV3_1.Document = {
   openapi: "3.1.0",
@@ -18,17 +22,21 @@ export const openApiDocument: OpenAPIV3_1.Document = {
     },
   ],
 
-  tags: [],
-
-  paths: {},
+  tags: [...tags],
 
   components: {
     schemas: {
       ...commonSchemas,
+      ...authSchemas,
     },
     responses: {
       ...commonResponses,
+      ...authResponses,
     },
     securitySchemes: {},
+  },
+
+  paths: {
+    ...authPaths,
   },
 };
