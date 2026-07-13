@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/http/asyncHandler.js";
 import { sendResponse } from "../../utils/http/apiResponse.js";
 import {

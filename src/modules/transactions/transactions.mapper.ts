@@ -1,5 +1,5 @@
-import { TransactionType } from "../../constants/transaction.constants.js";
-import { Transaction } from "./transactions.types.js";
+import type { TransactionType } from "../../constants/transaction.constants.js";
+import type { Transaction } from "./transactions.types.js";
 
 interface TransactionRow {
   id: number;

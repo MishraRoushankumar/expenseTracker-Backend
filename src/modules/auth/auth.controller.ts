@@ -1,7 +1,7 @@
-import { Response } from "express";
+import type { Response } from "express";
 import { asyncHandler } from "../../utils/http/asyncHandler.js";
 import { loginUser, registerUser } from "./auth.service.js";
-import { LoginDto, RegisterDto } from "./auth.schema.js";
+import type { LoginDto, RegisterDto } from "./auth.schema.js";
 import { sendResponse } from "../../utils/http/apiResponse.js";
 
 /*

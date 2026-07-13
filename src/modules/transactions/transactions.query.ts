@@ -1,10 +1,10 @@
-import {
+import type {
   SqlFilterResult,
   TransactionFilters,
   TransactionQueryOptions,
   TransactionSorting,
 } from "../../shared/query/index.js";
-import { TransactionQueryDto } from "./transactions.schema.js";
+import type { TransactionQueryDto } from "./transactions.schema.js";
 
 /*
 =========================================
@@ -20,25 +20,23 @@ export const buildTransactionFilters = (
 
   const values: unknown[] = [userId];
 
-  let parameterIndex = 2;
-
   if (filters?.type) {
-    conditions.push(`type = $${parameterIndex++}`);
+    conditions.push(`type = $${values.length + 1}`);
     values.push(filters.type);
   }
 
   if (filters?.categoryId) {
-    conditions.push(`category_id = $${parameterIndex++}`);
+    conditions.push(`category_id = $${values.length + 1}`);
     values.push(filters.categoryId);
   }
 
   if (filters?.startDate) {
-    conditions.push(`transaction_date >= $${parameterIndex++}`);
+    conditions.push(`transaction_date >= $${values.length + 1}`);
     values.push(filters.startDate);
   }
 
   if (filters?.endDate) {
-    conditions.push(`transaction_date <= $${parameterIndex++}`);
+    conditions.push(`transaction_date <= $${values.length + 1}`);
     values.push(filters.endDate);
   }
 

@@ -1,4 +1,4 @@
-import { TransactionType } from "../../constants/transaction.constants.js";
+import type { TransactionType } from "../../constants/transaction.constants.js";
 
 export interface Transaction {
   id: number;

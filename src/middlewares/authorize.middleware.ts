@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import { UserRole } from "../modules/users/users.types.js";
+import type { NextFunction, Request, Response } from "express";
+import type { UserRole } from "../modules/users/users.types.js";
 import { AppError } from "../errors/appError.js";
 import { HTTP_STATUS } from "../constants/http.constants.js";
 import { AUTH_MESSAGES } from "../constants/auth.constants.js";

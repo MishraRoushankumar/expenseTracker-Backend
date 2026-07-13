@@ -9,7 +9,7 @@ import {
   findCategoryByUserId,
   updateCategory,
 } from "./categories.repository.js";
-import { CreateCategoryDto, UpdateCategoryDto } from "./categories.schema.js";
+import type { CreateCategoryDto, UpdateCategoryDto } from "./categories.schema.js";
 
 /*
 ===========================================

@@ -1,4 +1,4 @@
-import { SafeUser, User } from "./users.types.js";
+import type { SafeUser, User } from "./users.types.js";
 
 export const sanitizeUser = (user: User): SafeUser => {
   return {

@@ -1,4 +1,4 @@
-import { User } from "./users.types.js";
+import type { User } from "./users.types.js";
 
 interface UserRow {
   id: number;

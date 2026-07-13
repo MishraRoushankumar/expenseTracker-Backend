@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { ZodError, ZodObject } from "zod";
+import type { NextFunction, Request, Response } from "express";
+import type { ZodObject } from "zod";
+import { ZodError } from "zod";
 
 type ValidationSchemas = {
   body?: ZodObject;
