@@ -12,12 +12,15 @@ import {
   findTransactionsByUserId,
   updateTransaction,
 } from "./transactions.repository.js";
-import {
+import type {
   CreateTransactionDto,
   TransactionQueryDto,
   UpdateTransactionDto,
 } from "./transactions.schema.js";
-import { Transaction, UpdateTransactionInput } from "./transactions.types.js";
+import type {
+  Transaction,
+  UpdateTransactionInput,
+} from "./transactions.types.js";
 
 /*
 =========================================

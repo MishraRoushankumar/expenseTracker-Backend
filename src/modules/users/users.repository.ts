@@ -1,6 +1,6 @@
 import { db } from "../../config/database.js";
 import { mapUserRow } from "./users.mapper.js";
-import {
+import type {
   CreateUserInput,
   UpdateProfileInput,
   User,

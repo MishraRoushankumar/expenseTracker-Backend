@@ -1,4 +1,4 @@
-import { Express } from "express";
+import type { Express } from "express";
 import swaggerUi from "swagger-ui-express";
 import { openApiDocument } from "./openapi.js";
 

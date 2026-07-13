@@ -1,15 +1,15 @@
 import { db } from "../../config/database.js";
-import {
-  calculateOffset,
+import type {
   TransactionQueryOptions,
   TransactionFilters,
 } from "../../shared/query/index.js";
+import { calculateOffset } from "../../shared/query/index.js";
 import {
   buildTransactionFilters,
   buildTransactionSorting,
 } from "./transactions.query.js";
 import { mapTransactionRow } from "./transactions.mapper.js";
-import {
+import type {
   CreateTransactionInput,
   Transaction,
   UpdateTransactionInput,

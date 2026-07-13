@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 import { env } from "../config/env.js";
 import { HTTP_STATUS } from "../constants/http.constants.js";

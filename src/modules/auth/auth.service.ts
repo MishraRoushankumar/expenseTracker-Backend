@@ -6,7 +6,7 @@ import {
   BCRYPT_SALT_ROUND,
 } from "../../constants/auth.constants.js";
 import { createUser, findUserByEmail } from "../users/users.repository.js";
-import { LoginDto, RegisterDto } from "./auth.schema.js";
+import type { LoginDto, RegisterDto } from "./auth.schema.js";
 import bcrypt from "bcrypt";
 
 /*

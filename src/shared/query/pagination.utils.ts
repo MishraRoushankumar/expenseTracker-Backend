@@ -1,4 +1,4 @@
-import { PaginationMeta } from "./pagination.types.js";
+import type { PaginationMeta } from "./pagination.types.js";
 
 /*
 ===================================
