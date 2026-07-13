@@ -11,6 +11,8 @@ All notable changes to this project will be documented here.
 - Structured logging using Pino.
 - HTTP request logging.
 - Startup logging.
+- Global API rate limiting.
+- Authentication rate limiting.
 
 ### Changed
 
