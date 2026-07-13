@@ -17,7 +17,10 @@ import type {
   TransactionQueryDto,
   UpdateTransactionDto,
 } from "./transactions.schema.js";
-import type { Transaction, UpdateTransactionInput } from "./transactions.types.js";
+import type {
+  Transaction,
+  UpdateTransactionInput,
+} from "./transactions.types.js";
 
 /*
 =========================================
