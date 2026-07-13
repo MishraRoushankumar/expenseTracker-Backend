@@ -4,6 +4,22 @@ All notable changes to this project will be documented here.
 
 ---
 
+## v1.4.0
+
+### Added
+
+- Structured logging using Pino.
+- HTTP request logging.
+- Startup logging.
+- Global API rate limiting.
+- Authentication rate limiting.
+
+### Changed
+
+- Replaced console logging with centralized logger.
+
+---
+
 ## v1.3.0
 
 ### Added
