@@ -1,5 +1,4 @@
 import { authPaths } from "./paths/auth.paths.js";
-import { userPaths } from "./paths/users.paths.js";
 import { categoryPaths } from "./paths/categories.paths.js";
 import { transactionPaths } from "./paths/transactions.paths.js";
 
@@ -18,8 +17,23 @@ export const openApiDocument = {
 
   info: {
     title: "Expense Tracker API",
-    description: "REST API for Expense Tracker Backend",
+
+    description:
+      "RESTful API for managing personal income, expenses and categories.",
+
     version: "1.4.0",
+
+    contact: {
+      name: "Roushankumar Mishra",
+
+      url: "https://github.com/MishraRoushankumar",
+
+      email: "mishraroushankumar57@gmail.com",
+    },
+
+    license: {
+      name: "MIT",
+    },
   },
 
   servers: [
@@ -27,13 +41,17 @@ export const openApiDocument = {
       url: "http://localhost:5000/api/v1",
       description: "Development Server",
     },
+    {
+      url: "https://api.example.com/api/v1",
+
+      description: "Production",
+    },
   ],
 
   tags,
 
   paths: {
     ...authPaths,
-    ...userPaths,
     ...categoryPaths,
     ...transactionPaths,
   },
@@ -47,7 +65,7 @@ export const openApiDocument = {
       ...transactionSchemas,
     },
 
-    security: {
+    securitySchemes: {
       ...bearerSecurity,
     },
   },
