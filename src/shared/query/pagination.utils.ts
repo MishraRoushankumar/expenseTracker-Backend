@@ -16,7 +16,7 @@ TOTAL PAGES
 ===================================
 */
 
-export const calulateTotalPages = (
+export const calculateTotalPages = (
   totalItems: number,
   limit: number,
 ): number => {
@@ -42,7 +42,7 @@ export const buildPaginationMeta = ({
   totalItems,
   currentItemCount,
 }: BuildPaginationMetaOptions): PaginationMeta => {
-  const totalPages = calulateTotalPages(totalItems, limit);
+  const totalPages = calculateTotalPages(totalItems, limit);
 
   return {
     page,

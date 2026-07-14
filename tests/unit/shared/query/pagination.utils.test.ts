@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildPaginationMeta,
   calculateOffset,
-  calulateTotalPages,
+  calculateTotalPages,
 } from "../../../../src/shared/query/pagination.utils.js";
 
 describe("calculateOffset", () => {
@@ -20,21 +20,21 @@ describe("calculateOffset", () => {
   });
 });
 
-describe("calulateTotalPages", () => {
+describe("calculateTotalPages", () => {
   it("should return one page when all items fit", () => {
-    expect(calulateTotalPages(8, 10)).toBe(1);
+    expect(calculateTotalPages(8, 10)).toBe(1);
   });
 
   it("should round up partial pages", () => {
-    expect(calulateTotalPages(25, 10)).toBe(3);
+    expect(calculateTotalPages(25, 10)).toBe(3);
   });
 
   it("should return zero when there are no items", () => {
-    expect(calulateTotalPages(0, 10)).toBe(0);
+    expect(calculateTotalPages(0, 10)).toBe(0);
   });
 
   it("should handle exact multiples", () => {
-    expect(calulateTotalPages(30, 10)).toBe(3);
+    expect(calculateTotalPages(30, 10)).toBe(3);
   });
 });
 
