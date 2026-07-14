@@ -6,14 +6,18 @@ export default defineConfig({
 
     environment: "node",
 
-    include: ["test/**/*.test.ts"],
+    setupFiles: ["./tests/setup.ts"],
+
+    include: ["tests/**/*.test.ts"],
 
     coverage: {
       provider: "v8",
 
-      reporter: ["text", "html"],
+      reporter: ["text", "html", "lcov"],
 
       reportsDirectory: "./coverage",
+
+      exclude: ["tests/**", "dist/**", "node_modules/**"],
     },
   },
 });
