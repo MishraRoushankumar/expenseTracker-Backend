@@ -1,349 +1,377 @@
 # Expense Tracker Backend
 
-A scalable, production-inspired Expense Tracker Backend built with **Node.js**, **Express.js**, **TypeScript**, and **PostgreSQL**.
+> A production-inspired RESTful API for personal expense management built with **Node.js**, **Express.js**, **TypeScript**, and **PostgreSQL**.
 
-The project follows a layered architecture (Controller → Service → Repository) with a strong focus on clean code, security, maintainability, and real-world backend engineering practices.
-
----
-
-## Features
-
-### Authentication
-
-- JWT Authentication
-- RBAC
-- User Management
-
-### Categories
-
-- Full CRUD
-
-### Transactions
-
-- Full CRUD
-
-### Validation
-
-- Zod
-
-### Database
-
-- PostgreSQL
-
-### API
-
-- RESTful
-
-### Documentation
-
-- API
-- Architecture
-- Database
-- Roadmap
+The project demonstrates modern backend engineering practices including layered architecture, JWT authentication, OpenAPI documentation, structured logging, validation, pagination, filtering, sorting, and a professional development workflow.
 
 ---
 
-## Categories Module
+## 🚀 Project Highlights
 
-### Implemented
+- 🏗️ Layered Architecture (Controller → Service → Repository)
+- 🔒 JWT Authentication with role-based access ready design
+- 🛡️ Request validation using Zod
+- 🗄️ PostgreSQL with parameterized SQL queries
+- 📖 OpenAPI 3.1 documentation with Swagger UI
+- 📝 Structured logging using Pino
+- ⚡ Pagination, filtering and sorting support
+- 🚦 Rate limiting and security middleware
+- 🧹 ESLint + Prettier configured
+- 🧪 Vitest configured for testing
+- 📦 Production-oriented project structure
 
-- Create Category
-- Get Categories
-- Update Category
-- Delete Category
+---
 
-Business Rules
+# ✨ Features
 
-- Categories belong to individual users.
-- Duplicate category names are prevented per user.
-- Category names are normalized before storing.
-- Users can access only their own categories.
-- Category ownership is verified before updates and deletion.
-- Deleting a category preserves transactions (`category_id` becomes `NULL`).
-- Authentication required for all endpoints.
+## Authentication
+
+- User registration
+- User login
+- Get authenticated profile
+- Update profile
+- Password hashing using bcrypt
+- JWT authentication
+- Role-based access ready design
+
+> **Note:** Logout functionality is planned for a future release.
+
+---
+
+## Categories
+
+- Create category
+- Get categories
+- Update category
+- Delete category
+- User ownership validation
+
+---
+
+## Transactions
+
+- Create transaction
+- Get transactions
+- Update transaction
+- Delete transaction
+
+Supports:
+
+- Pagination
+- Filtering
+- Sorting
 
 ---
 
 ## Security
 
 - JWT Authentication
-- Password Hashing (bcrypt)
-- Request Validation (Zod)
-- Centralized Error Handling
-- Standardized API Responses
-- Password Hash Sanitization
-- Role-Based Authorization
-- Environment Variable Validation
+- Password hashing
+- Helmet
+- CORS
+- Rate limiting
+- Environment validation
+- Centralized error handling
+- SQL injection protection using parameterized queries
 
 ---
 
-## Architecture
+## Developer Experience
 
-```
-src/
-│
-├── config/
-│
-├── constants/
-│
-├── db/
-│
-├── errors/
-│
-├── middlewares/
-│
-├── modules/
-│   ├── auth/
-│   ├── categories/
-    ├── healh/
-│   └── users/
-│
-├── types/
-│
-└── utils/
-```
-
-Each module follows the same structure:
-
-```
-module/
-│
-├── controller
-├── service
-├── repository
-├── schema
-├── mapper
-├── types
-└── routes
-```
-
----
-
-## Tech Stack
-
-### Runtime
-
-- Node.js
-- Express.js
-
-### Language
-
-- TypeScript
-
-### Database
-
-- PostgreSQL
-
-### Authentication
-
-- JWT
-- bcrypt
-
-### Validation
-
-- Zod
-
-### Development Tools
-
-- ts-node-dev
+- OpenAPI 3.1
+- Swagger UI
 - ESLint
 - Prettier
+- EditorConfig
+- Vitest
+- TypeScript
+- Modular folder structure
 
 ---
 
-## Design Principles
+# 🛠 Tech Stack
 
-- Layered Architecture
-- Separation of Concerns
-- Repository Pattern
-- DTO-based Validation
-- Type Safety
-- Secure Defaults
-- Modular Codebase
-- RESTful API Design
-
----
-
-## Database Schema
-
-### Users
-
-- id
-- email
-- password_hash
-- first_name
-- last_name
-- role
-- created_at
-- updated_at
+| Category          | Technology               |
+| ----------------- | ------------------------ |
+| Runtime           | Node.js                  |
+| Framework         | Express.js               |
+| Language          | TypeScript               |
+| Database          | PostgreSQL               |
+| Validation        | Zod                      |
+| Authentication    | JWT + bcrypt             |
+| Logging           | Pino                     |
+| API Documentation | OpenAPI 3.1 + Swagger UI |
+| Testing           | Vitest                   |
+| Linting           | ESLint                   |
+| Formatting        | Prettier                 |
 
 ---
 
-### Categories
+# 🏛 Architecture
 
-- id
-- name
-- user_id
-- created_at
-- updated_at
+The project follows a layered architecture to separate responsibilities and keep the codebase maintainable.
 
----
+```text
+                Client
+                   │
+                   ▼
+             Express Routes
+                   │
+                   ▼
+             Route Handlers
+                   │
+                   ▼
+             Controllers
+                   │
+                   ▼
+               Services
+                   │
+                   ▼
+            Repositories
+                   │
+                   ▼
+             PostgreSQL
+```
 
-### Transactions _(In Progress)_
+For detailed architecture documentation see:
 
-- id
-- user_id
-- category_id
-- type
-- amount
-- description
-- transaction_date
-- created_at
-- updated_at
-
----
-
-## Current Project Status
-
-### Completed
-
-- Authentication System
-- JWT Authentication
-- PostgreSQL Integration
-- User Module
-- Role-Based Access Control
-- Hierarchical Authorization
-- Category Creation
-- Standardized Error Handling
-- API Response Utility
-- Request Validation
-- Secure Environment Configuration
-- Categories CRUD
-
-### In Progress
-
-- Transactions Module
-- Analytics
-- Dashboard APIs
+- **ARCHITECTURE.md**
+- **docs/PROJECT_STRUCTURE.md**
 
 ---
 
-## API Modules
+# 📁 Project Structure
 
-| Module         | Status     |
-| -------------- | ---------- |
-| Authentication | ✅         |
-| Users          | ✅         |
-| Categories     | ✅         |
-| Transactions   | 🚧         |
-| Analytics      | 📋 Planned |
-| Dashboard      | 📋 Planned |
+```text
+backend/
+│
+├── docs/
+├── src/
+│   ├── config/
+│   ├── constants/
+│   ├── db/
+│   ├── docs/
+│   ├── logger/
+│   ├── middleware/
+│   ├── modules/
+│   ├── shared/
+│   ├── types/
+│   └── utils/
+│
+├── tests/
+│
+├── ARCHITECTURE.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── PRD.md
+├── TECH_DEBT.md
+└── README.md
+```
+
+See **docs/PROJECT_STRUCTURE.md** for a detailed explanation.
 
 ---
 
-## Getting Started
+# 🚀 Getting Started
 
-### Clone Repository
+## Prerequisites
+
+- Node.js 22+
+- PostgreSQL
+- npm
+
+---
+
+## Installation
+
+Clone the repository
 
 ```bash
 git clone <repository-url>
+```
+
+Move into the project
+
+```bash
 cd backend
 ```
 
-### Install Dependencies
+Install dependencies
 
 ```bash
 npm install
 ```
 
-### Configure Environment
+---
 
-Create a `.env` file:
+## Environment Variables
 
-```env
-PORT=5000
-
-DATABASE_URL=
-
-JWT_SECRET=
-
-NODE_ENV=development
-```
-
-### Initialize Database
+Copy the example environment file
 
 ```bash
-psql expense_tracker_db
+cp .env.example .env
 ```
 
-```sql
-\i src/db/init.sql
+Update the database credentials and JWT configuration.
+
+---
+
+## Database
+
+Create the PostgreSQL database.
+
+Run the initialization SQL:
+
+```text
+src/db/init.sql
 ```
 
-### Run Development Server
+---
+
+## Run Development Server
 
 ```bash
 npm run dev
 ```
 
+The server will start on the configured port.
+
 ---
 
-## Available Scripts
+# 📖 API Documentation
 
-```bash
-npm run dev
+Interactive API documentation is available through Swagger UI.
+
+Development URL
+
+```text
+http://localhost:5000/api/docs
 ```
 
-Start development server.
+The OpenAPI specification includes:
 
-```bash
-npm run build
+- Authentication
+- Categories
+- Transactions
+- Request schemas
+- Response schemas
+- JWT Bearer authentication
+
+For API usage see:
+
+```
+docs/API.md
 ```
 
-Compile TypeScript.
+---
 
-```bash
-npm run typecheck
-```
+# 📜 Available Scripts
 
-Run TypeScript type checking.
+| Command                | Description                   |
+| ---------------------- | ----------------------------- |
+| `npm run dev`          | Start development server      |
+| `npm run build`        | Build the project             |
+| `npm run start`        | Start production server       |
+| `npm run lint`         | Run ESLint                    |
+| `npm run lint:fix`     | Automatically fix lint issues |
+| `npm run format`       | Format code using Prettier    |
+| `npm run format:check` | Verify formatting             |
+| `npm run typecheck`    | Run TypeScript type checking  |
+| `npm run test`         | Run tests in watch mode       |
+| `npm run test:run`     | Run tests once                |
 
 ---
 
-## Future Roadmap
+# 📚 Documentation
 
-- Complete Categories CRUD
-- Transactions CRUD
-- Dashboard APIs
-- Monthly Reports
-- Budget Management
-- Recurring Transactions
-- File Attachments
-- Swagger/OpenAPI Documentation
-- Unit & Integration Testing
-- Docker Support
-- CI/CD Pipeline
-- Redis Caching
-- Rate Limiting
-- Audit Logs
-
----
-
-## Learning Goals
-
-This project is built to practice production-level backend engineering concepts:
-
-- REST API Design
-- Clean Architecture
-- Authentication & Authorization
-- Repository Pattern
-- PostgreSQL
-- TypeScript
-- Scalable Backend Design
-- Secure Coding Practices
+| Document                    | Description                |
+| --------------------------- | -------------------------- |
+| `ARCHITECTURE.md`           | System architecture        |
+| `CHANGELOG.md`              | Release history            |
+| `CONTRIBUTING.md`           | Contribution guidelines    |
+| `PRD.md`                    | Product requirements       |
+| `TECH_DEBT.md`              | Technical debt tracking    |
+| `docs/API.md`               | API usage guide            |
+| `docs/CODING_STANDARDS.md`  | Coding conventions         |
+| `docs/DATABASE.md`          | Database design            |
+| `docs/DEVELOPMENT_GUIDE.md` | Local development workflow |
+| `docs/DEPLOYMENT.md`        | Deployment guide           |
+| `docs/GIT_WORKFLOW.md`      | Git workflow               |
+| `docs/PROJECT_STRUCTURE.md` | Project organization       |
+| `docs/RBAC.md`              | Authorization design       |
+| `docs/ROADMAP.md`           | Future roadmap             |
 
 ---
 
-## License
+# 📊 Current Project Status
 
-This project is intended for educational and portfolio purposes.
+| Feature                | Status                                      |
+| ---------------------- | ------------------------------------------- |
+| Authentication         | 🟡 Register, Login, Profile, Update Profile |
+| Categories             | ✅ Complete                                 |
+| Transactions           | ✅ Complete                                 |
+| PostgreSQL Integration | ✅ Complete                                 |
+| OpenAPI Documentation  | ✅ Complete                                 |
+| Structured Logging     | ✅ Complete                                 |
+| Pagination             | ✅ Complete                                 |
+| Filtering              | ✅ Complete                                 |
+| Sorting                | ✅ Complete                                 |
+| Rate Limiting          | ✅ Complete                                 |
+| ESLint                 | ✅ Complete                                 |
+| Prettier               | ✅ Complete                                 |
+| Vitest Configuration   | ✅ Complete                                 |
+| Logout                 | 📋 Planned                                  |
+| Unit Testing           | 🚧 In Progress                              |
+| Integration Testing    | 📋 Planned                                  |
+| Docker                 | 📋 Planned                                  |
+| GitHub Actions         | 📋 Planned                                  |
+| Deployment             | 📋 Planned                                  |
+
+---
+
+# 🛣 Roadmap
+
+## v1.5.0
+
+- Documentation refresh
+- Unit testing
+- Integration testing
+- Logout endpoint
+
+## v1.6.0
+
+- Docker
+- Docker Compose
+- Production configuration
+
+## v1.7.0
+
+- GitHub Actions
+- Continuous Integration
+- Test coverage reporting
+
+## v1.8.0
+
+- Deployment
+- Health checks
+- Monitoring
+
+## v2.0.0
+
+Production-ready backend with complete testing, CI/CD pipeline, containerization, deployment, and operational tooling.
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+Please read **CONTRIBUTING.md** before opening an issue or submitting a pull request.
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+See the **LICENSE** file for details.
