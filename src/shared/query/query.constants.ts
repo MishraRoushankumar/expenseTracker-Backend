@@ -9,7 +9,7 @@ export const QUERY_CONSTANTS = {
   DEFAULT_LIMIT: 10,
 
   MIN_PAGE: 1,
-  MIN_LIMIT: 3,
+  MIN_LIMIT: 1,
 
   MAX_LIMIT: 100,
 };

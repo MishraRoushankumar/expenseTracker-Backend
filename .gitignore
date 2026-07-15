@@ -9,6 +9,9 @@ build/
 out/
 tsbuildinfo/
 
+#Test coverage
+coverage/
+
 # Environment variables and secrets
 .env
 .env.local
