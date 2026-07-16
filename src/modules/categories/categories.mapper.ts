@@ -1,4 +1,4 @@
-import { Category } from "./categories.types.js";
+import type { Category } from "./categories.types.js";
 
 interface CategoryRow {
   id: number;

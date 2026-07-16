@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors/appError.js";
 import { HTTP_STATUS } from "../constants/http.constants.js";
 import { verifyToken } from "../utils/auth/jwt.js";

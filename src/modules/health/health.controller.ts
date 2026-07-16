@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { getHealthStatus } from "./health.service.js";
 import { sendResponse } from "../../utils/http/apiResponse.js";
 import { asyncHandler } from "../../utils/http/asyncHandler.js";
