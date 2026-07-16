@@ -13,11 +13,17 @@ export default defineConfig({
     coverage: {
       provider: "v8",
 
-      reporter: ["text", "html", "lcov"],
+      reporter: ["text", "text-summary", "html", "lcov"],
 
       reportsDirectory: "./coverage",
 
-      exclude: ["tests/**", "dist/**", "node_modules/**"],
+      exclude: [
+        "tests/**",
+        "dist/**",
+        "node_modules/**",
+        "**/*.d.ts",
+        "**/openapi/**",
+      ],
     },
   },
 });
