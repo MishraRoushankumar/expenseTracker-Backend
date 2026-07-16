@@ -24,7 +24,6 @@ describe("POST /api/v1/auth/login", () => {
       email: validUser.email,
       password: validUser.password,
     });
-
     expect(response.status).toBe(200);
 
     expect(response.body.success).toBe(true);
