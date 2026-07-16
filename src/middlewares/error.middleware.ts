@@ -5,6 +5,7 @@ import { HTTP_STATUS } from "../constants/http.constants.js";
 import { AppError } from "../errors/appError.js";
 import { logger } from "../logger/index.js";
 import { sendResponse } from "../utils/http/apiResponse.js";
+import { ZodError } from "zod";
 
 const isProd = env.NODE_ENV === "production";
 
@@ -64,6 +65,23 @@ export const errorMiddleware = (
     });
 
     return;
+  }
+
+  /*
+  =========================================
+  ZOD ERROR
+  =========================================
+  */
+
+  if (err instanceof ZodError) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: HTTP_STATUS.BAD_REQUEST,
+      message: "Validation failed",
+      data: {
+        issues: err.issues,
+      },
+    });
   }
 
   /*
