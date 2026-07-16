@@ -68,3 +68,13 @@ export const loginUser = async (data: LoginDto): Promise<string> => {
 
   return generateToken({ userId: user.id, email: user.email, role: user.role });
 };
+
+/*
+=====================================
+LOGOUT USER
+=====================================
+*/
+
+export const logoutUser = async (): Promise<void> => {
+  return;
+};
