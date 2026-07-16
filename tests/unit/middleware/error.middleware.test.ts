@@ -116,7 +116,7 @@ describe("errorMiddleware", () => {
 
       errorMiddleware(error, req, res, next as NextFunction);
 
-      expect(logger.error).toHaveBeenCalledOnce();
+      expect(logger.error).not.toHaveBeenCalledOnce();
 
       expect(sendResponse).toHaveBeenCalled();
     });

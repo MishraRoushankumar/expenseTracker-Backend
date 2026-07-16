@@ -38,7 +38,16 @@ export const updateProfileService = async (
   userId: number,
   data: UpdateProfileDto,
 ): Promise<User> => {
-  const updatedUser = await updateUser(userId, data);
+  const existingUser = await findUserById(userId);
+
+  if (!existingUser) {
+    throw new AppError(HTTP_STATUS.NOT_FOUND, USER_MESSAGES.USER_NOT_FOUND);
+  }
+
+  const updatedUser = await updateUser(userId, {
+    firstName: data.firstName ?? existingUser.firstName,
+    lastName: data.lastName ?? existingUser.lastName,
+  });
 
   if (!updatedUser || updatedUser === undefined) {
     throw new AppError(HTTP_STATUS.NOT_FOUND, USER_MESSAGES.USER_NOT_FOUND);

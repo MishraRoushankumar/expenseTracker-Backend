@@ -10,6 +10,8 @@ export default defineConfig({
 
     include: ["tests/**/*.test.ts"],
 
+    fileParallelism: false,
+
     coverage: {
       provider: "v8",
 
