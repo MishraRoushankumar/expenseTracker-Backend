@@ -7,6 +7,8 @@ const envSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
 
+  CORS_ORIGIN: z.string().optional(),
+
   JWT_SECRET: z.string().min(10, "JWT_SECRET is too short"),
 
   DB_HOST: z.string(),
