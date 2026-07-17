@@ -1,9 +1,12 @@
 {
   "name": "backend",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Production grade expense tracker backend",
   "main": "dist/server.js",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
