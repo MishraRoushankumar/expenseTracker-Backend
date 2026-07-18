@@ -13,16 +13,33 @@ const startServer = async (): Promise<void> => {
       logger.info(`Server running on port ${env.PORT}`);
     });
 
-    const gracefulShutdown = async (signal: string): Promise<void> => {
+    const gracefulShutdown = (signal: string): void => {
       logger.info(`${signal} received. Starting graceful shutdown...`);
 
-      server.close(async () => {
-        await db.end();
+      // Force shutdown after 10s if connections are still open
 
-        logger.info("PostgreSQL connection pool closed.");
-        logger.info("Server shut down successfully.");
+      setTimeout(() => {
+        logger.error(
+          "Could not close connections in time, forcefully shutting down",
+        );
+        process.exit(1);
+      }, 10000).unref();
 
-        process.exit(0);
+      server.close(async (err) => {
+        if (err) {
+          logger.error({ err }, "Error while closing HTTP server");
+        }
+        try {
+          await db.end();
+          logger.info("PostgreSQL connection pool closed.");
+          logger.info("Server shut down successfully.");
+        } catch (dbErr) {
+          logger.error(
+            { err: dbErr },
+            "Error while closing PostreSQL connection pool",
+          );
+          process.exit(1);
+        }
       });
     };
 
