@@ -10,16 +10,22 @@ import { env } from "./config/env.js";
 const app = express();
 
 app.use(httpLogger);
+
 app.use(
   cors({
-    origin: env.NODE_ENV === "production" ? process.env.CORS_ORIGIN : true,
+    origin: env.NODE_ENV === "production" ? env.CORS_ORIGIN : true,
     credentials: true,
   }),
 );
+
 app.use(express.json());
+
 app.use(globalRateLimiter);
+
 app.use("/api/v1", routes);
+
 configureSwagger(app);
+
 app.use(errorMiddleware);
 
 export default app;
