@@ -15,6 +15,7 @@ const envSchema = z
     DB_NAME: z.string(),
     DB_USER: z.string(),
     DB_PASSWORD: z.string(),
+    DATABASE_URL: z.string().optional(),
   })
   .refine((env) => env.NODE_ENV !== "production" || Boolean(env.CORS_ORIGIN), {
     path: ["CORS_ORIGIN"],
