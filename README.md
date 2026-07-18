@@ -19,6 +19,11 @@ The project demonstrates modern backend engineering practices including layered 
 - 🧹 ESLint + Prettier configured
 - 🧪 Vitest configured for testing
 - 📦 Production-oriented project structure
+- 🐳 Docker & Docker Compose
+- 🔄 GitHub Actions CI
+- ❤️ Health check endpoint
+- ⚙️ Graceful shutdown
+- 📈 Test coverage reporting
 
 ---
 
@@ -28,13 +33,12 @@ The project demonstrates modern backend engineering practices including layered 
 
 - User registration
 - User login
+- User logout
 - Get authenticated profile
 - Update profile
 - Password hashing using bcrypt
 - JWT authentication
 - Role-based access ready design
-
-> **Note:** Logout functionality is planned for a future release.
 
 ---
 
@@ -86,6 +90,10 @@ Supports:
 - Vitest
 - TypeScript
 - Modular folder structure
+- Docker
+- Docker Compose
+- GitHub Actions
+- Automated testing
 
 ---
 
@@ -104,6 +112,9 @@ Supports:
 | Testing           | Vitest                   |
 | Linting           | ESLint                   |
 | Formatting        | Prettier                 |
+| Containerization  | Docker                   |
+| Orchestration     | Docker Compose           |
+| CI/CD             | GitHub Actions           |
 
 ---
 
@@ -247,6 +258,10 @@ Development URL
 ```text
 http://localhost:5000/api/docs
 ```
+
+Production URL
+
+`Coming soon (Render)`
 
 The OpenAPI specification includes:
 
@@ -617,6 +632,11 @@ The Docker image uses:
 
 These optimizations reduce image size, improve security, and provide a production-ready development environment.
 
+The project supports Docker and Docker Compose.
+
+See:
+`docs/docker.md`
+
 ---
 
 # 📜 Available Scripts
@@ -684,6 +704,27 @@ These optimizations reduce image size, improve security, and provide a productio
 ---
 
 # 🛣 Roadmap
+
+## v1.8.0
+
+- Render deployment
+- Production PostgreSQL
+- Deployment documentation
+
+## v1.9.0
+
+- Production hardening
+- Security improvements
+- Monitoring
+- Performance optimization
+
+## v2.0.0
+
+- Categories
+- Transactions
+- Budgets
+- Analytics
+- Reports
 
 ## v1.5.0
 
