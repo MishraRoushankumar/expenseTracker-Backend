@@ -6,33 +6,79 @@ The format is based on **Keep a Changelog** and the project follows **Semantic V
 
 ---
 
-## [Unreleased]
+## [1.8.0] - In Progress
+
+### Added
+
+#### Production Readiness
+
+- Graceful shutdown
+- Production CORS configuration
+- Deployment documentation
+
+### Changed
+
+- Improved middleware configuration
+- Enhanced startup and shutdown lifecycle
 
 ### Planned
 
-#### Authentication
+- Render deployment
+- Production PostgreSQL
+- Live API
 
-- Logout endpoint
-- Refresh token support
+---
+
+## [1.7.0] - Released
+
+### Added
+
+#### Continuous Integration
+
+- GitHub Actions workflows
+- Automated linting
+- Automated type checking
+- Unit test execution
+- Integration test execution
+- Docker image validation
 
 #### Testing
 
-- Unit tests
-- Integration tests
-- Test coverage reporting
+- PostgreSQL service for CI
+- Automated database initialization
+- Coverage reporting
 
-#### Infrastructure
+### Changed
 
-- Docker
-- Docker Compose
-- GitHub Actions
-- CI/CD pipeline
+- Established CI pipeline for every push and pull request
+- Improved development workflow through automated validation
 
-#### Deployment
+---
 
-- Production deployment
+## [1.6.0] - Released
+
+### Added
+
+#### Containerization
+
+- Production-ready Dockerfile
+- Docker Compose configuration
+- PostgreSQL service
+- Persistent Docker volumes
 - Health checks
-- Monitoring
+- Multi-stage Docker build
+
+#### Documentation
+
+- Docker guide
+- Docker Compose usage
+- Environment configuration
+- Troubleshooting guide
+
+### Changed
+
+- Optimized production Docker image
+- Improved local development workflow
 
 ---
 
