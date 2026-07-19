@@ -24,7 +24,9 @@
     "test:integration:watch": "vitest --config vitest.integration.config.ts --watch",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:check": "drizzle-kit check"
   },
   "keywords": [],
   "author": "Roushankumar Mishra",
@@ -53,7 +55,6 @@
     "vitest": "^4.1.10"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.1.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

@@ -2,6 +2,7 @@ import { Pool } from "pg";
 
 import { env } from "./env.js";
 import { logger } from "../logger/index.js";
+import { pool } from "../db/connection.js";
 
 export const db = new Pool({
   host: env.DB_HOST,
@@ -13,7 +14,7 @@ export const db = new Pool({
 
 export const connectDB = async (): Promise<void> => {
   try {
-    await db.query("SELECT 1");
+    await pool.query("SELECT 1");
 
     logger.info(
       {
