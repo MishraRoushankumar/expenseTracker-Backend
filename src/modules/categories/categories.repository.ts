@@ -1,5 +1,8 @@
-import { db } from "../../config/database.js";
-import { mapCategoryRow } from "./categories.mapper.js";
+import { and, asc, eq } from "drizzle-orm";
+
+import { db } from "../../db/index.js";
+import { categories } from "../../db/schema/index.js";
+
 import type { Category, CreateCategoryInput } from "./categories.types.js";
 
 /*
@@ -11,19 +14,15 @@ CREATE CATEGORY
 export const createCategory = async (
   data: CreateCategoryInput,
 ): Promise<Category> => {
-  const result = await db.query(
-    `
-    INSERT INTO categories (
-    name,
-    user_id
-    )
-    VALUES ($1,$2)
-    RETURNING *
-    `,
-    [data.name, data.userId],
-  );
+  const [category] = await db
+    .insert(categories)
+    .values({
+      name: data.name,
+      userId: data.userId,
+    })
+    .returning();
 
-  return mapCategoryRow(result.rows[0]);
+  return category;
 };
 
 /*
@@ -36,22 +35,13 @@ export const findCategoryByName = async (
   name: string,
   userId: number,
 ): Promise<Category | undefined> => {
-  const result = await db.query(
-    `
-      SELECT *
-      FROM categories
-      WHERE
-        name = $1
-        AND user_id = $2
-    `,
-    [name, userId],
-  );
+  const [category] = await db
+    .select()
+    .from(categories)
+    .where(and(eq(categories.name, name), eq(categories.userId, userId)))
+    .limit(1);
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
-
-  return mapCategoryRow(result.rows[0]);
+  return category;
 };
 
 /*
@@ -64,22 +54,13 @@ export const findCategoryByIdAndUserId = async (
   id: number,
   userId: number,
 ): Promise<Category | undefined> => {
-  const result = await db.query(
-    `
-      SELECT *
-      FROM categories
-      WHERE 
-        id = $1
-        AND user_id = $2
-    `,
-    [id, userId],
-  );
+  const [category] = await db
+    .select()
+    .from(categories)
+    .where(and(eq(categories.id, id), eq(categories.userId, userId)))
+    .limit(1);
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
-
-  return mapCategoryRow(result.rows[0]);
+  return category;
 };
 
 /*
@@ -91,17 +72,11 @@ FIND CATEGORY BY USER ID
 export const findCategoryByUserId = async (
   userId: number,
 ): Promise<Category[]> => {
-  const result = await db.query(
-    `
-      SELECT *
-      FROM categories
-      WHERE user_id = $1
-      ORDER BY name ASC
-    `,
-    [userId],
-  );
-
-  return result.rows.map(mapCategoryRow);
+  return db
+    .select()
+    .from(categories)
+    .where(eq(categories.userId, userId))
+    .orderBy(asc(categories.name));
 };
 
 /*
@@ -114,23 +89,16 @@ export const updateCategory = async (
   id: number,
   name: string,
 ): Promise<Category | undefined> => {
-  const result = await db.query(
-    `
-    UPDATE categories
-    SET 
-      name = $1,
-      updated_at = NOW()
-    WHERE id = $2
-    RETURNING *  
-    `,
-    [name, id],
-  );
+  const [category] = await db
+    .update(categories)
+    .set({
+      name,
+      updatedAt: new Date(),
+    })
+    .where(eq(categories.id, id))
+    .returning();
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
-
-  return mapCategoryRow(result.rows[0]);
+  return category;
 };
 
 /*
@@ -140,13 +108,12 @@ DELETE CATEGORY
 */
 
 export const deleteCategory = async (id: number): Promise<boolean> => {
-  const result = await db.query(
-    `
-    DELETE FROM categories
-    WHERE id = $1
-    RETURNING *
-    `,
-    [id],
-  );
-  return result.rows.length > 0;
+  const deleted = await db
+    .delete(categories)
+    .where(eq(categories.id, id))
+    .returning({
+      id: categories.id,
+    });
+
+  return deleted.length > 0;
 };
