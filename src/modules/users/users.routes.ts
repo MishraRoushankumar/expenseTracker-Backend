@@ -5,10 +5,12 @@ import {
   updateProfileController,
   updateUserRoleController,
 } from "./users.controller.js";
-import { validate } from "../../middlewares/validate.middleware.js";
+import {
+  authMiddleware,
+  authorize,
+  validate,
+} from "../../middlewares/index.js";
 import { updateProfileSchema, updateRoleSchema } from "./users.schema.js";
-import { authMiddleware } from "../../middlewares/auth.middleware.js";
-import { authorize } from "../../middlewares/authorize.middleware.js";
 import { USER_ROLES } from "../../constants/role.constants.js";
 
 const router = Router();
