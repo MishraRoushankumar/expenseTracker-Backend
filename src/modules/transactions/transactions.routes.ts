@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { validate } from "../../middlewares/validate.middleware.js";
-import { authMiddleware } from "../../middlewares/auth.middleware.js";
+import { authMiddleware, validate } from "../../middlewares/index.js";
 import {
   createTransactionSchema,
   TransactionQuerySchema,
