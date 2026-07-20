@@ -1,13 +1,17 @@
+import { appConfig } from "../../config/app.js";
 import { env } from "../../config/env.js";
 
 export interface HealthStatus {
-  status: "ok" | "degraded" | "down";
+  name: string;
+  description?: string;
+  status: "healthy" | "degraded" | "down";
+  version: string;
   environment: string;
   uptime: number;
   timestamp: string;
   memory: {
-    used: number;
-    total: number;
+    heapUsedMB: number;
+    heapTotalMB: number;
   };
 }
 
@@ -15,13 +19,15 @@ export const getHealthStatus = (): HealthStatus => {
   const mem = process.memoryUsage();
 
   return {
-    status: "ok",
-    environment: env.NODE_ENV ?? "development",
-    uptime: Math.floor(process.uptime()),
+    name: appConfig.name,
+    version: appConfig.version,
+    status: "healthy",
+    environment: env.NODE_ENV,
+    uptime: process.uptime(),
     timestamp: new Date().toISOString(),
     memory: {
-      used: Math.round(mem.heapUsed / 1024 / 1024),
-      total: Math.round(mem.heapTotal / 1024 / 1024),
+      heapUsedMB: Math.round(mem.heapUsed / 1024 / 1024),
+      heapTotalMB: Math.round(mem.heapTotal / 1024 / 1024),
     },
   };
 };

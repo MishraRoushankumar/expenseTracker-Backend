@@ -1,11 +1,15 @@
 {
-  "name": "backend",
-  "version": "1.8.1",
-  "description": "Production grade expense tracker backend",
+  "name": "expense-tracker-backend",
+  "version": "1.8.2",
+  "description": "Production-ready Expense Tracker Backend built with Express, TypeScript and Drizzle ORM.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MishraRoushankumar/expenseTracker-Backend.git"
+  },
   "main": "dist/server.js",
   "type": "module",
   "engines": {
-    "node": ">=22"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
