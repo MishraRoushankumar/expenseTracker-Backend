@@ -50,7 +50,6 @@ describe("PATCH /api/v1/users/profile", () => {
         firstName: "Jane",
       });
 
-    console.log(response.body);
     expect(response.status).toBe(200);
 
     expect(response.body.data.firstName).toBe("Jane");
@@ -67,8 +66,6 @@ describe("PATCH /api/v1/users/profile", () => {
       .send({
         lastName: "Smith",
       });
-
-    console.log(response.body);
 
     expect(response.status).toBe(200);
 

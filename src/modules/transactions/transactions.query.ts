@@ -1,74 +1,17 @@
+import { asc, desc, eq, gte, lte, type SQL } from "drizzle-orm";
 import type {
-  SqlFilterResult,
   TransactionFilters,
   TransactionQueryOptions,
   TransactionSorting,
 } from "../../shared/query/index.js";
 import type { TransactionQueryDto } from "./transactions.schema.js";
+import { transactions } from "../../db/schema/transactions.js";
 
 /*
 =========================================
 TRANSACTION QUERY HELPERS
 =========================================
 */
-
-export const buildTransactionFilters = (
-  userId: number,
-  filters?: TransactionFilters,
-): SqlFilterResult => {
-  const conditions: string[] = ["user_id = $1"];
-
-  const values: unknown[] = [userId];
-
-  if (filters?.type) {
-    conditions.push(`type = $${values.length + 1}`);
-    values.push(filters.type);
-  }
-
-  if (filters?.categoryId) {
-    conditions.push(`category_id = $${values.length + 1}`);
-    values.push(filters.categoryId);
-  }
-
-  if (filters?.startDate) {
-    conditions.push(`transaction_date >= $${values.length + 1}`);
-    values.push(filters.startDate);
-  }
-
-  if (filters?.endDate) {
-    conditions.push(`transaction_date <= $${values.length + 1}`);
-    values.push(filters.endDate);
-  }
-
-  return {
-    whereClause: `WHERE ${conditions.join(" AND ")}`,
-    values,
-  };
-};
-
-export const buildTransactionSorting = (
-  sorting?: TransactionSorting,
-): string => {
-  if (!sorting) {
-    return `
-      ORDER BY
-        transaction_date DESC,
-        created_at DESC
-    `;
-  }
-
-  const fieldMap = {
-    amount: "amount",
-    transactionDate: "transaction_date",
-    createdAt: "created_at",
-  } as const;
-
-  return `
-    ORDER BY
-      ${fieldMap[sorting.sortBy]}
-      ${sorting.sortOrder.toUpperCase()}
-  `;
-};
 
 export const buildTransactionQueryOptions = (
   query: TransactionQueryDto,
@@ -89,4 +32,53 @@ export const buildTransactionQueryOptions = (
       sortOrder: query.sortOrder,
     },
   };
+};
+
+export const buildTransactionConditions = (
+  userId: number,
+  filters?: TransactionFilters,
+): SQL[] => {
+  const conditions: SQL[] = [eq(transactions.userId, userId)];
+
+  if (filters?.type) {
+    conditions.push(eq(transactions.type, filters.type));
+  }
+
+  if (filters?.categoryId) {
+    conditions.push(eq(transactions.categoryId, filters.categoryId));
+  }
+
+  if (filters?.startDate) {
+    conditions.push(
+      gte(transactions.transactionDate, new Date(filters.startDate)),
+    );
+  }
+
+  if (filters?.endDate) {
+    conditions.push(
+      lte(transactions.transactionDate, new Date(filters.endDate)),
+    );
+  }
+
+  return conditions;
+};
+
+export const buildTransactionOrder = (sorting?: TransactionSorting) => {
+  if (!sorting) {
+    return [desc(transactions.transactionDate), desc(transactions.createdAt)];
+  }
+
+  const direction = sorting.sortOrder === "asc" ? asc : desc;
+
+  switch (sorting.sortBy) {
+    case "amount":
+      return [direction(transactions.amount)];
+
+    case "createdAt":
+      return [direction(transactions.createdAt)];
+
+    case "transactionDate":
+    default:
+      return [direction(transactions.transactionDate)];
+  }
 };

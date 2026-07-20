@@ -1,7 +1,8 @@
-import { db } from "../../src/config/database.js";
+import { sql } from "drizzle-orm";
+import { db } from "../../src/db/index";
 
 export const truncateAllTables = async (): Promise<void> => {
-  await db.query(`
+  await db.execute(sql`
     TRUNCATE TABLE
       transactions,
       categories,

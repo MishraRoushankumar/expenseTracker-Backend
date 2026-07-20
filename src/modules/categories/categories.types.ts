@@ -1,10 +1,7 @@
-export interface Category {
-  id: number;
-  name: string;
-  userId: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import type { InferSelectModel } from "drizzle-orm";
+import type { categories } from "../../db/schema/categories.js";
+
+export type Category = InferSelectModel<typeof categories>;
 
 export interface CreateCategoryInput {
   name: string;

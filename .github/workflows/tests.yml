@@ -39,11 +39,7 @@ jobs:
 
       JWT_SECRET: RcxFjQaAGy8XxNJ8TvQOT2CoFuvuA1tD
 
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_NAME: expense_tracker_test_db
-      DB_USER: expense_app
-      DB_PASSWORD: password
+      DATABASE_URL: postgresql://expense_app:password@localhost:5432/expense_tracker_test_db
 
     steps:
       - name: Checkout repository
@@ -65,20 +61,20 @@ jobs:
 
       - name: Create test database
         run: |
-          PGPASSWORD=$DB_PASSWORD createdb \
-            -h $DB_HOST \
-            -p $DB_PORT \
-            -U $DB_USER \
-            $DB_NAME
+          PGPASSWORD=password createdb \
+            -h localhost \
+            -U expense_app \
+            expense_tracker_test_db || true
 
-      - name: Initialize database schema
+      - name: Verify database connection
         run: |
-          PGPASSWORD=$DB_PASSWORD psql \
-            -h $DB_HOST \
-            -p $DB_PORT \
-            -U $DB_USER \
-            -d $DB_NAME \
-            -f src/db/init.sql
+          psql "$DATABASE_URL" -c "SELECT version();"
+
+      - name: Create test migration
+        run: npm run db:migrate
+
+      - name: Push Drizzle schema
+        run: npm run db:push
 
       - name: Run unit tests
         run: npm run test:run

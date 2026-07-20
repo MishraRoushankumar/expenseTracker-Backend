@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 
 import { afterAll, beforeAll } from "vitest";
-import { connectDB, db } from "../../src/config/database";
+import { connectDB } from "../../src/config/database";
+import { pool } from "../../src/db/index.js";
 
 dotenv.config({
   path: ".env.test.local",
@@ -13,5 +14,5 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await db.end();
+  await pool.end();
 });
