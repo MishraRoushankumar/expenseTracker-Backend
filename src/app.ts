@@ -10,6 +10,8 @@ import {
   globalRateLimiter,
   notFoundMiddleware,
 } from "./middlewares/index.js";
+import { appConfig } from "./config/app.js";
+import { HTTP_STATUS } from "./constants/http.constants.js";
 
 const app = express();
 
@@ -27,6 +29,19 @@ app.use(
 app.use(express.json());
 
 app.use(globalRateLimiter);
+
+app.get("/", (_req, res) => {
+  res.status(HTTP_STATUS.OK).json({
+    name: appConfig.name,
+    description: appConfig.description,
+    version: appConfig.version,
+    status: "ok",
+    environment: env.NODE_ENV,
+    documentation: "/api/docs",
+    health: "/api/v1/health",
+    repository: appConfig.repository,
+  });
+});
 
 app.use("/api/v1", routes);
 

@@ -4,28 +4,117 @@ All notable changes to this project will be documented in this file.
 
 The format is based on **Keep a Changelog** and the project follows **Semantic Versioning (SemVer)**.
 
+> The latest unreleased changes are documented under **Unreleased**.
+
 ---
 
-## [1.8.0] - In Progress
+## [Unreleased]
 
 ### Added
 
-#### Production Readiness
+### Changed
 
-- Graceful shutdown
-- Production CORS configuration
-- Deployment documentation
+### Fixed
+
+### Removed
+
+---
+
+## [1.8.2] - 2026-07-20
+
+### Added
+
+- Application metadata configuration
+- Root API endpoint
+- Engineering workflow documentation
 
 ### Changed
 
-- Improved middleware configuration
-- Enhanced startup and shutdown lifecycle
+- Health endpoint now exposes application metadata
+- CI build aligned with production runtime
 
-### Planned
+### Documentation
 
-- Render deployment
-- Production PostgreSQL
-- Live API
+- Added Engineering Workflow guide
+
+### Infrastructure
+
+- Runtime and CI consistency improvements
+
+---
+
+## [1.8.1] - 2026-07-20
+
+### Added
+
+- Render deployment configuration
+- `.env.example`
+- JSON 404 middleware
+
+### Changed
+
+- Standardized deployment using `DATABASE_URL`
+- Updated Docker Compose configuration
+- Improved production environment configuration
+
+### Fixed
+
+- Render TypeScript build configuration
+- Production deployment issues
+
+### Deployment
+
+- Successfully deployed to Render
+- Verified production health endpoint
+
+---
+
+## [1.8.0] - 2026-07-19
+
+### Added
+
+- Introduced Drizzle ORM as the project's database ORM.
+- Added Drizzle schema definitions for all application tables.
+- Added migration support using Drizzle Kit.
+- Added Neon PostgreSQL integration.
+- Added database query utilities for Drizzle.
+- Added integration tests for the Drizzle-based repositories.
+
+### Changed
+
+- Migrated Users module from raw SQL (`pg`) to Drizzle ORM.
+- Migrated Categories module from raw SQL (`pg`) to Drizzle ORM.
+- Migrated Transactions module from raw SQL (`pg`) to Drizzle ORM.
+- Replaced legacy repository implementations with Drizzle query builders.
+- Standardized repository patterns across all modules.
+- Simplified database configuration to use a single `DATABASE_URL`.
+- Updated test infrastructure to support Drizzle and Neon.
+
+### Refactored
+
+- Removed legacy SQL query implementations.
+- Removed obsolete database configuration variables.
+- Simplified environment configuration.
+- Improved repository separation by introducing dedicated query files.
+- Improved database abstraction throughout the application.
+
+### Documentation
+
+- Added Drizzle ORM documentation.
+- Added Neon PostgreSQL setup guide.
+- Updated database architecture documentation.
+- Updated deployment documentation for the new database workflow.
+
+### Testing
+
+- Updated unit and integration tests for Drizzle ORM.
+- Verified migration compatibility.
+- Verified CRUD operations across Users, Categories, and Transactions.
+
+### Breaking Changes
+
+- Repository implementations now use Drizzle ORM instead of raw PostgreSQL queries.
+- Legacy database configuration variables have been removed in favor of `DATABASE_URL`.
 
 ---
 
