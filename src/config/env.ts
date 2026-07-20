@@ -9,7 +9,7 @@ const envSchema = z
     CORS_ORIGIN: z.string().optional(),
 
     JWT_SECRET: z.string().min(10, "JWT_SECRET is too short"),
-    DATABASE_URL: z.string().optional(),
+    DATABASE_URL: z.string(),
   })
   .refine((env) => env.NODE_ENV !== "production" || Boolean(env.CORS_ORIGIN), {
     path: ["CORS_ORIGIN"],

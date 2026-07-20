@@ -4,7 +4,7 @@ import { env } from "../../config/env.js";
 export interface HealthStatus {
   name: string;
   description?: string;
-  status: "ok" | "degraded" | "down";
+  status: "healthy" | "degraded" | "down";
   version: string;
   environment: string;
   uptime: number;
@@ -21,7 +21,7 @@ export const getHealthStatus = (): HealthStatus => {
   return {
     name: appConfig.name,
     version: appConfig.version,
-    status: "ok",
+    status: "healthy",
     environment: env.NODE_ENV,
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
