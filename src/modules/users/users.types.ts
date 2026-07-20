@@ -1,3 +1,6 @@
+import type { InferSelectModel } from "drizzle-orm";
+import type { users } from "../../db/schema/users.js";
+
 export type UserRole = "admin" | "maintainer" | "user";
 
 /*
@@ -6,16 +9,7 @@ USER ENTITY
 =========================================
 */
 
-export interface User {
-  id: number;
-  email: string;
-  passwordHash: string;
-  firstName: string;
-  lastName: string;
-  role: UserRole;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type User = InferSelectModel<typeof users>;
 
 /*
 =========================================

@@ -33,11 +33,14 @@ export const transactions = pgTable(
     amount: numeric("amount", {
       precision: 12,
       scale: 2,
+      mode: "number",
     }).notNull(),
 
     description: text("description"),
 
-    transactionDate: date("transaction_date").notNull(),
+    transactionDate: date("transaction_date", {
+      mode: "date",
+    }).notNull(),
 
     createdAt: timestamp("created_at").defaultNow().notNull(),
 
