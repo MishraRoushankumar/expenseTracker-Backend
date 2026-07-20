@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { validate } from "../../middlewares/validate.middleware.js";
+import {
+  authMiddleware,
+  authRateLimiter,
+  validate,
+} from "../../middlewares/index.js";
 import { loginSchema, registerSchema } from "./auth.schema.js";
 import {
   loginController,
   logoutController,
   registerController,
 } from "./auth.controller.js";
-import { authRateLimiter } from "../../middlewares/rateLimit.middleware.js";
-import { authMiddleware } from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 

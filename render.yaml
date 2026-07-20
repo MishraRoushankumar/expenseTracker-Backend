@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: expense-tracker-api
+
+    runtime: node
+
+    plan: free
+
+    region: singapore
+
+    branch: main
+
+    rootDir: .
+
+    buildCommand: npm ci && npm run build
+
+    startCommand: npm start
+
+    healthCheckPath: /api/v1/health
+
+    autoDeploy: true
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: PORT
+        value: "10000"
+
+      - key: DATABASE_URL
+        sync: false
+
+      - key: JWT_SECRET
+        sync: false
+
+      - key: CORS_ORIGIN
+        sync: false
