@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 
 The format is based on **Keep a Changelog** and the project follows **Semantic Versioning (SemVer)**.
 
+> The latest unreleased changes are documented under **Unreleased**.
+
+---
+
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+---
+
+## [1.8.2] - 2026-07-20
+
+### Added
+
+- Application metadata configuration
+- Root API endpoint
+- Engineering workflow documentation
+
+### Changed
+
+- Health endpoint now exposes application metadata
+- CI build aligned with production runtime
+
+### Documentation
+
+- Added Engineering Workflow guide
+
+### Infrastructure
+
+- Runtime and CI consistency improvements
+
 ---
 
 ## [1.8.1] - 2026-07-20
@@ -32,7 +69,7 @@ The format is based on **Keep a Changelog** and the project follows **Semantic V
 
 ---
 
-## [1.8.0] - 2026-07-20
+## [1.8.0] - 2026-07-19
 
 ### Added
 
