@@ -31,6 +31,38 @@ The Docker setup includes:
 
 ---
 
+# Workflows
+
+## Local Development
+
+```
+Docker Compose
+
+↓
+
+Backend
+
+↓
+
+PostgreSQL Container
+```
+
+## Production
+
+```
+Render
+
+↓
+
+Backend
+
+↓
+
+Neon PostgreSQL
+```
+
+---
+
 # Prerequisites
 
 - Docker 28+
@@ -72,6 +104,10 @@ JWT_SECRET=your_secret
 > **Important**
 >
 > `DB_HOST` must be `postgres` because Docker Compose resolves service names automatically.
+>
+> Docker PostgreSQL is intended for local development only.
+>
+> Production deployments use Neon PostgreSQL.
 
 ---
 
@@ -192,7 +228,7 @@ docker compose up --build
 The database schema will be recreated using:
 
 ```
-src/db/schema/init.sql
+Drizzle schema + migrations
 ```
 
 ---
