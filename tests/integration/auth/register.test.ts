@@ -2,8 +2,10 @@ import request from "supertest";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import app from "../test-app.js";
-import { db } from "../../../src/config/database.js";
+import { db } from "../../../src/db/index.js";
 import { truncateAllTables } from "../test-db.js";
+import { users } from "../../../src/db/schema/index.js";
+import { eq, sql } from "drizzle-orm";
 
 describe("POST /api/v1/auth/register", () => {
   const validUser = {
@@ -29,28 +31,19 @@ describe("POST /api/v1/auth/register", () => {
       message: "User registered successfully",
     });
 
-    const result = await db.query(
-      `
-      SELECT
-        email,
-        first_name,
-        last_name,
-        password_hash,
-        role
-      FROM users
-      WHERE email = $1
-      `,
-      [validUser.email],
-    );
+    const result = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, validUser.email));
 
-    expect(result.rows).toHaveLength(1);
+    expect(result).toHaveLength(1);
 
-    expect(result.rows[0].email).toBe(validUser.email);
-    expect(result.rows[0].first_name).toBe(validUser.firstName);
-    expect(result.rows[0].last_name).toBe(validUser.lastName);
-    expect(result.rows[0].role).toBe("user");
+    expect(result[0].email).toBe(validUser.email);
+    expect(result[0].firstName).toBe(validUser.firstName);
+    expect(result[0].lastName).toBe(validUser.lastName);
+    expect(result[0].role).toBe("user");
 
-    expect(result.rows[0].password_hash).not.toBe(validUser.password);
+    expect(result[0].passwordHash).not.toBe(validUser.password);
   });
 
   it("should reject duplicate email", async () => {
@@ -64,16 +57,14 @@ describe("POST /api/v1/auth/register", () => {
 
     expect(response.body.success).toBe(false);
 
-    const result = await db.query(
-      `
-      SELECT COUNT(*)
-      FROM users
-      WHERE email = $1
-      `,
-      [validUser.email],
-    );
+    const result = await db
+      .select({
+        count: sql<number>`count(*)`,
+      })
+      .from(users)
+      .where(eq(users.email, validUser.email));
 
-    expect(Number(result.rows[0].count)).toBe(1);
+    expect(Number(result[0].count)).toBe(1);
   });
 
   it("should reject invalid email", async () => {

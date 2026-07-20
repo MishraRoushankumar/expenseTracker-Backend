@@ -1,19 +1,23 @@
-import { db } from "../../config/database.js";
-import type {
-  TransactionQueryOptions,
-  TransactionFilters,
-} from "../../shared/query/index.js";
-import { calculateOffset } from "../../shared/query/index.js";
-import {
-  buildTransactionFilters,
-  buildTransactionSorting,
-} from "./transactions.query.js";
-import { mapTransactionRow } from "./transactions.mapper.js";
+import { and, eq, sql } from "drizzle-orm";
+
 import type {
   CreateTransactionInput,
   Transaction,
   UpdateTransactionInput,
 } from "./transactions.types.js";
+import { db } from "../../db/index.js";
+import { transactions } from "../../db/schema/index.js";
+
+import {
+  calculateOffset,
+  type TransactionFilters,
+  type TransactionQueryOptions,
+} from "../../shared/query/index.js";
+
+import {
+  buildTransactionConditions,
+  buildTransactionOrder,
+} from "./transactions.query.js";
 
 /*
 =========================================
@@ -24,30 +28,19 @@ CREATE TRANSACTION
 export const createTransaction = async (
   data: CreateTransactionInput,
 ): Promise<Transaction> => {
-  const result = await db.query(
-    `
-      INSERT INTO transactions (
-        user_id,
-        category_id,
-        type,
-        amount,
-        description,
-        transaction_date
-      )
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
-    `,
-    [
-      data.userId,
-      data.categoryId,
-      data.type,
-      data.amount,
-      data.description,
-      data.transactionDate,
-    ],
-  );
+  const [transaction] = await db
+    .insert(transactions)
+    .values({
+      userId: data.userId,
+      categoryId: data.categoryId,
+      type: data.type,
+      amount: data.amount,
+      description: data.description,
+      transactionDate: data.transactionDate,
+    })
+    .returning();
 
-  return mapTransactionRow(result.rows[0]);
+  return { ...transaction, amount: Number(transaction.amount) };
 };
 
 /*
@@ -59,20 +52,18 @@ FIND TRANSACTION BY ID
 export const findTransactionById = async (
   id: number,
 ): Promise<Transaction | undefined> => {
-  const result = await db.query(
-    `
-    SELECT *
-    FROM transactions
-    WHERE id = $1
-    `,
-    [id],
-  );
+  const [transaction] = await db
+    .select()
+    .from(transactions)
+    .where(eq(transactions.id, id))
+    .limit(1);
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
+  if (!transaction) return undefined;
 
-  return mapTransactionRow(result.rows[0]);
+  return {
+    ...transaction,
+    amount: Number(transaction.amount),
+  };
 };
 
 /*
@@ -85,22 +76,18 @@ export const findTransactionByIdAndUserId = async (
   id: number,
   userId: number,
 ): Promise<Transaction | undefined> => {
-  const result = await db.query(
-    `
-    SELECT * 
-    FROM transactions
-    WHERE 
-      id = $1
-      AND user_id = $2
-    `,
-    [id, userId],
-  );
+  const [transaction] = await db
+    .select()
+    .from(transactions)
+    .where(and(eq(transactions.id, id), eq(transactions.userId, userId)))
+    .limit(1);
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
+  if (!transaction) return undefined;
 
-  return mapTransactionRow(result.rows[0]);
+  return {
+    ...transaction,
+    amount: Number(transaction.amount),
+  };
 };
 
 /*
@@ -118,35 +105,22 @@ export const findTransactionsByUserId = async (
     options.pagination.limit,
   );
 
-  const { whereClause, values } = buildTransactionFilters(
-    userId,
-    options.filters,
-  );
+  const conditions = buildTransactionConditions(userId, options.filters);
 
-  const orderBy = buildTransactionSorting(options.sorting);
+  const orderBy = buildTransactionOrder(options.sorting);
 
-  const result = await db.query(
-    `
-      SELECT
-        id,
-        user_id,
-        category_id,
-        type,
-        amount,
-        description,
-        transaction_date,
-        created_at,
-        updated_at
-      FROM transactions
-      ${whereClause}
-      ${orderBy}
-      LIMIT $${values.length + 1}
-      OFFSET $${values.length + 2}
-    `,
-    [...values, options.pagination.limit, offset],
-  );
+  const result = await db
+    .select()
+    .from(transactions)
+    .where(and(...conditions))
+    .orderBy(...orderBy)
+    .limit(options.pagination.limit)
+    .offset(offset);
 
-  return result.rows.map(mapTransactionRow);
+  return result.map((transaction) => ({
+    ...transaction,
+    amount: Number(transaction.amount),
+  }));
 };
 
 /*
@@ -159,43 +133,25 @@ export const updateTransaction = async (
   id: number,
   data: UpdateTransactionInput,
 ): Promise<Transaction | undefined> => {
-  const result = await db.query(
-    `
-      UPDATE transactions
-      SET
-        category_id = $1,
-        type = $2,
-        amount = $3,
-        description = $4,
-        transaction_date = $5,
-        updated_at = NOW()
-      WHERE id = $6
-      RETURNING
-        id,
-        user_id,
-        category_id,
-        type,
-        amount,
-        description,
-        transaction_date,
-        created_at,
-        updated_at
-    `,
-    [
-      data.categoryId,
-      data.type,
-      data.amount,
-      data.description,
-      data.transactionDate,
-      id,
-    ],
-  );
+  const [transaction] = await db
+    .update(transactions)
+    .set({
+      categoryId: data.categoryId,
+      type: data.type,
+      amount: data.amount !== undefined ? data.amount : undefined,
+      description: data.description,
+      transactionDate: data.transactionDate,
+      updatedAt: new Date(),
+    })
+    .where(eq(transactions.id, id))
+    .returning();
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
+  if (!transaction) return undefined;
 
-  return mapTransactionRow(result.rows[0]);
+  return {
+    ...transaction,
+    amount: Number(transaction.amount),
+  };
 };
 
 /*
@@ -205,15 +161,14 @@ DELETE TRANSACTION
 */
 
 export const deleteTransaction = async (id: number): Promise<boolean> => {
-  const result = await db.query(
-    `
-    DELETE FROM transactions
-    WHERE id = $1
-    `,
-    [id],
-  );
+  const deleted = await db
+    .delete(transactions)
+    .where(eq(transactions.id, id))
+    .returning({
+      id: transactions.id,
+    });
 
-  return result.rowCount === 1;
+  return deleted.length > 0;
 };
 
 /*
@@ -226,16 +181,14 @@ export const countTransactionsByUserId = async (
   userId: number,
   filters?: TransactionFilters,
 ): Promise<number> => {
-  const { whereClause, values } = buildTransactionFilters(userId, filters);
+  const conditions = buildTransactionConditions(userId, filters);
 
-  const result = await db.query(
-    `
-      SELECT COUNT(*)::int AS total
-      FROM transactions
-      ${whereClause}
-    `,
-    values,
-  );
+  const [result] = await db
+    .select({
+      total: sql<number>`count(*)`,
+    })
+    .from(transactions)
+    .where(and(...conditions));
 
-  return result.rows[0].total;
+  return Number(result.total);
 };

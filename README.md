@@ -1,5 +1,12 @@
 # Expense Tracker Backend
 
+![Node.js](https://img.shields.io/badge/Node.js-24-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Drizzle](https://img.shields.io/badge/ORM-Drizzle-orange)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 > A production-inspired RESTful API for personal expense management built with **Node.js**, **Express.js**, **TypeScript**, and **PostgreSQL**.
 
 The project demonstrates modern backend engineering practices including layered architecture, JWT authentication, OpenAPI documentation, structured logging, validation, pagination, filtering, sorting, and a professional development workflow.
@@ -11,7 +18,8 @@ The project demonstrates modern backend engineering practices including layered 
 - 🏗️ Layered Architecture (Controller → Service → Repository)
 - 🔒 JWT Authentication with role-based access ready design
 - 🛡️ Request validation using Zod
-- 🗄️ PostgreSQL with parameterized SQL queries
+- 🗄️ PostgreSQL with Drizzle ORM
+- ☁️ Neon Serverless PostgreSQL
 - 📖 OpenAPI 3.1 documentation with Swagger UI
 - 📝 Structured logging using Pino
 - ⚡ Pagination, filtering and sorting support
@@ -76,7 +84,7 @@ Supports:
 - Rate limiting
 - Environment validation
 - Centralized error handling
-- SQL injection protection using parameterized queries
+- SQL injection protection through Drizzle ORM parameterized queries
 
 ---
 
@@ -99,22 +107,21 @@ Supports:
 
 # 🛠 Tech Stack
 
-| Category          | Technology               |
-| ----------------- | ------------------------ |
-| Runtime           | Node.js                  |
-| Framework         | Express.js               |
-| Language          | TypeScript               |
-| Database          | PostgreSQL               |
-| Validation        | Zod                      |
-| Authentication    | JWT + bcrypt             |
-| Logging           | Pino                     |
-| API Documentation | OpenAPI 3.1 + Swagger UI |
-| Testing           | Vitest                   |
-| Linting           | ESLint                   |
-| Formatting        | Prettier                 |
-| Containerization  | Docker                   |
-| Orchestration     | Docker Compose           |
-| CI/CD             | GitHub Actions           |
+| Category         | Technology               |
+| ---------------- | ------------------------ |
+| Runtime          | Node.js 24               |
+| Framework        | Express.js               |
+| Language         | TypeScript               |
+| ORM              | Drizzle ORM              |
+| Database         | PostgreSQL (Neon)        |
+| Driver           | node-postgres            |
+| Validation       | Zod                      |
+| Authentication   | JWT + bcrypt             |
+| Logging          | Pino                     |
+| API Docs         | OpenAPI 3.1 + Swagger UI |
+| Testing          | Vitest + Supertest       |
+| Containerization | Docker                   |
+| CI/CD            | GitHub Actions           |
 
 ---
 
@@ -124,24 +131,27 @@ The project follows a layered architecture to separate responsibilities and keep
 
 ```text
                 Client
-                   │
-                   ▼
-             Express Routes
-                   │
-                   ▼
-             Route Handlers
-                   │
-                   ▼
-             Controllers
-                   │
-                   ▼
-               Services
-                   │
-                   ▼
+                  │
+                  ▼
+            Express Routes
+                  │
+                  ▼
+            Controllers
+                  │
+                  ▼
+            Services
+                  │
+                  ▼
             Repositories
-                   │
-                   ▼
-             PostgreSQL
+                  │
+                  ▼
+            Drizzle ORM
+                  │
+                  ▼
+            node-postgres Pool
+                  │
+                  ▼
+            Neon PostgreSQL
 ```
 
 For detailed architecture documentation see:
@@ -231,10 +241,22 @@ Update the database credentials and JWT configuration.
 
 Create the PostgreSQL database.
 
-Run the initialization SQL:
+Generate migrations
 
-```text
-src/db/init.sql
+```bash
+npm run db:generate
+```
+
+Apply migrations
+
+```bash
+npm run db:migrate
+```
+
+Open Drizzle Studio
+
+```bash
+npm run db:studio
 ```
 
 ---
@@ -745,15 +767,21 @@ See:
 - Continuous Integration
 - Test coverage reporting
 
-## v1.8.0
+## v1.9.0
 
-- Deployment
-- Health checks
-- Monitoring
+- Drizzle ORM migration
+- Neon PostgreSQL integration
+- Docker support
+- Improved integration testing
+- Deployment documentation
 
 ## v2.0.0
 
-Production-ready backend with complete testing, CI/CD pipeline, containerization, deployment, and operational tooling.
+- Budget management
+- Dashboard & analytics
+- CSV export
+- Recurring transactions
+- AI-powered financial insights
 
 ---
 

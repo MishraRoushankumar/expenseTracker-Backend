@@ -2,8 +2,9 @@ import "dotenv/config";
 
 import app from "./app.js";
 import { env } from "./config/env.js";
-import { connectDB, db } from "./config/database.js";
+import { connectDB } from "./config/database.js";
 import { logger } from "./logger/logger.js";
+import { pool } from "./db/index.js";
 
 const startServer = async (): Promise<void> => {
   try {
@@ -30,7 +31,7 @@ const startServer = async (): Promise<void> => {
           logger.error({ err }, "Error while closing HTTP server");
         }
         try {
-          await db.end();
+          await pool.end();
           logger.info("PostgreSQL connection pool closed.");
           logger.info("Server shut down successfully.");
         } catch (dbErr) {

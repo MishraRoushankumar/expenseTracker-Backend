@@ -15,13 +15,13 @@ GitHub
 GitHub Actions
     │
     ▼
-Render Web Service
+Render
     │
     ▼
-Express.js API
+Express API
     │
     ▼
-Render PostgreSQL
+Neon PostgreSQL
 ```
 
 ---
@@ -49,6 +49,24 @@ Save the following values:
 - Database
 - Username
 - Password
+
+---
+
+## Database Migrations
+
+When deploying a new version that changes the schema:
+
+```bash
+npm run db:migrate
+```
+
+or
+
+```bash
+npm run db:push
+```
+
+depending on the deployment workflow.
 
 ---
 
@@ -100,17 +118,13 @@ Dockerfile
 
 Configure the following variables.
 
-| Variable    | Required |
-| ----------- | -------- |
-| PORT        | Yes      |
-| NODE_ENV    | Yes      |
-| JWT_SECRET  | Yes      |
-| DB_HOST     | Yes      |
-| DB_PORT     | Yes      |
-| DB_NAME     | Yes      |
-| DB_USER     | Yes      |
-| DB_PASSWORD | Yes      |
-| CORS_ORIGIN | Yes      |
+| Variable     | Required |
+| ------------ | -------- |
+| PORT         | Yes      |
+| NODE_ENV     | Yes      |
+| JWT_SECRET   | Yes      |
+| DATABASE_URL | Yes      |
+| CORS_ORIGIN  | Yes      |
 
 Example
 
@@ -121,15 +135,7 @@ PORT=5000
 
 JWT_SECRET=your_secret
 
-DB_HOST=...
-
-DB_PORT=5432
-
-DB_NAME=...
-
-DB_USER=...
-
-DB_PASSWORD=...
+DATABASE_URL=postgresql://username:password@ep-xxxxx.neon.tech/expense_tracker_db?sslmode=require
 
 CORS_ORIGIN=https://your-frontend.vercel.app
 ```

@@ -1,5 +1,6 @@
-import { db } from "../../config/database.js";
-import { mapUserRow } from "./users.mapper.js";
+import { eq } from "drizzle-orm";
+import { db } from "../../db/index.js";
+import { users } from "../../db/schema/index.js";
 import type {
   CreateUserInput,
   UpdateProfileInput,
@@ -14,20 +15,9 @@ FIND USER BY ID
 */
 
 export const findUserById = async (id: number): Promise<User | undefined> => {
-  const result = await db.query(
-    `
-    SELECT *
-    FROM users
-    WHERE id = $1
-    `,
-    [id],
-  );
+  const [user] = await db.select().from(users).where(eq(users.id, id)).limit(1);
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
-
-  return mapUserRow(result.rows[0]);
+  return user;
 };
 
 /*
@@ -39,20 +29,13 @@ FIND USER BY EMAIL
 export const findUserByEmail = async (
   email: string,
 ): Promise<User | undefined> => {
-  const result = await db.query(
-    `
-    SELECT *
-    FROM users
-    WHERE email = $1
-    `,
-    [email],
-  );
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
-
-  return mapUserRow(result.rows[0]);
+  return user;
 };
 
 /*
@@ -64,21 +47,17 @@ CREATE USER
 export const createUser = async (data: CreateUserInput): Promise<User> => {
   const { email, passwordHash, firstName, lastName } = data;
 
-  const result = await db.query(
-    `
-      INSERT INTO users (
-        email,
-        password_hash,
-        first_name,
-        last_name
-      )
-      VALUES ($1, $2, $3, $4)
-      RETURNING *
-    `,
-    [email, passwordHash, firstName, lastName],
-  );
+  const [user] = await db
+    .insert(users)
+    .values({
+      email,
+      passwordHash,
+      firstName,
+      lastName,
+    })
+    .returning();
 
-  return mapUserRow(result.rows[0]);
+  return user;
 };
 
 /*
@@ -91,24 +70,19 @@ export const updateUser = async (
   id: number,
   data: UpdateProfileInput,
 ): Promise<User | undefined> => {
-  const result = await db.query(
-    `
-      UPDATE users
-      SET
-        first_name = $1,
-        last_name = $2,
-        updated_at = NOW()
-      WHERE id = $3
-      RETURNING *
-    `,
-    [data.firstName, data.lastName, id],
-  );
+  const { firstName, lastName } = data;
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
+  const [user] = await db
+    .update(users)
+    .set({
+      firstName,
+      lastName,
+      updatedAt: new Date(),
+    })
+    .where(eq(users.id, id))
+    .returning();
 
-  return mapUserRow(result.rows[0]);
+  return user;
 };
 
 /*
@@ -118,16 +92,12 @@ DELETE USER
 */
 
 export const deleteUser = async (id: number): Promise<boolean> => {
-  const result = await db.query(
-    `
-    DELETE FROM users
-    WHERE id = $1
-    RETURNING *
-    `,
-    [id],
-  );
+  const deleted = await db
+    .delete(users)
+    .where(eq(users.id, id))
+    .returning({ id: users.id });
 
-  return result.rows.length > 0;
+  return deleted.length > 0;
 };
 
 /*
@@ -140,21 +110,11 @@ export const updateUserRole = async (
   id: number,
   role: UserRole,
 ): Promise<User | undefined> => {
-  const result = await db.query(
-    `
-      UPDATE users
-      SET
-        role = $1,
-        updated_at = NOW()
-      WHERE id = $2
-      RETURNING *
-    `,
-    [role, id],
-  );
+  const [user] = await db
+    .update(users)
+    .set({ role, updatedAt: new Date() })
+    .where(eq(users.id, id))
+    .returning();
 
-  if (result.rows.length === 0) {
-    return undefined;
-  }
-
-  return mapUserRow(result.rows[0]);
+  return user;
 };

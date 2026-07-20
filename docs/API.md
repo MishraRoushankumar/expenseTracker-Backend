@@ -4,6 +4,17 @@ This document provides an overview of how to use the Expense Tracker Backend API
 
 For complete endpoint documentation, request/response schemas, and interactive testing, use the OpenAPI documentation exposed through Swagger UI.
 
+## Technology
+
+The API is built with:
+
+- Express
+- TypeScript
+- Drizzle ORM
+- PostgreSQL
+- Zod
+- JWT
+
 ---
 
 # API Documentation
@@ -86,11 +97,17 @@ Responsible for:
 - Update Transaction
 - Delete Transaction
 
-Supports:
+### Transactions support
 
 - Pagination
 - Filtering
 - Sorting
+
+### Example
+
+```http
+GET /transactions?page=1&limit=20&type=expense&sortBy=transactionDate&sortOrder=desc
+```
 
 ---
 
