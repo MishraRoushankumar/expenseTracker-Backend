@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "expense-tracker-backend",
   "version": "1.8.2",
-  "description": "Production grade expense tracker backend",
+  "description": "Production-ready Expense Tracker Backend built with Express, TypeScript and Drizzle ORM.",
   "main": "dist/server.js",
   "type": "module",
   "engines": {
