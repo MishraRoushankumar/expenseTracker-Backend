@@ -1,10 +1,8 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project are documented in this file.
 
-The format is based on **Keep a Changelog** and the project follows **Semantic Versioning (SemVer)**.
-
-> The latest unreleased changes are documented under **Unreleased**.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
@@ -12,109 +10,101 @@ The format is based on **Keep a Changelog** and the project follows **Semantic V
 
 ### Added
 
+-
+
 ### Changed
+
+-
 
 ### Fixed
 
-### Removed
+-
 
 ---
 
-## [1.8.2] - 2026-07-20
+## [1.8.3] - 2026-07-09
 
 ### Added
 
-- Application metadata configuration
-- Root API endpoint
-- Engineering workflow documentation
+- Added standardized GitHub Issue Templates.
+- Added a repository-wide Pull Request template.
+- Added a SECURITY policy for responsible vulnerability disclosure.
+- Added branch protection rules for the `main` branch.
+- Added standardized repository labels for issue management.
+- Added automatic deletion of merged head branches.
 
 ### Changed
 
-- Health endpoint now exposes application metadata
-- CI build aligned with production runtime
+- Refreshed repository documentation.
+- Updated `README.md` with improved project overview, architecture, workflow, and documentation index.
+- Updated `CONTRIBUTING.md` to reflect the Git workflow and engineering practices.
+- Updated community standards documentation.
+- Improved repository governance and development workflow.
 
-### Documentation
+### Security
 
-- Added Engineering Workflow guide
-
-### Infrastructure
-
-- Runtime and CI consistency improvements
+- Documented the security reporting process.
+- Defined supported versions.
+- Added deployment security recommendations.
 
 ---
 
-## [1.8.1] - 2026-07-20
+## [1.8.2] - 2026-07-08
 
 ### Added
 
-- Render deployment configuration
-- `.env.example`
-- JSON 404 middleware
+- Added application root endpoint.
+- Enhanced health endpoint with application metadata.
+- Added engineering workflow documentation.
+- Improved production configuration.
 
 ### Changed
 
-- Standardized deployment using `DATABASE_URL`
-- Updated Docker Compose configuration
-- Improved production environment configuration
-
-### Fixed
-
-- Render TypeScript build configuration
-- Production deployment issues
-
-### Deployment
-
-- Successfully deployed to Render
-- Verified production health endpoint
+- Updated runtime configuration.
+- Improved deployment configuration.
+- Refined release documentation.
 
 ---
 
-## [1.8.0] - 2026-07-19
+## [1.8.1] - 2026-07-07
 
 ### Added
 
-- Introduced Drizzle ORM as the project's database ORM.
-- Added Drizzle schema definitions for all application tables.
-- Added migration support using Drizzle Kit.
-- Added Neon PostgreSQL integration.
-- Added database query utilities for Drizzle.
-- Added integration tests for the Drizzle-based repositories.
+- Production deployment on Render.
+- Docker support.
+- GitHub Actions CI.
+- Health check endpoint.
+- Production environment configuration.
 
 ### Changed
 
-- Migrated Users module from raw SQL (`pg`) to Drizzle ORM.
-- Migrated Categories module from raw SQL (`pg`) to Drizzle ORM.
-- Migrated Transactions module from raw SQL (`pg`) to Drizzle ORM.
-- Replaced legacy repository implementations with Drizzle query builders.
-- Standardized repository patterns across all modules.
-- Simplified database configuration to use a single `DATABASE_URL`.
-- Updated test infrastructure to support Drizzle and Neon.
+- Improved deployment workflow.
+- Updated build configuration.
 
-### Refactored
+---
 
-- Removed legacy SQL query implementations.
-- Removed obsolete database configuration variables.
-- Simplified environment configuration.
-- Improved repository separation by introducing dedicated query files.
-- Improved database abstraction throughout the application.
+## [1.8.0] - 2026-07-05
 
-### Documentation
+### Added
 
-- Added Drizzle ORM documentation.
-- Added Neon PostgreSQL setup guide.
-- Updated database architecture documentation.
-- Updated deployment documentation for the new database workflow.
+- Initial authentication module.
+- Categories module.
+- Transactions module.
+- JWT authentication.
+- Drizzle ORM integration.
+- PostgreSQL support.
+- OpenAPI documentation.
+- Docker Compose configuration.
+- Structured logging.
+- Rate limiting.
+- Input validation.
+- Layered architecture.
 
-### Testing
+### Changed
 
-- Updated unit and integration tests for Drizzle ORM.
-- Verified migration compatibility.
-- Verified CRUD operations across Users, Categories, and Transactions.
-
-### Breaking Changes
-
-- Repository implementations now use Drizzle ORM instead of raw PostgreSQL queries.
-- Legacy database configuration variables have been removed in favor of `DATABASE_URL`.
+- Established project architecture.
+- Introduced semantic versioning.
+- Adopted Conventional Commits.
 
 ---
 
