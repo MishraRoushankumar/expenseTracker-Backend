@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 📚 Project Documentation
+    url: https://github.com/MishraRoushankumar/expenseTracker-Backend/tree/main/docs
+    about: Review the project documentation before opening an issue.
+
+  - name: 📖 Engineering Workflow
+    url: https://github.com/MishraRoushankumar/expenseTracker-Backend/blob/main/docs/ENGINEERING_WORKFLOW.md
+    about: Understand the engineering workflow followed in this repository.
