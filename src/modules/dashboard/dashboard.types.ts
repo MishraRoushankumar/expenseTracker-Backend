@@ -17,3 +17,18 @@ export interface DashboardSummaryMetrics {
   monthlyExpense: number;
   transactionCount: number;
 }
+
+export interface MonthlyTrendRaw {
+  year: number;
+  month: number;
+  income: number;
+  expense: number;
+}
+
+export interface MonthlyTrend {
+  period: string;
+  label: string;
+  income: number;
+  expense: number;
+  balance: number;
+}

@@ -1,5 +1,9 @@
-import { getDashboardSummaryMetrics } from "./dashboard.repository.js";
-import type { DashboardSummary } from "./dashboard.types.js";
+import { DEFAULT_LOCALE } from "./dashboard.constants.js";
+import {
+  getDashboardSummaryMetrics,
+  getMonthlyTrendMetrics,
+} from "./dashboard.repository.js";
+import type { DashboardSummary, MonthlyTrend } from "./dashboard.types.js";
 
 /*
 ==========================================
@@ -23,4 +27,35 @@ export const getDashboardSummary = async (
     currentBalance: metrics.totalIncome - metrics.totalExpense,
     monthlySavings: metrics.monthlyIncome - metrics.monthlyExpense,
   };
+};
+
+/*
+==========================================
+GET MONTHLY TRENDS
+==========================================
+*/
+
+export const getMonthlyTrends = async (
+  userId: number,
+): Promise<MonthlyTrend[]> => {
+  const metrics = await getMonthlyTrendMetrics(userId);
+
+  return metrics.map((trend) => {
+    const period = `${trend.year}-${String(trend.month).padStart(2, "0")}`;
+
+    const label = new Date(trend.year, trend.month - 1).toLocaleString(
+      DEFAULT_LOCALE,
+      {
+        month: "short",
+        year: "numeric",
+      },
+    );
+    return {
+      period,
+      label,
+      income: trend.income,
+      expense: trend.expense,
+      balance: trend.income - trend.expense,
+    };
+  });
 };
