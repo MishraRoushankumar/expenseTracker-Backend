@@ -5,3 +5,5 @@ export const DASHBOARD_MESSAGES = {
   RECENT_TRANSACTIONS_RETRIEVED: "Recent transactions retrieved successfully.",
   INSIGHTS_RETRIEVED: "Dashboard insights retrieved successfully.",
 } as const;
+
+export const DEFAULT_LOCALE = "en-US";
