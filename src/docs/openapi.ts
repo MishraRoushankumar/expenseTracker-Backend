@@ -1,10 +1,13 @@
 import { authPaths } from "./paths/auth.paths.js";
 import { categoryPaths } from "./paths/categories.paths.js";
+import { dashboardPaths } from "./paths/dashboard.paths.js";
 import { transactionPaths } from "./paths/transactions.paths.js";
+import { userPaths } from "./paths/users.paths.js";
 
 import { authSchemas } from "./components/schemas/auth.schema.js";
 import { userSchemas } from "./components/schemas/users.schema.js";
 import { categorySchemas } from "./components/schemas/categories.schema.js";
+import { dashboardSchemas } from "./components/schemas/dashboard.schema.js";
 import { transactionSchemas } from "./components/schemas/transactions.schema.js";
 import { commonSchemas } from "./components/schemas/common.schema.js";
 
@@ -52,7 +55,9 @@ export const openApiDocument = {
 
   paths: {
     ...authPaths,
+    ...userPaths,
     ...categoryPaths,
+    ...dashboardPaths,
     ...transactionPaths,
   },
 
@@ -62,6 +67,7 @@ export const openApiDocument = {
       ...authSchemas,
       ...userSchemas,
       ...categorySchemas,
+      ...dashboardSchemas,
       ...transactionSchemas,
     },
 
