@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/http/asyncHandler.js";
 import {
+  getCategoryAnalytics,
   getDashboardInsights,
   getDashboardSummary,
   getMonthlyTrends,
@@ -62,5 +63,27 @@ export const getDashboardInsightsController = asyncHandler(
     const insights = await getDashboardInsights(req.user.userId);
 
     sendSuccess(res, DASHBOARD_MESSAGES.INSIGHTS_RETRIEVED, insights);
+  },
+);
+
+/*
+==========================================
+GET CATEGORY ANALYTICS CONTROLLER 
+==========================================
+*/
+
+export const getCategoryAnalyticsController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
+    }
+
+    const analytics = await getCategoryAnalytics(req.user.userId);
+
+    sendSuccess(
+      res,
+      DASHBOARD_MESSAGES.CATEGORY_ANALYTICS_RETRIEVED,
+      analytics,
+    );
   },
 );

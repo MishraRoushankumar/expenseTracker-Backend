@@ -1,5 +1,6 @@
 import { DEFAULT_LOCALE } from "./dashboard.constants.js";
 import {
+  getCategoryAnalyticsMetrics,
   getDashboardInsightMetrics,
   getDashboardSummaryMetrics,
   getHighestExpenseCategory,
@@ -8,6 +9,7 @@ import {
   getMonthlyTrendMetrics,
 } from "./dashboard.repository.js";
 import type {
+  CategoryAnalytics,
   DashboardInsights,
   DashboardSummary,
   MonthlyTrend,
@@ -134,4 +136,35 @@ export const getDashboardInsights = async (
     averageMonthlyExpense: roundToTwoDecimals(averageMonthlyExpense),
     savingsRate: roundToTwoDecimals(savingsRate),
   };
+};
+
+/*
+=================================================
+GET CATEGORY ANALYTICS
+=================================================
+*/
+
+export const getCategoryAnalytics = async (
+  userId: number,
+): Promise<CategoryAnalytics[]> => {
+  const metrics = await getCategoryAnalyticsMetrics(userId);
+
+  const grandTotal = metrics.reduce(
+    (sum, analytics) => sum + analytics.totalAmount,
+    0,
+  );
+
+  return metrics.map((analytics) => {
+    const percentage =
+      grandTotal === 0
+        ? 0
+        : roundToTwoDecimals((analytics.totalAmount / grandTotal) * 100);
+    return {
+      categoryId: analytics.categoryId,
+      categoryName: analytics.categoryName,
+      totalAmount: analytics.totalAmount,
+      transactionCount: analytics.transactionCount,
+      percentage,
+    };
+  });
 };
