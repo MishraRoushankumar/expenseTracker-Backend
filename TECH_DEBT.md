@@ -1,8 +1,8 @@
 # Pending Improvements
 
 - [ ] Refactor repeated req.user authentication checks.
-- [ ] Introduce pagination utility.
-- [ ] Introduce filtering utility.
-- [ ] Add structured logging.
 - [ ] Add request correlation IDs.
-- [ ] Add integration tests.
+- [ ] Increase JWT utility coverage
+- [ ] Improve branch coverage
+- [ ] Repository transaction support
+- [ ] Performance benchmarks

@@ -1,6 +1,6 @@
 # Project Structure
 
-```
+```text
 src/
 
 config/
@@ -19,9 +19,15 @@ modules/
 
 ├── categories/
 
+├── dashboard/
+
 ├── health/
 
+├── transactions/
+
 ├── users/
+
+shared/
 
 types/
 
@@ -39,9 +45,9 @@ service
 
 repository
 
-schema
+schemas
 
-mapper
+constants
 
 types
 

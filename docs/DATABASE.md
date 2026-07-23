@@ -82,15 +82,26 @@ Neon PostgreSQL
 
 # Entity Relationship
 
-```
-Users (1)
- │
- ├──────────────┐
- │              │
- ▼              ▼
-Categories (N) Transactions (N)
-        │
-        └─────────────► category_id (nullable)
+```mermaid
+erDiagram
+    Users ||--o{ Categories : creates
+    Users ||--o{ Transactions : owns
+    Categories ||--o{ Transactions : "categorizes (optional)"
+
+    Users {
+        int id PK
+    }
+
+    Categories {
+        int id PK
+        int user_id FK
+    }
+
+    Transactions {
+        int id PK
+        int user_id FK
+        int category_id FK "nullable"
+    }
 ```
 
 ---
@@ -113,6 +124,15 @@ Categories (N) Transactions (N)
 - INDEX(transaction_date)
 - INDEX(type)
 - INDEX(user_id, transaction_date)
+
+---
+
+## Dashboard Analytics
+
+> Dashboard endpoints perform read-only analytical queries using
+> aggregated transaction data.
+
+> No additional tables are introduced.
 
 ---
 

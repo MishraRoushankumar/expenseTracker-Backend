@@ -75,8 +75,10 @@ Create the PostgreSQL database.
 
 Execute the initialization script:
 
-```text
-src/db/init.sql
+```bash
+npm run db:generate
+
+npm run db:migrate
 ```
 
 This creates all required tables and indexes.
@@ -205,6 +207,12 @@ Run tests once.
 
 ```bash
 npm run test:run
+```
+
+Run coverage
+
+```bash
+npm run coverage
 ```
 
 ---

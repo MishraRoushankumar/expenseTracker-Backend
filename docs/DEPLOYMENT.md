@@ -189,7 +189,7 @@ https://your-api.onrender.com
 Swagger
 
 ```
-https://your-api.onrender.com/api-docs
+https://your-api.onrender.com/api/docs
 ```
 
 Health
@@ -324,6 +324,7 @@ Before releasing:
 - Graceful shutdown implemented
 - CORS configured
 - Logging enabled
+- Dashboard endpoints verified
 
 ---
 
