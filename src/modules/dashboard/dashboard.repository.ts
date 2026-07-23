@@ -1,6 +1,7 @@
 import { and, desc, eq, gte, lte, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import type {
+  CategoryAnalyticsRaw,
   DashboardInsightMetrics,
   DashboardSummaryMetrics,
   HighestExpenseCategory,
@@ -255,4 +256,40 @@ export const getDashboardInsightMetrics = async (
     totalExpense: Number(metrics.totalExpense),
     transactionCount: Number(metrics.transactionCount),
   };
+};
+
+/*
+=================================================
+GET CATEGORY ANALYTICS
+=================================================
+*/
+
+export const getCategoryAnalyticsMetrics = async (
+  userId: number,
+): Promise<CategoryAnalyticsRaw[]> => {
+  const totalAmountSql = sql<number>`
+    coalesce(sum(${transactions.amount}), 0)
+  `;
+
+  const analytics = await db
+    .select({
+      categoryId: categories.id,
+      categoryName: categories.name,
+      totalAmount: totalAmountSql,
+      transactionCount: sql<number>`count(*)`,
+    })
+    .from(transactions)
+    .innerJoin(categories, eq(transactions.categoryId, categories.id))
+    .where(
+      and(eq(transactions.userId, userId), eq(transactions.type, "expense")),
+    )
+    .groupBy(categories.id, categories.name)
+    .orderBy(desc(totalAmountSql));
+
+  return analytics.map((category) => ({
+    categoryId: category.categoryId,
+    categoryName: category.categoryName,
+    totalAmount: Number(category.totalAmount),
+    transactionCount: Number(category.transactionCount),
+  }));
 };

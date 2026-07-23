@@ -77,3 +77,20 @@ export interface MonthlyTotals {
   income: number;
   expense: number;
 }
+
+// CATEGORY ANALYTICS
+
+export interface CategoryAnalyticsRaw {
+  categoryId: number;
+  categoryName: string;
+  totalAmount: number;
+  transactionCount: number;
+}
+
+export interface CategoryAnalytics {
+  categoryId: number;
+  categoryName: string;
+  totalAmount: number;
+  transactionCount: number;
+  percentage: number;
+}
