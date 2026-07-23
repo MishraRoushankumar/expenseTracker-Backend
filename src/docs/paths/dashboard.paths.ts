@@ -1,26 +1,16 @@
-export const categoryPaths = {
-  "/categories": {
-    post: {
-      tags: ["Categories"],
-      summary: "Create category",
-      operationId: "createCategory",
+export const dashboardPaths = {
+  "/dashboard/summary": {
+    get: {
+      tags: ["Dashboard"],
+      summary: "Get dashboard summary",
+      operationId: "getDashboardSummary",
       security: [
         {
           bearerAuth: [],
         },
       ],
-      requestBody: {
-        required: true,
-        content: {
-          "application/json": {
-            schema: {
-              $ref: "#/components/schemas/CreateCategoryRequest",
-            },
-          },
-        },
-      },
       responses: {
-        "201": {
+        "200": {
           content: {
             "application/json": {
               schema: {
@@ -33,20 +23,11 @@ export const categoryPaths = {
                     required: ["data"],
                     properties: {
                       data: {
-                        $ref: "#/components/schemas/Category",
+                        $ref: "#/components/schemas/DashboardSummary",
                       },
                     },
                   },
                 ],
-              },
-            },
-          },
-        },
-        "400": {
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/ErrorResponse",
               },
             },
           },
@@ -60,22 +41,15 @@ export const categoryPaths = {
             },
           },
         },
-        "409": {
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/ErrorResponse",
-              },
-            },
-          },
-        },
       },
     },
+  },
 
+  "/dashboard/monthly": {
     get: {
-      tags: ["Categories"],
-      summary: "Get categories",
-      operationId: "getCategories",
+      tags: ["Dashboard"],
+      summary: "Get monthly trends",
+      operationId: "getMonthlyTrends",
       security: [
         {
           bearerAuth: [],
@@ -97,7 +71,7 @@ export const categoryPaths = {
                       data: {
                         type: "array",
                         items: {
-                          $ref: "#/components/schemas/Category",
+                          $ref: "#/components/schemas/MonthlyTrend",
                         },
                       },
                     },
@@ -120,38 +94,16 @@ export const categoryPaths = {
     },
   },
 
-  "/categories/{id}": {
-    patch: {
-      tags: ["Categories"],
-      summary: "Update category",
-      operationId: "updateCategory",
+  "/dashboard/insights": {
+    get: {
+      tags: ["Dashboard"],
+      summary: "Get dashboard insights",
+      operationId: "getDashboardInsights",
       security: [
         {
           bearerAuth: [],
         },
       ],
-      parameters: [
-        {
-          name: "id",
-          in: "path",
-          required: true,
-          schema: {
-            type: "integer",
-            minimum: 1,
-            example: 1,
-          },
-        },
-      ],
-      requestBody: {
-        required: true,
-        content: {
-          "application/json": {
-            schema: {
-              $ref: "#/components/schemas/UpdateCategoryRequest",
-            },
-          },
-        },
-      },
       responses: {
         "200": {
           content: {
@@ -166,7 +118,117 @@ export const categoryPaths = {
                     required: ["data"],
                     properties: {
                       data: {
-                        $ref: "#/components/schemas/Category",
+                        $ref: "#/components/schemas/DashboardInsights",
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+        "401": {
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ErrorResponse",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+
+  "/dashboard/category-analytics": {
+    get: {
+      tags: ["Dashboard"],
+      summary: "Get category analytics",
+      operationId: "getCategoryAnalytics",
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      responses: {
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                allOf: [
+                  {
+                    $ref: "#/components/schemas/ApiResponse",
+                  },
+                  {
+                    type: "object",
+                    required: ["data"],
+                    properties: {
+                      data: {
+                        type: "array",
+                        items: {
+                          $ref: "#/components/schemas/CategoryAnalytics",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+        "401": {
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ErrorResponse",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+
+  "/dashboard/recent": {
+    get: {
+      tags: ["Dashboard"],
+      summary: "Get recent transactions",
+      operationId: "getRecentTransactions",
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      parameters: [
+        {
+          name: "limit",
+          in: "query",
+          schema: {
+            type: "integer",
+            minimum: 1,
+            maximum: 50,
+            default: 10,
+          },
+        },
+      ],
+      responses: {
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                allOf: [
+                  {
+                    $ref: "#/components/schemas/ApiResponse",
+                  },
+                  {
+                    type: "object",
+                    required: ["data"],
+                    properties: {
+                      data: {
+                        type: "array",
+                        items: {
+                          $ref: "#/components/schemas/RecentTransaction",
+                        },
                       },
                     },
                   },
@@ -185,76 +247,6 @@ export const categoryPaths = {
           },
         },
         "401": {
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/ErrorResponse",
-              },
-            },
-          },
-        },
-        "404": {
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/ErrorResponse",
-              },
-            },
-          },
-        },
-        "409": {
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/ErrorResponse",
-              },
-            },
-          },
-        },
-      },
-    },
-
-    delete: {
-      tags: ["Categories"],
-      summary: "Delete category",
-      operationId: "deleteCategory",
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
-      parameters: [
-        {
-          name: "id",
-          in: "path",
-          required: true,
-          schema: {
-            type: "integer",
-            minimum: 1,
-            example: 1,
-          },
-        },
-      ],
-      responses: {
-        "200": {
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/ApiResponse",
-              },
-            },
-          },
-        },
-        "401": {
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/ErrorResponse",
-              },
-            },
-          },
-        },
-        "404": {
           content: {
             "application/json": {
               schema: {
