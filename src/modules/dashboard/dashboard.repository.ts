@@ -8,6 +8,7 @@ import type {
   LargestExpense,
   MonthlyTotals,
   MonthlyTrendRaw,
+  RecentTransactionRaw,
 } from "./dashboard.types.js";
 import { categories, transactions } from "../../db/schema/index.js";
 
@@ -24,9 +25,29 @@ export const getDashboardSummaryMetrics = async (
 ): Promise<DashboardSummaryMetrics> => {
   const [lifetime] = await db
     .select({
-      totalIncome: sql<number>`coalesce(sum(case when ${transactions.type} = 'income'  then ${transactions.amount}  else 0 end),0)`,
+      totalIncome: sql<number>`
+      coalesce(
+        sum(
+          case 
+            when ${transactions.type} = 'income'  
+            then ${transactions.amount}  
+            else 0 
+          end
+        ),
+        0
+      )`,
 
-      totalExpense: sql<number>`coalesce(sum(case when ${transactions.type} = 'expense' then ${transactions.amount} else 0 end),0)`,
+      totalExpense: sql<number>`
+      coalesce(
+        sum(
+          case 
+            when ${transactions.type} = 'expense' 
+            then ${transactions.amount} 
+            else 0 
+          end
+        ),
+        0
+      )`,
 
       transactionCount: sql<number>`count(*)`,
     })
@@ -35,9 +56,30 @@ export const getDashboardSummaryMetrics = async (
 
   const [monthly] = await db
     .select({
-      monthlyIncome: sql<number>`coalesce(sum(case when ${transactions.type} = 'income' then ${transactions.amount} else 0 end), 0)`,
+      monthlyIncome: sql<number>`
+      coalesce(
+        sum(
+          case 
+            when ${transactions.type} = 'income' 
+            then ${transactions.amount} 
+            else 0 
+          end
+        ), 
+        0
+      )`,
 
-      monthlyExpense: sql<number>`coalesce(sum(case when ${transactions.type} = 'expense' then ${transactions.amount} else 0 end), 0)`,
+      monthlyExpense: sql<number>`
+      coalesce(
+        sum(
+          case 
+            when ${transactions.type} = 'expense' 
+            then ${transactions.amount} 
+            else 0 
+          end
+        ), 
+        0
+
+      )`,
     })
     .from(transactions)
     .where(
@@ -77,8 +119,29 @@ export const getMonthlyTrendMetrics = async (
       year: yearSql,
       month: monthSql,
 
-      income: sql<number>`coalesce(sum(case when ${transactions.type} = 'income' then ${transactions.amount} else 0 end ),0)`,
-      expense: sql<number>`coalesce(sum(case when ${transactions.type} = 'expense' then ${transactions.amount} else 0 end ),0)`,
+      income: sql<number>`
+      coalesce(
+        sum(
+          case 
+            when ${transactions.type} = 'income' 
+            then ${transactions.amount} 
+            else 0 
+          end 
+        ),
+        0
+      )`,
+
+      expense: sql<number>`
+      coalesce(
+        sum(
+          case 
+            when ${transactions.type} = 'expense' 
+            then ${transactions.amount} 
+            else 0 
+          end 
+        ),
+        0
+      )`,
     })
     .from(transactions)
     .where(eq(transactions.userId, userId))
@@ -102,8 +165,12 @@ export const getHighestExpenseCategory = async (
       id: categories.id,
       name: categories.name,
       amount: sql<number>`
-        coalesce(sum(${transactions.amount}), 0)
-      `,
+        coalesce(
+          sum(
+            ${transactions.amount}
+          ), 
+          0
+          )`,
     })
     .from(transactions)
     .innerJoin(categories, eq(transactions.categoryId, categories.id))
@@ -291,5 +358,42 @@ export const getCategoryAnalyticsMetrics = async (
     categoryName: category.categoryName,
     totalAmount: Number(category.totalAmount),
     transactionCount: Number(category.transactionCount),
+  }));
+};
+
+/*
+=================================================
+GET RECENT TRANSACTIONS
+=================================================
+*/
+
+export const getRecentTransactions = async (
+  userId: number,
+  limit: number,
+): Promise<RecentTransactionRaw[]> => {
+  const recentTransactions = await db
+    .select({
+      id: transactions.id,
+      type: transactions.type,
+      amount: transactions.amount,
+      categoryId: categories.id,
+      categoryName: categories.name,
+      description: transactions.description,
+      transactionDate: transactions.transactionDate,
+    })
+    .from(transactions)
+    .leftJoin(categories, eq(transactions.categoryId, categories.id))
+    .where(eq(transactions.userId, userId))
+    .orderBy(desc(transactions.transactionDate), desc(transactions.createdAt))
+    .limit(limit);
+
+  return recentTransactions.map((transaction) => ({
+    id: transaction.id,
+    type: transaction.type,
+    amount: Number(transaction.amount),
+    categoryId: transaction.categoryId,
+    categoryName: transaction.categoryName,
+    description: transaction.description,
+    transactionDate: transaction.transactionDate,
   }));
 };

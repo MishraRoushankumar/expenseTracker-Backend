@@ -94,3 +94,29 @@ export interface CategoryAnalytics {
   transactionCount: number;
   percentage: number;
 }
+
+// RECENT TRANSACTION
+
+export interface RecentTransactionQuery {
+  limit?: number;
+}
+
+export interface RecentTransaction {
+  id: number;
+  type: "income" | "expense";
+  amount: number;
+  categoryId: number | null;
+  categoryName: string | null;
+  description: string | null;
+  transactionDate: string;
+}
+
+export interface RecentTransactionRaw {
+  id: number;
+  type: "income" | "expense";
+  amount: number;
+  categoryId: number | null;
+  categoryName: string | null;
+  description: string | null;
+  transactionDate: Date;
+}
