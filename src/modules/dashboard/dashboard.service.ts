@@ -1,9 +1,26 @@
 import { DEFAULT_LOCALE } from "./dashboard.constants.js";
 import {
+  getDashboardInsightMetrics,
   getDashboardSummaryMetrics,
+  getHighestExpenseCategory,
+  getLargestExpense,
+  getMonthlyTotals,
   getMonthlyTrendMetrics,
 } from "./dashboard.repository.js";
-import type { DashboardSummary, MonthlyTrend } from "./dashboard.types.js";
+import type {
+  DashboardInsights,
+  DashboardSummary,
+  MonthlyTrend,
+} from "./dashboard.types.js";
+
+/*
+==========================================
+HELPERS
+==========================================
+*/
+
+const roundToTwoDecimals = (value: number): number =>
+  Math.round(value * 100) / 100;
 
 /*
 ==========================================
@@ -58,4 +75,63 @@ export const getMonthlyTrends = async (
       balance: trend.income - trend.expense,
     };
   });
+};
+
+/*
+=================================================
+GET DASHBOAR INSIGHTS
+=================================================
+*/
+
+export const getDashboardInsights = async (
+  userId: number,
+): Promise<DashboardInsights> => {
+  const [category, expense, metrics, monthlyTotals] = await Promise.all([
+    getHighestExpenseCategory(userId),
+    getLargestExpense(userId),
+    getDashboardInsightMetrics(userId),
+    getMonthlyTotals(userId),
+  ]);
+
+  const averageTransactionAmount =
+    metrics.transactionCount === 0
+      ? 0
+      : (metrics.totalIncome + metrics.totalExpense) / metrics.transactionCount;
+
+  const activeMonths = monthlyTotals.length;
+
+  const averageMonthlyIncome =
+    activeMonths === 0
+      ? 0
+      : monthlyTotals.reduce((sum, month) => sum + month.income, 0) /
+        activeMonths;
+
+  const averageMonthlyExpense =
+    activeMonths === 0
+      ? 0
+      : monthlyTotals.reduce((sum, month) => sum + month.expense, 0) /
+        activeMonths;
+
+  const savingsRate =
+    metrics.totalIncome === 0
+      ? 0
+      : ((metrics.totalIncome - metrics.totalExpense) / metrics.totalIncome) *
+        100;
+
+  return {
+    highestExpenseCategory: category,
+    largestExpense: expense
+      ? {
+          id: expense.id,
+          amount: expense.amount,
+          category: expense.category,
+          date: expense.date.toISOString().split("T")[0],
+        }
+      : null,
+
+    averageTransactionAmount: roundToTwoDecimals(averageTransactionAmount),
+    averageMonthlyIncome: roundToTwoDecimals(averageMonthlyIncome),
+    averageMonthlyExpense: roundToTwoDecimals(averageMonthlyExpense),
+    savingsRate: roundToTwoDecimals(savingsRate),
+  };
 };

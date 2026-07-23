@@ -1,3 +1,5 @@
+// DASHBOARD SUMMARY
+
 export interface DashboardSummary {
   totalIncome: number;
   totalExpense: number;
@@ -18,6 +20,8 @@ export interface DashboardSummaryMetrics {
   transactionCount: number;
 }
 
+// MONTHLY TRENDS
+
 export interface MonthlyTrendRaw {
   year: number;
   month: number;
@@ -31,4 +35,45 @@ export interface MonthlyTrend {
   income: number;
   expense: number;
   balance: number;
+}
+
+// DASHBOARD INSIGHTS
+
+export interface HighestExpenseCategory {
+  id: number;
+  name: string;
+  amount: number;
+}
+
+export interface LargestExpense {
+  id: number;
+  amount: number;
+  category: string | null;
+  date: Date;
+}
+
+export interface DashboardInsightMetrics {
+  totalIncome: number;
+  totalExpense: number;
+  transactionCount: number;
+}
+
+export interface DashboardInsights {
+  highestExpenseCategory: HighestExpenseCategory | null;
+  largestExpense: {
+    id: number;
+    amount: number;
+    category: string | null;
+    date: string;
+  } | null;
+
+  averageTransactionAmount: number;
+  averageMonthlyIncome: number;
+  averageMonthlyExpense: number;
+  savingsRate: number;
+}
+
+export interface MonthlyTotals {
+  income: number;
+  expense: number;
 }
