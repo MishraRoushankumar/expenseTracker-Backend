@@ -7,12 +7,14 @@ import {
   getLargestExpense,
   getMonthlyTotals,
   getMonthlyTrendMetrics,
+  getRecentTransactions,
 } from "./dashboard.repository.js";
 import type {
   CategoryAnalytics,
   DashboardInsights,
   DashboardSummary,
   MonthlyTrend,
+  RecentTransaction,
 } from "./dashboard.types.js";
 
 /*
@@ -30,7 +32,7 @@ GET DASHBOARD SUMMARY
 ==========================================
 */
 
-export const getDashboardSummary = async (
+export const getDashboardSummaryService = async (
   userId: number,
 ): Promise<DashboardSummary> => {
   const now = new Date();
@@ -54,7 +56,7 @@ GET MONTHLY TRENDS
 ==========================================
 */
 
-export const getMonthlyTrends = async (
+export const getMonthlyTrendsService = async (
   userId: number,
 ): Promise<MonthlyTrend[]> => {
   const metrics = await getMonthlyTrendMetrics(userId);
@@ -85,7 +87,7 @@ GET DASHBOAR INSIGHTS
 =================================================
 */
 
-export const getDashboardInsights = async (
+export const getDashboardInsightsService = async (
   userId: number,
 ): Promise<DashboardInsights> => {
   const [category, expense, metrics, monthlyTotals] = await Promise.all([
@@ -144,7 +146,7 @@ GET CATEGORY ANALYTICS
 =================================================
 */
 
-export const getCategoryAnalytics = async (
+export const getCategoryAnalyticsService = async (
   userId: number,
 ): Promise<CategoryAnalytics[]> => {
   const metrics = await getCategoryAnalyticsMetrics(userId);
@@ -165,6 +167,26 @@ export const getCategoryAnalytics = async (
       totalAmount: analytics.totalAmount,
       transactionCount: analytics.transactionCount,
       percentage,
+    };
+  });
+};
+
+/*
+=================================================
+GET RECENT TRANSACTIONS
+=================================================
+*/
+
+export const getRecentTransactionsService = async (
+  userId: number,
+  limit: number,
+): Promise<RecentTransaction[]> => {
+  const transactions = await getRecentTransactions(userId, limit);
+
+  return transactions.map((transaction) => {
+    return {
+      ...transaction,
+      transactionDate: transaction.transactionDate.toISOString().split("T")[0],
     };
   });
 };

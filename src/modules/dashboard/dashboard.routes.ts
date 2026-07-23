@@ -5,7 +5,10 @@ import {
   getDashboardInsightsController,
   getDashboardSummaryController,
   getMonthlyTrendsController,
+  getRecentTransactionsController,
 } from "./dashboard.controller.js";
+import { validate } from "../../middlewares/validate.middleware.js";
+import { recentTransactionsQuerySchema } from "./dashboard.schemas.js";
 
 const router = Router();
 
@@ -27,6 +30,15 @@ router.get(
   "category-analytics",
   authMiddleware,
   getCategoryAnalyticsController,
+);
+
+// GET RECENT TRANSACTIONS
+
+router.get(
+  "/recent",
+  authMiddleware,
+  validate({ query: recentTransactionsQuerySchema }),
+  getRecentTransactionsController,
 );
 
 export default router;

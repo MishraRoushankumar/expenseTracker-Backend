@@ -1,10 +1,11 @@
 import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/http/asyncHandler.js";
 import {
-  getCategoryAnalytics,
-  getDashboardInsights,
-  getDashboardSummary,
-  getMonthlyTrends,
+  getCategoryAnalyticsService,
+  getDashboardInsightsService,
+  getDashboardSummaryService,
+  getMonthlyTrendsService,
+  getRecentTransactionsService,
 } from "./dashboard.service.js";
 import { sendSuccess } from "../../utils/http/apiResponse.js";
 import { DASHBOARD_MESSAGES } from "./dashboard.constants.js";
@@ -24,7 +25,7 @@ export const getDashboardSummaryController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const dashboard = await getDashboardSummary(req.user.userId);
+    const dashboard = await getDashboardSummaryService(req.user.userId);
 
     sendSuccess(res, DASHBOARD_MESSAGES.SUMMARY_RETRIEVED, dashboard);
   },
@@ -42,7 +43,7 @@ export const getMonthlyTrendsController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const trends = await getMonthlyTrends(req.user.userId);
+    const trends = await getMonthlyTrendsService(req.user.userId);
 
     sendSuccess(res, DASHBOARD_MESSAGES.MONTHLY_TRENDS_RETRIEVED, trends);
   },
@@ -60,7 +61,7 @@ export const getDashboardInsightsController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const insights = await getDashboardInsights(req.user.userId);
+    const insights = await getDashboardInsightsService(req.user.userId);
 
     sendSuccess(res, DASHBOARD_MESSAGES.INSIGHTS_RETRIEVED, insights);
   },
@@ -78,12 +79,39 @@ export const getCategoryAnalyticsController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const analytics = await getCategoryAnalytics(req.user.userId);
+    const analytics = await getCategoryAnalyticsService(req.user.userId);
 
     sendSuccess(
       res,
       DASHBOARD_MESSAGES.CATEGORY_ANALYTICS_RETRIEVED,
       analytics,
+    );
+  },
+);
+
+/*
+=================================================
+GET RECENT CONTROLLER
+=================================================
+*/
+
+export const getRecentTransactionsController = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
+    }
+
+    const { limit } = req.query;
+
+    const transactions = await getRecentTransactionsService(
+      req.user.userId,
+      Number(limit),
+    );
+
+    sendSuccess(
+      res,
+      DASHBOARD_MESSAGES.RECENT_TRANSACTIONS_RETRIEVED,
+      transactions,
     );
   },
 );
