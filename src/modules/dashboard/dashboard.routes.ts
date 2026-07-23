@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
 import {
+  getDashboardInsightsController,
   getDashboardSummaryController,
   getMonthlyTrendsController,
 } from "./dashboard.controller.js";
@@ -14,5 +15,9 @@ router.get("/summary", authMiddleware, getDashboardSummaryController);
 // GET MONTHLY TRENDS
 
 router.get("/monthly", authMiddleware, getMonthlyTrendsController);
+
+// GET DASHBOARD INSIGHTS
+
+router.get("/insights", authMiddleware, getDashboardInsightsController);
 
 export default router;
