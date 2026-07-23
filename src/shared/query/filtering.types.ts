@@ -7,8 +7,8 @@ TRANSACTIONS FILTER
 export interface TransactionFilters {
   type?: "income" | "expense";
   categoryId?: number;
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date;
 }
 
 export interface SqlFilterResult {

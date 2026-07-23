@@ -49,15 +49,11 @@ export const buildTransactionConditions = (
   }
 
   if (filters?.startDate) {
-    conditions.push(
-      gte(transactions.transactionDate, new Date(filters.startDate)),
-    );
+    conditions.push(gte(transactions.transactionDate, filters.startDate));
   }
 
   if (filters?.endDate) {
-    conditions.push(
-      lte(transactions.transactionDate, new Date(filters.endDate)),
-    );
+    conditions.push(lte(transactions.transactionDate, filters.endDate));
   }
 
   return conditions;

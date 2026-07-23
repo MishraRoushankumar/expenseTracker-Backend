@@ -101,11 +101,11 @@ export const getRecentTransactionsController = asyncHandler(
       throw new AppError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.AUTH_REQUIRED);
     }
 
-    const { limit } = req.query;
+    const limit = req.query.limit ? Number(req.query.limit) : 10;
 
     const transactions = await getRecentTransactionsService(
       req.user.userId,
-      Number(limit),
+      limit,
     );
 
     sendSuccess(
