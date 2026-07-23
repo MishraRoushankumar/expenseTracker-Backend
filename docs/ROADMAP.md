@@ -2,217 +2,291 @@
 
 This roadmap outlines the planned evolution of the Expense Tracker Backend.
 
-The project follows **Semantic Versioning (SemVer)**, where each minor release focuses on a specific engineering milestone.
+The project follows **Semantic Versioning (SemVer)**, where each minor release focuses on a major engineering milestone.
 
 > **Note**
 >
-> Roadmaps are subject to change as the project evolves.
+> The roadmap is a living document and may evolve as the project grows.
 
 ---
 
-# Current Release
+# Released Milestones
 
-## v1.5.0 (In Progress)
+## v1.0.0 — Project Foundation
 
-### Development Tooling
+### Infrastructure
 
-- [x] ESLint
-- [x] Prettier
-- [x] EditorConfig
-- [x] VS Code workspace configuration
-- [x] Vitest configuration
+- ✅ Express.js setup
+- ✅ TypeScript configuration
+- ✅ PostgreSQL integration
+- ✅ Layered architecture
+- ✅ Environment configuration
+- ✅ Centralized error handling
 
-### Documentation
+---
 
-- [x] Refresh README
-- [x] API Guide
-- [x] Development Guide
-- [x] Contributing Guide
-- [x] Changelog
-- [x] Roadmap
+## v1.1.0 — Authentication
 
 ### Authentication
 
-- [ ] Logout endpoint
+- ✅ User registration
+- ✅ User login
+- ✅ JWT authentication
+- ✅ Password hashing
+- ✅ Profile management
+
+### Validation
+
+- ✅ Zod validation
+- ✅ Request validation middleware
+
+---
+
+## v1.2.0 — Categories & Transactions
+
+### Categories
+
+- ✅ Category CRUD
+- ✅ Ownership validation
+
+### Transactions
+
+- ✅ Transaction CRUD
+- ✅ Pagination
+- ✅ Filtering
+- ✅ Sorting
+
+### Shared Utilities
+
+- ✅ Query helpers
+- ✅ Pagination utilities
+- ✅ Filtering utilities
+- ✅ Sorting utilities
+
+---
+
+## v1.3.0 — Observability
+
+### Logging
+
+- ✅ Structured logging
+- ✅ HTTP request logging
+
+### Security
+
+- ✅ Rate limiting
+- ✅ Improved error handling
+
+---
+
+## v1.4.0 — API Documentation
+
+### OpenAPI
+
+- ✅ OpenAPI 3.1
+- ✅ Swagger UI
+- ✅ Reusable schemas
+- ✅ Modular API documentation
+
+---
+
+## v1.5.0 — Development Tooling
+
+### Developer Experience
+
+- ✅ ESLint
+- ✅ Prettier
+- ✅ EditorConfig
+- ✅ Vitest
+- ✅ VS Code configuration
+
+### Documentation
+
+- ✅ README
+- ✅ API Guide
+- ✅ Development Guide
+- ✅ Engineering Workflow
+- ✅ Git Workflow
+
+---
+
+## v1.6.0 — Containerization
+
+### Docker
+
+- ✅ Dockerfile
+- ✅ Docker Compose
+- ✅ PostgreSQL container
+- ✅ Multi-stage builds
+
+---
+
+## v1.7.0 — Continuous Integration
+
+### GitHub Actions
+
+- ✅ Automated linting
+- ✅ Type checking
+- ✅ Testing
+- ✅ Docker validation
+
+---
+
+## v1.8.0 — Production Deployment
+
+### Deployment
+
+- ✅ Render deployment
+- ✅ Production configuration
+- ✅ Health endpoint
+- ✅ Graceful shutdown
+
+---
+
+## v1.9.0 — Dashboard Analytics
+
+### Dashboard
+
+- ✅ Dashboard Summary
+- ✅ Monthly Trends
+- ✅ Dashboard Insights
+- ✅ Category Analytics
+- ✅ Recent Transactions
+
+### Documentation
+
+- ✅ Dashboard OpenAPI documentation
+- ✅ Dashboard schemas
+- ✅ API examples
 
 ### Testing
 
-- [ ] Unit tests
+- ✅ Dashboard integration test suite
+- ✅ Authentication tests
+- ✅ Empty-state tests
+- ✅ Business logic verification
+- ✅ API contract validation
+
+---
+
+# Next Release
+
+## v1.10.0 — Budget Management
+
+### Budget Module
+
+- [ ] Budget CRUD
+- [ ] Budget categories
+- [ ] Budget limits
+- [ ] Budget progress tracking
+
+### Dashboard
+
+- [ ] Budget overview
+- [ ] Budget utilization
+- [ ] Budget alerts
+
+### Documentation
+
+- [ ] OpenAPI documentation
 - [ ] Integration tests
-- [ ] Coverage reporting
 
 ---
 
-# v1.6.0 — Containerization
+# Future Releases
 
-## Docker
+## v1.11.0 — Financial Reports
 
-- [ ] Dockerfile
-- [ ] Multi-stage builds
-- [ ] Production image optimization
+### Reports
 
-## Docker Compose
+- [ ] Income reports
+- [ ] Expense reports
+- [ ] Category reports
+- [ ] Monthly reports
+- [ ] Yearly reports
 
-- [ ] PostgreSQL service
-- [ ] Backend service
-- [ ] Development configuration
+### Export
 
-## Production Configuration
-
-- [ ] Environment configuration
-- [ ] Health check endpoint
-- [ ] Graceful shutdown
+- [ ] CSV export
+- [ ] PDF export
 
 ---
 
-# v1.7.0 — Continuous Integration
+## v1.12.0 — Notifications
 
-## GitHub Actions
+### Notifications
 
-- [ ] Build workflow
-- [ ] Lint workflow
-- [ ] Type checking
-- [ ] Test workflow
-
-## Code Quality
-
-- [ ] Coverage reports
-- [ ] Automated quality checks
-- [ ] Pull Request validation
-
-## Dependency Management
-
-- [ ] Dependabot
-- [ ] Automated dependency updates
+- [ ] Budget alerts
+- [ ] Monthly summaries
+- [ ] Spending notifications
 
 ---
 
-# v1.8.0 — Deployment
+# Long-Term Vision (v2.x)
 
-## Deployment
+## Financial Intelligence
 
-- [ ] Production deployment
-- [ ] Environment configuration
-- [ ] Release workflow
-
-## Observability
-
-- [ ] Request tracing
-- [ ] Metrics
-- [ ] Monitoring
-
-## Reliability
-
-- [ ] Health checks
-- [ ] Readiness checks
-- [ ] Logging improvements
-
----
-
-# v1.9.0 — Scalability
-
-## Authentication
-
-- [ ] Refresh tokens
-- [ ] Token rotation
+- [ ] AI-powered financial insights
+- [ ] Spending predictions
+- [ ] Smart budgeting
+- [ ] Expense categorization suggestions
 
 ## Performance
 
 - [ ] Redis caching
-- [ ] Query optimization
+- [ ] Background jobs
+- [ ] Queue processing
 
-## Database
+## Security
 
-- [ ] Database migrations
-- [ ] Seed scripts
-
-## API
-
-- [ ] API versioning improvements
-
----
-
-# v2.0.0 — Production Ready
-
-The goal of v2.0.0 is to provide a production-ready backend that follows modern backend engineering practices.
-
-## Features
-
-- [x] Layered architecture
-- [x] JWT authentication
-- [x] PostgreSQL integration
-- [x] Structured logging
-- [x] OpenAPI documentation
-- [x] Request validation
-- [x] Pagination
-- [x] Filtering
-- [x] Sorting
-
-## Quality
-
-- [ ] Comprehensive unit tests
-- [ ] Integration tests
-- [ ] High test coverage
-- [ ] CI/CD pipeline
-
-## Infrastructure
-
-- [ ] Docker
-- [ ] Production deployment
-- [ ] Monitoring
-- [ ] Health checks
-
----
-
-# Long-Term Ideas
-
-The following ideas are currently under evaluation and are not committed to any release.
-
-## Authentication
-
-- Refresh token support
-- Email verification
-- Password reset
-
-## Performance
-
-- Redis caching
-- Background jobs
-- Queue processing
-
-## Architecture
-
-- Evaluate Drizzle ORM
-- Repository abstraction improvements
+- [ ] Refresh tokens
+- [ ] Email verification
+- [ ] Password reset
+- [ ] Two-factor authentication
 
 ## Developer Experience
 
-- API SDK generation
-- Postman collection
-- Example client application
+- [ ] API SDK generation
+- [ ] Postman collection
+- [ ] Example frontend client
 
 ---
 
 # Release Strategy
 
-The project follows this development cycle:
+Every release follows the same workflow:
 
 ```text
+GitHub Issue
+      │
+      ▼
 Feature Branch
-        │
-        ▼
+      │
+      ▼
+Implementation
+      │
+      ▼
+Testing
+      │
+      ▼
 Pull Request
-        │
-        ▼
-Code Review
-        │
-        ▼
-Merge into main
-        │
-        ▼
-Version Tag
-        │
-        ▼
+      │
+      ▼
+Review
+      │
+      ▼
+Develop
+      │
+      ▼
+Release
+      │
+      ▼
+Main
+      │
+      ▼
+Git Tag
+      │
+      ▼
 GitHub Release
 ```
 
@@ -220,16 +294,19 @@ GitHub Release
 
 # Version History
 
-| Version | Status         |
-| ------- | -------------- |
-| v1.0.0  | ✅ Released    |
-| v1.1.0  | ✅ Released    |
-| v1.2.0  | ✅ Released    |
-| v1.3.0  | ✅ Released    |
-| v1.4.0  | ✅ Released    |
-| v1.5.0  | 🚧 In Progress |
-| v1.6.0  | 📋 Planned     |
-| v1.7.0  | 📋 Planned     |
-| v1.8.0  | 📋 Planned     |
-| v1.9.0  | 📋 Planned     |
-| v2.0.0  | 🎯 Target      |
+| Version |       Status        |
+| ------- | :-----------------: |
+| v1.0.0  |     ✅ Released     |
+| v1.1.0  |     ✅ Released     |
+| v1.2.0  |     ✅ Released     |
+| v1.3.0  |     ✅ Released     |
+| v1.4.0  |     ✅ Released     |
+| v1.5.0  |     ✅ Released     |
+| v1.6.0  |     ✅ Released     |
+| v1.7.0  |     ✅ Released     |
+| v1.8.0  |     ✅ Released     |
+| v1.9.0  | 🚀 Current Release  |
+| v1.10.0 |     📋 Planned      |
+| v1.11.0 |     💡 Planned      |
+| v1.12.0 |     💡 Planned      |
+| v2.x    | 🎯 Long-Term Vision |

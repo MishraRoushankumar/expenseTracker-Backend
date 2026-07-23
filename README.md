@@ -17,7 +17,7 @@ Designed with modern backend engineering practices, emphasizing maintainability,
 ![Drizzle ORM](https://img.shields.io/badge/ORM-Drizzle-C5F74F)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Version](https://img.shields.io/badge/Version-v1.8.3-blue)
+![Version](https://img.shields.io/badge/Version-v1.9.0-blue)
 
 </p>
 
@@ -123,6 +123,16 @@ Supports:
 
 ---
 
+### Dashboard Analytics
+
+- Dashboard Summary
+- Monthly Trends
+- Dashboard Insights
+- Category Analytics
+- Recent Transactions
+
+---
+
 ### Security
 
 - JWT authentication
@@ -212,7 +222,7 @@ For a detailed explanation, see:
 
 ## Project Structure
 
-```
+```text
 root/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -431,6 +441,7 @@ The OpenAPI specification includes:
 - Authentication
 - Categories
 - Transactions
+- Dashboard Analytics
 - Request schemas
 - Response schemas
 - JWT Bearer Authentication
@@ -452,6 +463,9 @@ The CI pipeline includes:
 - Unit tests
 - Integration tests
 - Docker build validation
+
+> Comprehensive integration tests
+> ~89% statement coverage
 
 This ensures all changes meet the project's quality standards before merging.
 
@@ -486,7 +500,7 @@ The repository contains dedicated documentation for each major area of the proje
 The project follows a structured Git workflow designed to keep development organized and release-ready.
 
 ```mermaid
-flowchart TD
+flowchart LR
 
 Issue --> Branch
 
@@ -557,30 +571,14 @@ This repository follows engineering practices commonly used in professional back
 | GitHub Actions         |     ✅     |
 | Production Deployment  |     ✅     |
 | Repository Standards   |     ✅     |
-| Dashboard Analytics    | 🚧 Planned |
-| Budget Management      | 📋 Planned |
+| Dashboard Analytics    |     ✅     |
+| Budget Management      | 🚧 Planned |
 | Reports                | 📋 Planned |
 | AI Insights            | 💡 Future  |
 
 ---
 
 ## Roadmap
-
-### v1.9.0
-
-Focus on analytics and financial insights.
-
-Planned features include:
-
-- Dashboard analytics
-- Monthly summaries
-- Spending trends
-- Category-wise analysis
-- Budget management
-- Financial reports
-- Improved testing
-
----
 
 ### v2.0.0
 

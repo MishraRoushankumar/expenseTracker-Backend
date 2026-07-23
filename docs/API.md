@@ -111,6 +111,23 @@ GET /transactions?page=1&limit=20&type=expense&sortBy=transactionDate&sortOrder=
 
 ---
 
+## Dashboard
+
+Provides analytical endpoints for authenticated users.
+
+Endpoints include:
+
+- Dashboard Summary
+- Monthly Trends
+- Dashboard Insights
+- Category Analytics
+- Recent Transactions
+
+> Dashboard endpoints are read-only analytical endpoints.
+> Recent Transactions supports the optional `limit` query parameter.
+
+---
+
 # Standard Response Format
 
 Successful responses follow the same structure.

@@ -65,20 +65,6 @@ Cross-cutting concerns.
 
 ---
 
-### Mapper
-
-Converts database rows into application models.
-
-```
-snake_case
-
-↓
-
-camelCase
-```
-
----
-
 ### Schema
 
 Validates incoming requests using Zod.
@@ -93,4 +79,28 @@ Schema
 ↓
 
 Controller
+```
+
+## Request Lifecycle
+
+```mermaid
+sequenceDiagram
+
+Client->>API: HTTP Request
+
+API->>Controller: Route Handler
+
+Controller->>Service: Business Logic
+
+Service->>Repository: Database Query
+
+Repository->>Database: SQL
+
+Database-->>Repository: Result
+
+Repository-->>Service: Entity
+
+Service-->>Controller: Response
+
+Controller-->>Client: JSON Response
 ```

@@ -24,32 +24,30 @@ The project follows these core engineering principles:
 
 Every feature, bug fix, refactor, or documentation change follows the same lifecycle.
 
-```text
-Idea
-    ↓
-Roadmap
-    ↓
-Milestone
-    ↓
-GitHub Issue
-    ↓
-Project Board
-    ↓
-Branch
-    ↓
-Implementation
-    ↓
-Verification
-    ↓
-Pull Request
-    ↓
-Code Review
-    ↓
-Merge
-    ↓
-Release
-    ↓
-Deployment
+```mermaid
+flowchart TD
+    Idea([Idea]) --> Roadmap[Roadmap]
+    Roadmap --> Milestone[Milestone]
+    Milestone --> Issue[GitHub Issue]
+    Issue --> Board[Project Board]
+
+    subgraph phase1 [Development Lifecycle]
+    Board --> Branch[Git Branch]
+    Branch --> Implementation[Implementation]
+    Implementation --> Verification[Verification]
+    end
+
+    Verification --> PR[Pull Request]
+    PR --> Review[Code Review]
+    Review --> Merge[Merge to Main]
+
+    subgraph phase2 [Delivery Pipeline]
+    Merge --> Release[Release]
+    Release --> Deployment[Production Deployment]
+    end
+
+    style Idea fill:#f9f,stroke:#333,stroke-width:2px
+    style Deployment fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ---
@@ -232,6 +230,8 @@ npm run typecheck
 
 npm test
 
+npm run coverage
+
 npm run build
 ```
 
@@ -326,6 +326,7 @@ A task is considered complete only when:
 - Lint passes.
 - Type checking passes.
 - Tests pass.
+- Coverage reviewed (for release milestones)
 - Production build succeeds.
 - Documentation is updated.
 - CHANGELOG is updated (if required).

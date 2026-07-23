@@ -22,7 +22,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.8.3] - 2026-07-09
+## [1.9.0] - 2026-07-24
+
+### Added
+
+- Dashboard Summary endpoint
+- Monthly Trends endpoint
+- Dashboard Insights endpoint
+- Category Analytics endpoint
+- Recent Transactions endpoint
+- Dashboard integration test suite
+- Dashboard OpenAPI documentation
+
+### Changed
+
+- Improved OpenAPI schemas
+- Expanded API documentation
+- Increased automated test coverage
+
+### Quality
+
+- ~89% statement coverage
+- ~89% line coverage
+
+---
+
+## [1.8.3] - 2026-07-22
 
 ### Added
 
@@ -49,7 +74,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.8.2] - 2026-07-08
+## [1.8.2] - 2026-07-21
 
 ### Added
 
@@ -66,7 +91,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.8.1] - 2026-07-07
+## [1.8.1] - 2026-07-21
 
 ### Added
 
@@ -83,7 +108,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.8.0] - 2026-07-05
+## [1.8.0] - 2026-07-20
 
 ### Added
 
@@ -108,7 +133,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.7.0] - Released
+## [1.7.0] - 2026-07-17
 
 ### Added
 
@@ -134,7 +159,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.6.0] - Released
+## [1.6.0] - 2026-07-17
 
 ### Added
 
@@ -161,7 +186,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.5.0] - In Progress
+## [1.5.0] - 2026-07-17
 
 ### Added
 
@@ -191,7 +216,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
-## [1.4.0] - Released
+## [1.4.0] - 2026-07-13
 
 ### Added
 
