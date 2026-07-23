@@ -36,7 +36,12 @@ router.get(
 
 // GET TRANSACTION BY ID
 
-router.get("/:id", authMiddleware, getTransactionByIdController);
+router.get(
+  "/:id",
+  authMiddleware,
+  validate({ params: idParamsSchema }),
+  getTransactionByIdController,
+);
 
 // UPDATE TRANSACTION
 

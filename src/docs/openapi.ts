@@ -45,7 +45,7 @@ export const openApiDocument = {
       description: "Development Server",
     },
     {
-      url: "https://api.example.com/api/v1",
+      url: "https://expensetracker-api-w610.onrender.com/api/v1/",
 
       description: "Production",
     },

@@ -14,8 +14,8 @@ describe("transactionFilteringSchema", () => {
     expect(result).toEqual({
       type: "income",
       categoryId: 5,
-      startDate: "2026-01-01",
-      endDate: "2026-01-31",
+      startDate: new Date("2026-01-01"),
+      endDate: new Date("2026-01-31"),
     });
   });
 

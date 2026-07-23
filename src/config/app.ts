@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 const packageJson = JSON.parse(
-  fs.readFileSync(new URL("../../package.json", import.meta.url), "utf-8")
+  fs.readFileSync(new URL("../../package.json", import.meta.url), "utf-8"),
 );
 
 export const appConfig = {

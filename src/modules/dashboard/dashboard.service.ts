@@ -71,11 +71,14 @@ export const getMonthlyTrendsService = async (
         year: "numeric",
       },
     );
+
+    const income = Number(trend.income);
+    const expense = Number(trend.expense);
     return {
       period,
       label,
-      income: trend.income,
-      expense: trend.expense,
+      income,
+      expense,
       balance: trend.income - trend.expense,
     };
   });
@@ -123,7 +126,9 @@ export const getDashboardInsightsService = async (
         100;
 
   return {
-    highestExpenseCategory: category,
+    highestExpenseCategory: category
+      ? { ...category, amount: Number(category.amount) }
+      : null,
     largestExpense: expense
       ? {
           id: expense.id,

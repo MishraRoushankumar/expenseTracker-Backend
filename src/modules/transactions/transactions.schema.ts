@@ -11,7 +11,7 @@ export const createTransactionSchema = z.object({
   amount: z.number().positive("Amount must be greater than zero"),
   categoryId: z.number().int().positive().nullable().optional(),
   description: z.string().trim().max(500).nullable().optional(),
-  transactionDate: z.iso.date(),
+  transactionDate: z.coerce.date(),
 });
 
 export const updateTransactionSchema = createTransactionSchema.partial();

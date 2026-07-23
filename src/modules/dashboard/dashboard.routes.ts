@@ -27,7 +27,7 @@ router.get("/insights", authMiddleware, getDashboardInsightsController);
 // GET CATEGORY ANALYTICS
 
 router.get(
-  "category-analytics",
+  "/category-analytics",
   authMiddleware,
   getCategoryAnalyticsController,
 );
